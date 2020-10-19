@@ -1,0 +1,95 @@
+DROP DATABASE IF EXISTS notes;
+CREATE DATABASE notes;
+USE notes;
+
+
+##### USERS #####
+CREATE TABLE user (
+    id INT NOT NULL AUTO_INCREMENT,
+    login VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY (login)
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE `online` (
+	user_id INT NOT NULL,
+    token VARCHAR(36) NOT NULL,
+    PRIMARY KEY (user_id),
+    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE user_followed (
+	user_id INT NOT NULL,
+    followed_id INT NOT NULL,
+    UNIQUE KEY (user_id, followed_id),
+    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE,
+    FOREIGN KEY (followed_id) REFERENCES user (id) ON DELETE CASCADE
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE user_ignored (
+	user_id INT NOT NULL,
+    ignored_id INT NOT NULL,
+    UNIQUE KEY (user_id, ignored_id),
+    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE,
+    FOREIGN KEY (ignored_id) REFERENCES user (id) ON DELETE CASCADE
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE superuser (
+	user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE,
+    UNIQUE KEY (user_id)
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+
+##### NOTES #####
+CREATE TABLE section (
+	id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    creator_id INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (creator_id) REFERENCES user (id) ON DELETE SET NULL
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE note (
+	id INT NOT NULL AUTO_INCREMENT,
+    header VARCHAR(255) NOT NULL,
+    creation_time DATETIME NOT NULL,
+    version_id INT,
+    author_id INT,
+    section_id INT NOT NULL,
+    PRIMARY KEY (id),
+    KEY (creation_time),
+    FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL,
+    FOREIGN KEY (section_id) REFERENCES section (id) ON DELETE CASCADE
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE note_version (
+	id INT NOT NULL AUTO_INCREMENT,
+    creation_time DATETIME NOT NULL,
+    `text` LONGTEXT NOT NULL,
+    note_id INT NOT NULL,
+    PRIMARY KEY (id),
+    KEY (creation_time),
+    FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE note_comment (
+	id INT NOT NULL AUTO_INCREMENT,
+    creation_time DATETIME NOT NULL,
+    `text` MEDIUMTEXT NOT NULL,
+    note_version_id INT NOT NULL,
+    author_id INT,
+    PRIMARY KEY (id),
+    KEY (creation_time),
+    FOREIGN KEY (note_version_id) REFERENCES note_version (id) ON DELETE CASCADE,
+    FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+CREATE TABLE mark (
+	id INT NOT NULL AUTO_INCREMENT,
+    value TINYINT NOT NULL,
+    note_id INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE
+) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
