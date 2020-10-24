@@ -46,47 +46,47 @@ CREATE TABLE superuser (
 CREATE TABLE section (
 	id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    creator_id INT NOT NULL,
+    creator_id INT,
     PRIMARY KEY (id),
     FOREIGN KEY (creator_id) REFERENCES user (id) ON DELETE SET NULL
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE note (
 	id INT NOT NULL AUTO_INCREMENT,
-    header VARCHAR(255) NOT NULL,
-    creation_time DATETIME NOT NULL,
-    version_id INT,
+    subject VARCHAR(255) NOT NULL,
+    created DATETIME NOT NULL,
+    revision_id INT,
     author_id INT,
     section_id INT NOT NULL,
     PRIMARY KEY (id),
-    KEY (creation_time),
+    KEY (created),
     FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL,
     FOREIGN KEY (section_id) REFERENCES section (id) ON DELETE CASCADE
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
-CREATE TABLE note_version (
+CREATE TABLE note_revision (
 	id INT NOT NULL AUTO_INCREMENT,
-    creation_time DATETIME NOT NULL,
-    `text` LONGTEXT NOT NULL,
+    created DATETIME NOT NULL,
+    body LONGTEXT NOT NULL,
     note_id INT NOT NULL,
     PRIMARY KEY (id),
-    KEY (creation_time),
+    KEY (created),
     FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE note_comment (
 	id INT NOT NULL AUTO_INCREMENT,
-    creation_time DATETIME NOT NULL,
-    `text` MEDIUMTEXT NOT NULL,
-    note_version_id INT NOT NULL,
+    created DATETIME NOT NULL,
+    body MEDIUMTEXT NOT NULL,
+    note_revision_id INT NOT NULL,
     author_id INT,
     PRIMARY KEY (id),
-    KEY (creation_time),
-    FOREIGN KEY (note_version_id) REFERENCES note_version (id) ON DELETE CASCADE,
+    KEY (created),
+    FOREIGN KEY (note_revision_id) REFERENCES note_revision (id) ON DELETE CASCADE,
     FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
-CREATE TABLE mark (
+CREATE TABLE rating (
 	id INT NOT NULL AUTO_INCREMENT,
     value TINYINT NOT NULL,
     note_id INT NOT NULL,
