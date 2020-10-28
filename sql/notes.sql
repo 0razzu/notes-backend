@@ -9,8 +9,8 @@ CREATE TABLE user (
     login VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
     patronymic VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
     role ENUM("user", "superuser"),
     PRIMARY KEY (id),
     UNIQUE KEY (login)
@@ -87,6 +87,8 @@ CREATE TABLE rating (
 	id INT NOT NULL AUTO_INCREMENT,
     value TINYINT NOT NULL,
     note_id INT NOT NULL,
+    author_id INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE
+    FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE,
+    FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
