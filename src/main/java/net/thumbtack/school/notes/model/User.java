@@ -119,18 +119,18 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(patronymic, user.patronymic) &&
-                Objects.equals(lastName, user.lastName) &&
-                role == user.role;
+        return Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getLogin(), user.getLogin()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getFirstName(), user.getFirstName()) &&
+                Objects.equals(getPatronymic(), user.getPatronymic()) &&
+                Objects.equals(getLastName(), user.getLastName()) &&
+                getRole() == user.getRole();
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, firstName, patronymic, lastName, role);
+        return Objects.hash(getId(), getLogin(), getPassword(), getFirstName(), getPatronymic(), getLastName(), getRole());
     }
 }

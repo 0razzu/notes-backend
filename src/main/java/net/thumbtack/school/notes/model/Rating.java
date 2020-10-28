@@ -71,14 +71,14 @@ public class Rating {
         if (this == o) return true;
         if (!(o instanceof Rating)) return false;
         Rating rating = (Rating) o;
-        return value == rating.value &&
-                Objects.equals(id, rating.id) &&
-                Objects.equals(author, rating.author);
+        return getValue() == rating.getValue() &&
+                Objects.equals(getId(), rating.getId()) &&
+                Objects.equals(getAuthor(), rating.getAuthor());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, value, author);
+        return Objects.hash(getId(), getValue(), getAuthor());
     }
 }

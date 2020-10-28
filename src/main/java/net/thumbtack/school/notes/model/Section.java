@@ -84,15 +84,15 @@ public class Section {
         if (this == o) return true;
         if (!(o instanceof Section)) return false;
         Section section = (Section) o;
-        return Objects.equals(id, section.id) &&
-                Objects.equals(name, section.name) &&
-                Objects.equals(creator, section.creator) &&
-                Objects.equals(notes, section.notes);
+        return Objects.equals(getId(), section.getId()) &&
+                Objects.equals(getName(), section.getName()) &&
+                Objects.equals(getCreator(), section.getCreator()) &&
+                Objects.equals(getNotes(), section.getNotes());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, creator, notes);
+        return Objects.hash(getId(), getName(), getCreator(), getNotes());
     }
 }

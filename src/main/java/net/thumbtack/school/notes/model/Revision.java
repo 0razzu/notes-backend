@@ -84,15 +84,15 @@ public class Revision {
         if (this == o) return true;
         if (!(o instanceof Revision)) return false;
         Revision revision = (Revision) o;
-        return Objects.equals(id, revision.id) &&
-                Objects.equals(body, revision.body) &&
-                Objects.equals(created, revision.created) &&
-                Objects.equals(comments, revision.comments);
+        return Objects.equals(getId(), revision.getId()) &&
+                Objects.equals(getBody(), revision.getBody()) &&
+                Objects.equals(getCreated(), revision.getCreated()) &&
+                Objects.equals(getComments(), revision.getComments());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, body, created, comments);
+        return Objects.hash(getId(), getBody(), getCreated(), getComments());
     }
 }

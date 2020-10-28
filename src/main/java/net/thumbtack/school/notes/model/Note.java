@@ -126,18 +126,18 @@ public class Note {
         if (this == o) return true;
         if (!(o instanceof Note)) return false;
         Note note = (Note) o;
-        return Objects.equals(id, note.id) &&
-                Objects.equals(subject, note.subject) &&
-                Objects.equals(author, note.author) &&
-                Objects.equals(created, note.created) &&
-                Objects.equals(revisions, note.revisions) &&
-                Objects.equals(ratings, note.ratings) &&
-                Objects.equals(section, note.section);
+        return Objects.equals(getId(), note.getId()) &&
+                Objects.equals(getSubject(), note.getSubject()) &&
+                Objects.equals(getAuthor(), note.getAuthor()) &&
+                Objects.equals(getCreated(), note.getCreated()) &&
+                Objects.equals(getRevisions(), note.getRevisions()) &&
+                Objects.equals(getRatings(), note.getRatings()) &&
+                Objects.equals(getSection(), note.getSection());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, subject, author, created, revisions, ratings, section);
+        return Objects.hash(getId(), getSubject(), getAuthor(), getCreated(), getRevisions(), getRatings(), getSection());
     }
 }

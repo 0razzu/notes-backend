@@ -107,17 +107,17 @@ public class Comment {
         if (this == o) return true;
         if (!(o instanceof Comment)) return false;
         Comment comment = (Comment) o;
-        return Objects.equals(id, comment.id) &&
-                Objects.equals(created, comment.created) &&
-                Objects.equals(body, comment.body) &&
-                Objects.equals(author, comment.author) &&
-                Objects.equals(note, comment.note) &&
-                Objects.equals(revision, comment.revision);
+        return Objects.equals(getId(), comment.getId()) &&
+                Objects.equals(getCreated(), comment.getCreated()) &&
+                Objects.equals(getBody(), comment.getBody()) &&
+                Objects.equals(getAuthor(), comment.getAuthor()) &&
+                Objects.equals(getNote(), comment.getNote()) &&
+                Objects.equals(getRevision(), comment.getRevision());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, created, body, author, note, revision);
+        return Objects.hash(getId(), getCreated(), getBody(), getAuthor(), getNote(), getRevision());
     }
 }
