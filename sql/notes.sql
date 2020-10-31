@@ -16,7 +16,7 @@ CREATE TABLE user (
     UNIQUE KEY (login)
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
-CREATE TABLE `online` (
+CREATE TABLE session (
 	user_id INT NOT NULL,
     token VARCHAR(36) NOT NULL,
     PRIMARY KEY (user_id),
@@ -75,12 +75,12 @@ CREATE TABLE note_comment (
 	id INT NOT NULL AUTO_INCREMENT,
     created DATETIME NOT NULL,
     body MEDIUMTEXT NOT NULL,
-    note_revision_id INT NOT NULL,
     author_id INT,
+    note_revision_id INT NOT NULL,
     PRIMARY KEY (id),
     KEY (created),
-    FOREIGN KEY (note_revision_id) REFERENCES note_revision (id) ON DELETE CASCADE,
-    FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL
+    FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL,
+    FOREIGN KEY (note_revision_id) REFERENCES note_revision (id) ON DELETE CASCADE
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE rating (
