@@ -9,9 +9,9 @@ CREATE TABLE user (
     login VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(255) NOT NULL,
-    patronymic VARCHAR(255) NOT NULL,
+    patronymic VARCHAR(255) DEFAULT NULL,
     last_name VARCHAR(255) NOT NULL,
-    role ENUM("user", "superuser"),
+    role ENUM("user", "superuser", "left"),
     PRIMARY KEY (id),
     UNIQUE KEY (login)
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
@@ -20,7 +20,8 @@ CREATE TABLE session (
 	user_id INT NOT NULL,
     token VARCHAR(36) NOT NULL,
     PRIMARY KEY (user_id),
-    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE,
+    UNIQUE KEY (token)
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE user_followed (
@@ -92,3 +93,6 @@ CREATE TABLE rating (
     FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE,
     FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
+
+INSERT INTO user (login, password, first_name, patronymic, last_name, role)
+VALUES ("admin", "tuGmah-vakmyf-1kezqy", "admin", NULL, "admin", "superuser");
