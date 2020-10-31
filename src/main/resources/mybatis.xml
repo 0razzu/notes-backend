@@ -21,6 +21,12 @@
     </environments>
 
     <mappers>
-
+        <mapper class="net.thumbtack.school.notes.mapper.CommentMapper"/>
+        <mapper class="net.thumbtack.school.notes.mapper.NoteMapper"/>
+        <mapper class="net.thumbtack.school.notes.mapper.RatingMapper"/>
+        <mapper class="net.thumbtack.school.notes.mapper.RevisionMapper"/>
+        <mapper class="net.thumbtack.school.notes.mapper.SectionMapper"/>
+        <mapper class="net.thumbtack.school.notes.mapper.SessionMapper"/>
+        <mapper class="net.thumbtack.school.notes.mapper.UserMapper"/>
     </mappers>
 </configuration>
