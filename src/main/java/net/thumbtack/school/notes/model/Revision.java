@@ -1,16 +1,16 @@
 package net.thumbtack.school.notes.model;
 
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
 
 public class Revision {
-    private Integer id;
+    private int id;
     private String body;
-    private ZonedDateTime created;
+    private LocalDateTime created;
     private List<Comment> comments;
     
     
@@ -18,19 +18,19 @@ public class Revision {
     }
     
     
-    public Revision(Integer id, String body, ZonedDateTime created, List<Comment> comments) {
+    public Revision(int id, String body, LocalDateTime created, List<Comment> comments) {
         setId(id);
         setBody(body);
         setCreated(created);
     }
     
     
-    public Revision(String body, ZonedDateTime created, List<Comment> comments) {
-        this(null, body, created, comments);
+    public Revision(String body, LocalDateTime created, List<Comment> comments) {
+        this(0, body, created, comments);
     }
     
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -40,7 +40,7 @@ public class Revision {
     }
     
     
-    public void setCreated(ZonedDateTime created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
     
@@ -50,7 +50,7 @@ public class Revision {
     }
     
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
@@ -60,7 +60,7 @@ public class Revision {
     }
     
     
-    public ZonedDateTime getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
     
@@ -84,7 +84,7 @@ public class Revision {
         if (this == o) return true;
         if (!(o instanceof Revision)) return false;
         Revision revision = (Revision) o;
-        return Objects.equals(getId(), revision.getId()) &&
+        return getId() == revision.getId() &&
                 Objects.equals(getBody(), revision.getBody()) &&
                 Objects.equals(getCreated(), revision.getCreated()) &&
                 Objects.equals(getComments(), revision.getComments());

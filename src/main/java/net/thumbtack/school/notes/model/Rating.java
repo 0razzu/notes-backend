@@ -5,7 +5,7 @@ import java.util.Objects;
 
 
 public class Rating {
-    private Integer id;
+    private int id;
     private int value;
     private User author;
     
@@ -14,7 +14,7 @@ public class Rating {
     }
     
     
-    public Rating(Integer id, int value, User author) {
+    public Rating(int id, int value, User author) {
         setId(id);
         setValue(value);
         setAuthor(author);
@@ -22,11 +22,11 @@ public class Rating {
     
     
     public Rating(int value, User author) {
-        this(null, value, author);
+        this(0, value, author);
     }
     
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -41,7 +41,7 @@ public class Rating {
     }
     
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
@@ -71,8 +71,8 @@ public class Rating {
         if (this == o) return true;
         if (!(o instanceof Rating)) return false;
         Rating rating = (Rating) o;
-        return getValue() == rating.getValue() &&
-                Objects.equals(getId(), rating.getId()) &&
+        return getId() == rating.getId() &&
+                getValue() == rating.getValue() &&
                 Objects.equals(getAuthor(), rating.getAuthor());
     }
     

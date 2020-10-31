@@ -1,21 +1,21 @@
 package net.thumbtack.school.notes.model;
 
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 
 public class Comment {
-    private Integer id;
-    private ZonedDateTime created;
+    private int id;
+    private LocalDateTime created;
     private String body;
     private User author;
     private Note note;
     private Revision revision;
     
     
-    public Comment(Integer id, ZonedDateTime created, String body, User author, Note note, Revision revision) {
+    public Comment(int id, LocalDateTime created, String body, User author, Note note, Revision revision) {
         setId(id);
         setCreated(created);
         setBody(body);
@@ -25,17 +25,17 @@ public class Comment {
     }
     
     
-    public Comment(ZonedDateTime created, String body, User author, Note note, Revision revision) {
-        this(null, created, body, author, note, revision);
+    public Comment(LocalDateTime created, String body, User author, Note note, Revision revision) {
+        this(0, created, body, author, note, revision);
     }
     
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     
     
-    public void setCreated(ZonedDateTime created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
     
@@ -60,12 +60,12 @@ public class Comment {
     }
     
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
     
-    public ZonedDateTime getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
     
@@ -107,7 +107,7 @@ public class Comment {
         if (this == o) return true;
         if (!(o instanceof Comment)) return false;
         Comment comment = (Comment) o;
-        return Objects.equals(getId(), comment.getId()) &&
+        return getId() == comment.getId() &&
                 Objects.equals(getCreated(), comment.getCreated()) &&
                 Objects.equals(getBody(), comment.getBody()) &&
                 Objects.equals(getAuthor(), comment.getAuthor()) &&

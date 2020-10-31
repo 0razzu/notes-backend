@@ -6,7 +6,7 @@ import java.util.Objects;
 
 
 public class User {
-    private Integer id;
+    private int id;
     private String login;
     private String password;
     private String firstName;
@@ -23,7 +23,8 @@ public class User {
     }
     
     
-    public User(Integer id, String login, String password, String firstName, String patronymic, String lastName, Role role,
+    public User(int id, String login, String password,
+                String firstName, String patronymic, String lastName, Role role,
                 List<Note> notes, List<Comment> comments, List<Rating> ratings, List<Section> sections) {
         setId(id);
         setLogin(login);
@@ -39,13 +40,14 @@ public class User {
     }
     
     
-    public User(String login, String password, String firstName, String patronymic, String lastName, Role role,
+    public User(String login, String password,
+                String firstName, String patronymic, String lastName, Role role,
                 List<Note> notes, List<Comment> comments, List<Rating> ratings, List<Section> sections) {
-        this(null, login, password, firstName, patronymic, lastName, role, notes, comments, ratings, sections);
+        this(0, login, password, firstName, patronymic, lastName, role, notes, comments, ratings, sections);
     }
     
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -100,7 +102,7 @@ public class User {
     }
     
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
@@ -170,7 +172,7 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Objects.equals(getId(), user.getId()) &&
+        return getId() == user.getId() &&
                 Objects.equals(getLogin(), user.getLogin()) &&
                 Objects.equals(getPassword(), user.getPassword()) &&
                 Objects.equals(getFirstName(), user.getFirstName()) &&

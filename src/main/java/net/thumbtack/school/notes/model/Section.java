@@ -6,7 +6,7 @@ import java.util.Objects;
 
 
 public class Section {
-    private Integer id;
+    private int id;
     private String name;
     private User creator;
     private List<Note> notes;
@@ -16,7 +16,7 @@ public class Section {
     }
     
     
-    public Section(Integer id, String name, User creator, List<Note> notes) {
+    public Section(int id, String name, User creator, List<Note> notes) {
         setId(id);
         setName(name);
         setCreator(creator);
@@ -25,11 +25,11 @@ public class Section {
     
     
     public Section(String name, User creator, List<Note> notes) {
-        this(null, name, creator, notes);
+        this(0, name, creator, notes);
     }
     
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -49,7 +49,7 @@ public class Section {
     }
     
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
@@ -84,7 +84,7 @@ public class Section {
         if (this == o) return true;
         if (!(o instanceof Section)) return false;
         Section section = (Section) o;
-        return Objects.equals(getId(), section.getId()) &&
+        return getId() == section.getId() &&
                 Objects.equals(getName(), section.getName()) &&
                 Objects.equals(getCreator(), section.getCreator()) &&
                 Objects.equals(getNotes(), section.getNotes());

@@ -1,17 +1,17 @@
 package net.thumbtack.school.notes.model;
 
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
 
 public class Note {
-    private Integer id;
+    private int id;
     private String subject;
     private User author;
-    private ZonedDateTime created;
+    private LocalDateTime created;
     private List<Revision> revisions;
     private List<Rating> ratings;
     private Section section;
@@ -21,7 +21,7 @@ public class Note {
     }
     
     
-    public Note(Integer id, String subject, User author, ZonedDateTime created,
+    public Note(int id, String subject, User author, LocalDateTime created,
                 List<Revision> revisions, List<Rating> ratings, Section section) {
         setId(id);
         setSubject(subject);
@@ -33,13 +33,13 @@ public class Note {
     }
     
     
-    public Note(String subject, User author, ZonedDateTime created,
+    public Note(String subject, User author, LocalDateTime created,
                 List<Revision> revisions, List<Rating> ratings, Section section) {
-        this(null, subject, author, created, revisions, ratings, section);
+        this(0, subject, author, created, revisions, ratings, section);
     }
     
     
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -54,7 +54,7 @@ public class Note {
     }
     
     
-    public void setCreated(ZonedDateTime created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
     
@@ -74,7 +74,7 @@ public class Note {
     }
     
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
@@ -89,7 +89,7 @@ public class Note {
     }
     
     
-    public ZonedDateTime getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
     
@@ -126,7 +126,7 @@ public class Note {
         if (this == o) return true;
         if (!(o instanceof Note)) return false;
         Note note = (Note) o;
-        return Objects.equals(getId(), note.getId()) &&
+        return getId() == note.getId() &&
                 Objects.equals(getSubject(), note.getSubject()) &&
                 Objects.equals(getAuthor(), note.getAuthor()) &&
                 Objects.equals(getCreated(), note.getCreated()) &&
