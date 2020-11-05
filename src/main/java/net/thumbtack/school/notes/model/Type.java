@@ -1,8 +1,8 @@
 package net.thumbtack.school.notes.model;
 
 
-public enum Role {
+public enum Type {
     USER,
-    SUPERUSER,
-    LEFT
+    SUPER,
+    DELETED;
 }

@@ -12,7 +12,9 @@ public class User {
     private String firstName;
     private String patronymic;
     private String lastName;
-    private Role role;
+    private Type type;
+    private double rating;
+    private Boolean online;
     private List<Note> notes;
     private List<Comment> comments;
     private List<Rating> ratings;
@@ -23,27 +25,13 @@ public class User {
     }
     
     
-    public User(int id, String login, String password,
-                String firstName, String patronymic, String lastName, Role role,
-                List<Note> notes, List<Comment> comments, List<Rating> ratings, List<Section> sections) {
-        setId(id);
+    public User(String login, String password, String firstName, String patronymic, String lastName, Type type) {
         setLogin(login);
         setPassword(password);
         setFirstName(firstName);
         setPatronymic(patronymic);
         setLastName(lastName);
-        setRole(role);
-        setNotes(notes);
-        setComments(comments);
-        setRatings(ratings);
-        setSections(sections);
-    }
-    
-    
-    public User(String login, String password,
-                String firstName, String patronymic, String lastName, Role role,
-                List<Note> notes, List<Comment> comments, List<Rating> ratings, List<Section> sections) {
-        this(0, login, password, firstName, patronymic, lastName, role, notes, comments, ratings, sections);
+        setType(type);
     }
     
     
@@ -77,8 +65,18 @@ public class User {
     }
     
     
-    public void setRole(Role role) {
-        this.role = role;
+    public void setType(Type type) {
+        this.type = type;
+    }
+    
+    
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+    
+    
+    public void setOnline(Boolean online) {
+        this.online = online;
     }
     
     
@@ -132,8 +130,18 @@ public class User {
     }
     
     
-    public Role getRole() {
-        return role;
+    public Type getType() {
+        return type;
+    }
+    
+    
+    public double getRating() {
+        return rating;
+    }
+    
+    
+    public Boolean getOnline() {
+        return online;
     }
     
     
@@ -161,8 +169,10 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login=" + login +
-                ", role=" + role +
+                ", login='" + login + '\'' +
+                ", type=" + type +
+                ", rating=" + rating +
+                ", online=" + online +
                 '}';
     }
     
@@ -178,7 +188,7 @@ public class User {
                 Objects.equals(getFirstName(), user.getFirstName()) &&
                 Objects.equals(getPatronymic(), user.getPatronymic()) &&
                 Objects.equals(getLastName(), user.getLastName()) &&
-                getRole() == user.getRole() &&
+                getType() == user.getType() &&
                 Objects.equals(getNotes(), user.getNotes()) &&
                 Objects.equals(getComments(), user.getComments()) &&
                 Objects.equals(getRatings(), user.getRatings()) &&
@@ -188,6 +198,8 @@ public class User {
     
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getFirstName(), getPatronymic(), getLastName(), getRole(), getNotes(), getComments(), getRatings(), getSections());
+        return Objects.hash(getId(), getLogin(), getPassword(),
+                getFirstName(), getPatronymic(), getLastName(), getType(),
+                getNotes(), getComments(), getRatings(), getSections());
     }
 }

@@ -13,7 +13,7 @@ public interface SessionMapper {
     Integer insert(User user, String token);
     
     
-    @Select("SELECT (id, login, password, first_name AS firstName, patronymic, last_name AS lastName, role) " +
+    @Select("SELECT (id, login, password, first_name, patronymic, last_name, type) " +
             "FROM session JOIN user ON user_id = user.id WHERE token = #{token}")
     @Results({
             @Result(property = "id", column = "id"),
@@ -46,14 +46,14 @@ public interface SessionMapper {
     
     
     @Select("SELECT count(*) FROM session WHERE user_id = #{user.id}")
-    boolean isOnline(User user);
+    boolean isOnlineByUser(User user);
     
     
     @Select("SELECT count(*) FROM session WHERE token = #{token}")
-    boolean isOnline(String token);
+    boolean isOnlineByToken(String token);
     
     
-    @Select("SELECT (id, login, password, first_name AS firstName, patronymic, last_name AS lastName, role) " +
+    @Select("SELECT (id, login, password, first_name, patronymic, last_name, type) " +
             "FROM session JOIN user ON user_id = user.id")
     @Results({
             @Result(property = "id", column = "id"),
