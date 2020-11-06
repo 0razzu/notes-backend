@@ -2,7 +2,7 @@ package net.thumbtack.school.notes.database.mapper;
 
 
 import net.thumbtack.school.notes.model.Comment;
-import net.thumbtack.school.notes.model.Revision;
+import net.thumbtack.school.notes.model.NoteRevision;
 import net.thumbtack.school.notes.model.User;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
@@ -32,7 +32,7 @@ public interface CommentMapper {
                             fetchType = FetchType.LAZY
                     )
             ),
-            @Result(property = "revision", column = "note_revision_id", javaType = Revision.class,
+            @Result(property = "revision", column = "note_revision_id", javaType = NoteRevision.class,
                     one = @One(
                             select = "net.thumbtack.school.notes.database.mappers.RevisionMapper.get",
                             fetchType = FetchType.LAZY
@@ -52,7 +52,7 @@ public interface CommentMapper {
                             fetchType = FetchType.LAZY
                     )
             ),
-            @Result(property = "revision", column = "note_revision_id", javaType = Revision.class,
+            @Result(property = "revision", column = "note_revision_id", javaType = NoteRevision.class,
                     one = @One(
                             select = "net.thumbtack.school.notes.database.mappers.RevisionMapper.get",
                             fetchType = FetchType.LAZY
@@ -72,7 +72,7 @@ public interface CommentMapper {
                             fetchType = FetchType.LAZY
                     )
             ),
-            @Result(property = "revision", column = "note_revision_id", javaType = Revision.class,
+            @Result(property = "revision", column = "note_revision_id", javaType = NoteRevision.class,
                     one = @One(
                             select = "net.thumbtack.school.notes.database.mappers.RevisionMapper.get",
                             fetchType = FetchType.LAZY

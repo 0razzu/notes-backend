@@ -12,7 +12,7 @@ public class Note {
     private String subject;
     private User author;
     private LocalDateTime created;
-    private List<Revision> revisions;
+    private List<NoteRevision> noteRevisions;
     private List<Rating> ratings;
     private Section section;
     
@@ -22,20 +22,20 @@ public class Note {
     
     
     public Note(int id, String subject, User author, LocalDateTime created,
-                List<Revision> revisions, List<Rating> ratings, Section section) {
+                List<NoteRevision> noteRevisions, List<Rating> ratings, Section section) {
         setId(id);
         setSubject(subject);
         setAuthor(author);
         setCreated(created);
-        setRevisions(revisions);
+        setRevisions(noteRevisions);
         setRatings(ratings);
         setSection(section);
     }
     
     
     public Note(String subject, User author, LocalDateTime created,
-                List<Revision> revisions, List<Rating> ratings, Section section) {
-        this(0, subject, author, created, revisions, ratings, section);
+                List<NoteRevision> noteRevisions, List<Rating> ratings, Section section) {
+        this(0, subject, author, created, noteRevisions, ratings, section);
     }
     
     
@@ -59,8 +59,8 @@ public class Note {
     }
     
     
-    public void setRevisions(List<Revision> revisions) {
-        this.revisions = revisions;
+    public void setRevisions(List<NoteRevision> noteRevisions) {
+        this.noteRevisions = noteRevisions;
     }
     
     
@@ -94,8 +94,8 @@ public class Note {
     }
     
     
-    public List<Revision> getRevisions() {
-        return revisions;
+    public List<NoteRevision> getRevisions() {
+        return noteRevisions;
     }
     
     

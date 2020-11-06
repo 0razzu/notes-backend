@@ -7,25 +7,25 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class Revision {
+public class NoteRevision {
     private int id;
     private String body;
     private LocalDateTime created;
     private List<Comment> comments;
     
     
-    public Revision() {
+    public NoteRevision() {
     }
     
     
-    public Revision(int id, String body, LocalDateTime created, List<Comment> comments) {
+    public NoteRevision(int id, String body, LocalDateTime created, List<Comment> comments) {
         setId(id);
         setBody(body);
         setCreated(created);
     }
     
     
-    public Revision(String body, LocalDateTime created, List<Comment> comments) {
+    public NoteRevision(String body, LocalDateTime created, List<Comment> comments) {
         this(0, body, created, comments);
     }
     
@@ -82,12 +82,12 @@ public class Revision {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Revision)) return false;
-        Revision revision = (Revision) o;
-        return getId() == revision.getId() &&
-                Objects.equals(getBody(), revision.getBody()) &&
-                Objects.equals(getCreated(), revision.getCreated()) &&
-                Objects.equals(getComments(), revision.getComments());
+        if (!(o instanceof NoteRevision)) return false;
+        NoteRevision noteRevision = (NoteRevision) o;
+        return getId() == noteRevision.getId() &&
+                Objects.equals(getBody(), noteRevision.getBody()) &&
+                Objects.equals(getCreated(), noteRevision.getCreated()) &&
+                Objects.equals(getComments(), noteRevision.getComments());
     }
     
     

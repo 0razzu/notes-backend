@@ -12,21 +12,21 @@ public class Comment {
     private String body;
     private User author;
     private Note note;
-    private Revision revision;
+    private NoteRevision noteRevision;
     
     
-    public Comment(int id, LocalDateTime created, String body, User author, Note note, Revision revision) {
+    public Comment(int id, LocalDateTime created, String body, User author, Note note, NoteRevision noteRevision) {
         setId(id);
         setCreated(created);
         setBody(body);
         setAuthor(author);
         setNote(note);
-        setRevision(revision);
+        setRevision(noteRevision);
     }
     
     
-    public Comment(LocalDateTime created, String body, User author, Note note, Revision revision) {
-        this(0, created, body, author, note, revision);
+    public Comment(LocalDateTime created, String body, User author, Note note, NoteRevision noteRevision) {
+        this(0, created, body, author, note, noteRevision);
     }
     
     
@@ -55,8 +55,8 @@ public class Comment {
     }
     
     
-    public void setRevision(Revision revision) {
-        this.revision = revision;
+    public void setRevision(NoteRevision noteRevision) {
+        this.noteRevision = noteRevision;
     }
     
     
@@ -85,8 +85,8 @@ public class Comment {
     }
     
     
-    public Revision getRevision() {
-        return revision;
+    public NoteRevision getRevision() {
+        return noteRevision;
     }
     
     
@@ -97,7 +97,7 @@ public class Comment {
                 ", created=" + created.format(DateTimeFormatter.ofPattern("''yyyy.MM.dd HH:mm:ss''")) +
                 ", author=" + author +
                 ", note=" + note +
-                ", revision=" + revision +
+                ", revision=" + noteRevision +
                 '}';
     }
     

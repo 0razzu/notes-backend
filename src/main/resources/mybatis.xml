@@ -25,7 +25,7 @@
         <mapper class="net.thumbtack.school.notes.database.mapper.CommentMapper"/>
         <mapper class="net.thumbtack.school.notes.database.mapper.NoteMapper"/>
         <mapper class="net.thumbtack.school.notes.database.mapper.RatingMapper"/>
-        <mapper class="net.thumbtack.school.notes.database.mapper.RevisionMapper"/>
+        <mapper class="net.thumbtack.school.notes.database.mapper.NoteRevisionMapper"/>
         <mapper class="net.thumbtack.school.notes.database.mapper.SectionMapper"/>
         <mapper class="net.thumbtack.school.notes.database.mapper.SessionMapper"/>
         <mapper class="net.thumbtack.school.notes.database.mapper.UserMapper"/>
