@@ -1,7 +1,7 @@
 package net.thumbtack.school.notes.database.mapper;
 
 
-import net.thumbtack.school.notes.model.Type;
+import net.thumbtack.school.notes.model.UserType;
 import net.thumbtack.school.notes.model.User;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
@@ -74,17 +74,17 @@ public interface UserMapper {
     
     
     @SelectProvider(method = "getAllByType", type = net.thumbtack.school.notes.database.provider.UserProvider.class)
-    @ResultMap("userMap")
+    //@ResultMap("userMap")
     List<User> getAllByType(
             @Param("sortByRating") String sortByRating,
-            @Param("type") Type type,
+            @Param("userType") UserType userType,
             @Param("from") Integer from,
             @Param("count") Integer count
     );
     
     
     @SelectProvider(method = "getAllByRelationToUser", type = net.thumbtack.school.notes.database.provider.UserProvider.class)
-    @ResultMap("userMap")
+    //@ResultMap("userMap")
     List<User> getAllByRelationToUser(
             @Param("user") User user,
             @Param("relation") String relation,

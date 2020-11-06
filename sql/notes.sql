@@ -11,7 +11,8 @@ CREATE TABLE user (
     first_name VARCHAR(255) NOT NULL,
     patronymic VARCHAR(255) DEFAULT NULL,
     last_name VARCHAR(255) NOT NULL,
-    type ENUM("user", "super", "deleted"),
+    type ENUM("USER", "SUPER"),
+    deleted bool NOT NULL DEFAULT 0,
     PRIMARY KEY (id),
     UNIQUE KEY (login)
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;

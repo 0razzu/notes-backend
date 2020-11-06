@@ -12,7 +12,7 @@ public class User {
     private String firstName;
     private String patronymic;
     private String lastName;
-    private Type type;
+    private UserType type;
     private double rating;
     private Boolean online;
     private List<Note> notes;
@@ -25,7 +25,7 @@ public class User {
     }
     
     
-    public User(String login, String password, String firstName, String patronymic, String lastName, Type type) {
+    public User(String login, String password, String firstName, String patronymic, String lastName, UserType type) {
         setLogin(login);
         setPassword(password);
         setFirstName(firstName);
@@ -65,7 +65,7 @@ public class User {
     }
     
     
-    public void setType(Type type) {
+    public void setType(UserType type) {
         this.type = type;
     }
     
@@ -130,7 +130,7 @@ public class User {
     }
     
     
-    public Type getType() {
+    public UserType getType() {
         return type;
     }
     

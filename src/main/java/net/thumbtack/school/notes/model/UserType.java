@@ -1,8 +1,7 @@
 package net.thumbtack.school.notes.model;
 
 
-public enum Type {
+public enum UserType {
     USER,
-    SUPER,
-    DELETED;
+    SUPER;
 }

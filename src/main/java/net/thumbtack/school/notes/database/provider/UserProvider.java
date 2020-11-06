@@ -1,7 +1,7 @@
 package net.thumbtack.school.notes.database.provider;
 
 
-import net.thumbtack.school.notes.model.Type;
+import net.thumbtack.school.notes.model.UserType;
 import net.thumbtack.school.notes.model.User;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -13,7 +13,7 @@ public class UserProvider {
         return new SQL() {
             {
                 String sortByRating = (String) params.get("sortByRating");
-                Type type = (Type) params.get("type");
+                UserType userType = (UserType) params.get("userType");
                 Integer from = (Integer) params.get("from");
                 Integer count = (Integer) params.get("count");
                 
@@ -25,8 +25,8 @@ public class UserProvider {
                 LEFT_OUTER_JOIN("rating ON note.id = rating.note_id");
                 LEFT_OUTER_JOIN("session ON user.id = session.user_id");
                 
-                if (type != null)
-                    WHERE("type = '" + type.name().toLowerCase() + "'");
+                if (userType != null)
+                    WHERE("type = '" + userType.name() + "'");
                 
                 GROUP_BY("user.id");
                 
