@@ -13,6 +13,7 @@ CREATE TABLE user (
     last_name VARCHAR(255) NOT NULL,
     type ENUM("USER", "SUPER"),
     deleted bool NOT NULL DEFAULT 0,
+    time_registered DATETIME NOT NULL DEFAULT now(),
     PRIMARY KEY (id),
     UNIQUE KEY (login)
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
@@ -54,7 +55,7 @@ CREATE TABLE section (
 CREATE TABLE note (
 	id INT NOT NULL AUTO_INCREMENT,
     subject VARCHAR(255) NOT NULL,
-    created DATETIME NOT NULL,
+    created DATETIME NOT NULL DEFAULT now(),
     author_id INT,
     section_id INT NOT NULL,
     PRIMARY KEY (id),

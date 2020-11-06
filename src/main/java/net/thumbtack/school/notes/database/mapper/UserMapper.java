@@ -1,8 +1,9 @@
 package net.thumbtack.school.notes.database.mapper;
 
 
-import net.thumbtack.school.notes.model.UserType;
 import net.thumbtack.school.notes.model.User;
+import net.thumbtack.school.notes.model.UserType;
+import net.thumbtack.school.notes.view.UserView;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
@@ -60,31 +61,90 @@ public interface UserMapper {
     
     
     @Select({
-            "SELECT user.id AS id, login, password, first_name, patronymic, last_name, type,",
-            "avg(rating.value) AS rating,",
-            "(session.token IS NOT NULL) AS online",
-            "FROM user",
-            "LEFT JOIN note ON user.id = note.author_id",
-            "LEFT JOIN rating ON note.id = rating.note_id",
-            "LEFT JOIN session ON user.id = session.user_id",
-            "GROUP BY user.id"
+            "<script>",
+            "   SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
+            "   (session.token IS NOT NULL) AS isOnline,",
+            "   deleted AS isDeleted,",
+            "   <if test='selectSuper'>",
+            "       (type = 'SUPER') AS isSuper,",
+            "   </if>",
+            "   avg(rating.value) AS rating",
+            "   FROM user",
+            "   LEFT JOIN note ON user.id = note.author_id",
+            "   LEFT JOIN rating ON note.id = rating.note_id",
+            "   LEFT JOIN session ON user.id = session.user_id",
+            "   GROUP BY user.id",
+            "   <if test='sortByRating == \"asc\"'>",
+            "       ORDER BY rating ASC",
+            "   </if>",
+            "   <if test='sortByRating == \"desc\"'>",
+            "       ORDER BY rating DESC",
+            "   </if>",
+            "   <if test='count == null and from != null'>",
+            "       LIMIT 2147483647",
+            "       OFFSET #{from}",
+            "   </if>",
+            "   <if test='count != null'>",
+            "       LIMIT #{count}",
+            "       <if test='from != null'>",
+            "           OFFSET #{from}",
+            "       </if>",
+            "   </if>",
+            "</script>"
     })
-    @ResultMap("userFields")
-    List<User> getAllWithRating();
-    
-    
-    @SelectProvider(method = "getAllByType", type = net.thumbtack.school.notes.database.provider.UserProvider.class)
-    //@ResultMap("userMap")
-    List<User> getAllByType(
+    List<UserView> getAllWithRating(
             @Param("sortByRating") String sortByRating,
+            @Param("selectSuper") boolean selectSuper,
+            @Param("from") Integer from,
+            @Param("count") Integer count
+    );
+    
+    
+    @Select({
+            "<script>",
+            "   SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
+            "   (session.token IS NOT NULL) AS isOnline,",
+            "   deleted AS isDeleted,",
+            "   <if test='selectSuper'>",
+            "       (type = 'SUPER') AS isSuper,",
+            "   </if>",
+            "   avg(rating.value) AS rating",
+            "   FROM user",
+            "   LEFT JOIN note ON user.id = note.author_id",
+            "   LEFT JOIN rating ON note.id = rating.note_id",
+            "   LEFT JOIN session ON user.id = session.user_id",
+            "   <if test='selectSuper and userType.name() == \"SUPER\" or userType.name() != \"SUPER\"'>",
+            "       WHERE type = #{userType}",
+            "   </if>",
+            "   GROUP BY user.id",
+            "   <if test='sortByRating == \"asc\"'>",
+            "       ORDER BY rating ASC",
+            "   </if>",
+            "   <if test='sortByRating == \"desc\"'>",
+            "       ORDER BY rating DESC",
+            "   </if>",
+            "   <if test='count == null and from != null'>",
+            "       LIMIT 2147483647",
+            "       OFFSET #{from}",
+            "   </if>",
+            "   <if test='count != null'>",
+            "       LIMIT #{count}",
+            "       <if test='from != null'>",
+            "           OFFSET #{from}",
+            "       </if>",
+            "   </if>",
+            "</script>"
+    })
+    List<UserView> getAllByType(
             @Param("userType") UserType userType,
+            @Param("sortByRating") String sortByRating,
+            @Param("selectSuper") boolean selectSuper,
             @Param("from") Integer from,
             @Param("count") Integer count
     );
     
     
     @SelectProvider(method = "getAllByRelationToUser", type = net.thumbtack.school.notes.database.provider.UserProvider.class)
-    //@ResultMap("userMap")
     List<User> getAllByRelationToUser(
             @Param("user") User user,
             @Param("relation") String relation,

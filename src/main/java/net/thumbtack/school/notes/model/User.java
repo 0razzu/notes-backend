@@ -13,8 +13,6 @@ public class User {
     private String patronymic;
     private String lastName;
     private UserType type;
-    private double rating;
-    private Boolean online;
     private List<Note> notes;
     private List<Comment> comments;
     private List<Rating> ratings;
@@ -67,16 +65,6 @@ public class User {
     
     public void setType(UserType type) {
         this.type = type;
-    }
-    
-    
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-    
-    
-    public void setOnline(Boolean online) {
-        this.online = online;
     }
     
     
@@ -135,16 +123,6 @@ public class User {
     }
     
     
-    public double getRating() {
-        return rating;
-    }
-    
-    
-    public Boolean getOnline() {
-        return online;
-    }
-    
-    
     public List<Note> getNotes() {
         return notes;
     }
@@ -171,8 +149,6 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", type=" + type +
-                ", rating=" + rating +
-                ", online=" + online +
                 '}';
     }
     
