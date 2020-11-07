@@ -86,11 +86,11 @@ public interface SessionMapper {
     
     
     @Delete("DELETE FROM session WHERE id = #{user.id}")
-    void delete(User user);
+    void deleteByUser(User user);
     
     
     @Delete("DELETE FROM session WHERE token = #{token}")
-    void delete(String token);
+    void deleteByToken(String token);
     
     
     @Delete("DELETE FROM session")
