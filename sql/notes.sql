@@ -11,7 +11,7 @@ CREATE TABLE user (
     first_name VARCHAR(255) NOT NULL,
     patronymic VARCHAR(255) DEFAULT NULL,
     last_name VARCHAR(255) NOT NULL,
-    type ENUM("USER", "SUPER"),
+    type ENUM("USER", "SUPER") NOT NULL,
     deleted bool NOT NULL DEFAULT 0,
     time_registered DATETIME NOT NULL DEFAULT now(),
     PRIMARY KEY (id),
