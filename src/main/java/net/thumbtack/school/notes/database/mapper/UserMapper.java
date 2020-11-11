@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public interface UserMapper {
-    @Insert("INSERT INTO user (login, password, first_name, patronymic, last_name, type)" +
+    @Insert("INSERT INTO user (login, password, first_name, patronymic, last_name, type) " +
             "VALUES (#{login}, #{password}, #{firstName}, #{patronymic}, #{lastName}, #{type})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Integer insert(User user);
@@ -25,38 +25,38 @@ public interface UserMapper {
     
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
             "FROM user WHERE id = #{id}")
-    @Results(id = "userFields", value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "notes", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.NoteMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "comments", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.CommentMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "ratings", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.RatingMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "sections", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.SectionMapper.getByCreator",
-                            fetchType = FetchType.LAZY
-                    )
-            )
-    })
+//    @Results(id = "userFields", value = {
+//            @Result(property = "id", column = "id"),
+//            @Result(property = "notes", column = "id", javaType = List.class,
+//                    many = @Many(
+//                            select = "net.thumbtack.school.notes.database.mappers.NoteMapper.getByAuthor",
+//                            fetchType = FetchType.LAZY
+//                    )
+//            ),
+//            @Result(property = "comments", column = "id", javaType = List.class,
+//                    many = @Many(
+//                            select = "net.thumbtack.school.notes.database.mappers.CommentMapper.getByAuthor",
+//                            fetchType = FetchType.LAZY
+//                    )
+//            ),
+//            @Result(property = "ratings", column = "id", javaType = List.class,
+//                    many = @Many(
+//                            select = "net.thumbtack.school.notes.database.mappers.RatingMapper.getByAuthor",
+//                            fetchType = FetchType.LAZY
+//                    )
+//            ),
+//            @Result(property = "sections", column = "id", javaType = List.class,
+//                    many = @Many(
+//                            select = "net.thumbtack.school.notes.database.mappers.SectionMapper.getByCreator",
+//                            fetchType = FetchType.LAZY
+//                    )
+//            )
+//    })
     User get(int id);
     
     
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type FROM user")
-    @ResultMap("userFields")
+//    @ResultMap("userFields")
     List<User> getAll();
     
     
@@ -218,7 +218,7 @@ public interface UserMapper {
     );
     
     
-    @Delete("DELETE FROM user WHERE id = #{user.id}")
+    @Delete("DELETE FROM user WHERE id = #{id}")
     void delete(User user);
     
     

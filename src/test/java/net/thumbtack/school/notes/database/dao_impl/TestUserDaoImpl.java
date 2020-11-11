@@ -4,13 +4,14 @@ package net.thumbtack.school.notes.database.dao_impl;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TestUserDaoImpl extends TestDaoImplBase {
@@ -55,5 +56,59 @@ public class TestUserDaoImpl extends TestDaoImplBase {
     @MethodSource("incorrectUsers")
     void testInsertIncorrect(User incorrectUser) {
         assertThrows(RuntimeException.class, () -> userDao.insert(incorrectUser));
+    }
+    
+    
+    @Test
+    void testUpdate1() {
+        int id = insertUser("aNИa", ";lsafd3-Usd2", "Анна", "Петровна", "Птицына", UserType.USER).getId();
+        
+        userDao.update(new User(
+                id,
+                "aNИa",
+                "Jlaefl41!e",
+                "Анна",
+                "Петровна",
+                "Дроздова",
+                UserType.USER
+        ));
+        User updatedUser = userDao.get(id);
+        
+        assertAll(
+                () -> assertEquals(id, updatedUser.getId()),
+                () -> assertEquals("aNИa", updatedUser.getLogin()),
+                () -> assertEquals("Jlaefl41!e", updatedUser.getPassword()),
+                () -> assertEquals("Анна", updatedUser.getFirstName()),
+                () -> assertEquals("Петровна", updatedUser.getPatronymic()),
+                () -> assertEquals("Дроздова", updatedUser.getLastName()),
+                () -> assertSame(UserType.USER, updatedUser.getType())
+        );
+    }
+    
+    
+    @Test
+    void testUpdate2() {
+        int id = insertUser("andy123", "K3rdv-223k", "Andy", null, "Johnson", UserType.USER).getId();
+        
+        userDao.update(new User(
+                id,
+                "andy321",
+                "Bcafas-345fgh",
+                "Andy",
+                null,
+                "Johnsson",
+                UserType.SUPER
+        ));
+        User updatedUser = userDao.get(id);
+        
+        assertAll(
+                () -> assertEquals(id, updatedUser.getId()),
+                () -> assertEquals("andy123", updatedUser.getLogin(), "login must remain unchanged"),
+                () -> assertEquals("Bcafas-345fgh", updatedUser.getPassword()),
+                () -> assertEquals("Andy", updatedUser.getFirstName()),
+                () -> assertNull(updatedUser.getPatronymic()),
+                () -> assertEquals("Johnsson", updatedUser.getLastName()),
+                () -> assertSame(UserType.SUPER, updatedUser.getType())
+        );
     }
 }
