@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 
 public class UserDaoImpl extends DaoImplBase implements UserDao {
     private final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
@@ -56,6 +58,19 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
             return getUserMapper(session).get(id);
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get user by id {}", id, e);
+            throw e;
+        }
+    }
+    
+    
+    @Override
+    public List<User> getAll() {
+        LOGGER.debug("Getting all users");
+        
+        try (SqlSession session = getSession()) {
+            return getUserMapper(session).getAll();
+        } catch (RuntimeException e) {
+            LOGGER.info("Cannot get all users", e);
             throw e;
         }
     }

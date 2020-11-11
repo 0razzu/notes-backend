@@ -9,6 +9,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -110,5 +112,17 @@ public class TestUserDaoImpl extends TestDaoImplBase {
                 () -> assertEquals("Johnsson", updatedUser.getLastName()),
                 () -> assertSame(UserType.SUPER, updatedUser.getType())
         );
+    }
+    
+    
+    @Test
+    void testGetAll() {
+        User matteo = insertUser("matt30", "432ouN0F(", "Matteo", null, "Russo", UserType.USER);
+        User selenia = insertUser("selenia", "Jev3g2-0", "Selenia", null, "Valenti", UserType.SUPER);
+        
+        List<User> users = userDao.getAll();
+        users.sort(Comparator.comparing(User::getLogin));
+        
+        assertEquals(List.of(admin, matteo, selenia), users);
     }
 }

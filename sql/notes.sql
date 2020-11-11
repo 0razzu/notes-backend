@@ -94,7 +94,7 @@ CREATE TABLE rating (
     PRIMARY KEY (id),
     KEY (note_id),
     FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE,
-    FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL
+    FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE CASCADE
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
 INSERT INTO user (login, password, first_name, patronymic, last_name, type)
