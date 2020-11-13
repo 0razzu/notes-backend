@@ -1,5 +1,4 @@
-// REVU не используйте подчеркивание в имени пакета
-package net.thumbtack.school.notes.database.dao_impl;
+package net.thumbtack.school.notes.database.daoimpl;
 
 
 import net.thumbtack.school.notes.database.dao.CommonDao;
