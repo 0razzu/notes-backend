@@ -1,3 +1,4 @@
+// REVU не используйте подчеркивание в имени пакета
 package net.thumbtack.school.notes.database.dao_impl;
 
 
