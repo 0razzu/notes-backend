@@ -9,40 +9,15 @@ import java.util.List;
 
 
 public interface SessionMapper {
-    @Insert("INSERT INTO session (user_id, token) VALUES (#{user.id}, #{token})")
+    @Insert("INSERT INTO session (user_id, token) VALUES (#{user.id}, #{token}) " +
+            "ON DUPLICATE KEY UPDATE token = #(token)")
     Integer insert(User user, String token);
     
     
     @Select("SELECT (id, login, password, first_name, patronymic, last_name, type) " +
             "FROM session JOIN user ON user_id = user.id WHERE token = #{token}")
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "notes", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.NoteMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "comments", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.CommentMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "ratings", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.RatingMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "sections", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.SectionMapper.getByCreator",
-                            fetchType = FetchType.LAZY
-                    )
-            )
-    })
-    User getByToken(String token);
+//    @ResultMap("net.thumbtack.school.notes.database.mapper.UserMapper.userFields")
+    User getUserByToken(String token);
     
     
     @Select("SELECT count(*) FROM session WHERE user_id = #{user.id}")
@@ -55,33 +30,7 @@ public interface SessionMapper {
     
     @Select("SELECT (id, login, password, first_name, patronymic, last_name, type) " +
             "FROM session JOIN user ON user_id = user.id")
-    @Results({
-            @Result(property = "id", column = "id"),
-            @Result(property = "notes", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.NoteMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "comments", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.CommentMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "ratings", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.RatingMapper.getByAuthor",
-                            fetchType = FetchType.LAZY
-                    )
-            ),
-            @Result(property = "sections", column = "id", javaType = List.class,
-                    many = @Many(
-                            select = "net.thumbtack.school.notes.database.mappers.SectionMapper.getByCreator",
-                            fetchType = FetchType.LAZY
-                    )
-            )
-    })
+//    @ResultMap("net.thumbtack.school.notes.database.mapper.UserMapper.userFields")
     List<User> getOnline();
     
     
