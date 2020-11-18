@@ -2,6 +2,7 @@ package net.thumbtack.school.notes.database.daoimpl;
 
 
 import net.thumbtack.school.notes.database.dao.CommonDao;
+import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.database.util.MyBatisUtil;
 import net.thumbtack.school.notes.model.User;
@@ -15,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class TestDaoImplBase {
     private static boolean setUp = false;
     private static final CommonDao commonDao = new CommonDaoImpl();
-    private static final UserDao userDao = new UserDaoImpl();
-    protected static final User admin =
-            new User("admin", "adminPa55word", "admin", null, "admin", UserType.SUPER);
+    protected static final SessionDao sessionDao = new SessionDaoImpl();
+    protected static final UserDao userDao = new UserDaoImpl();
+    protected static final User admin = new User("admin", "adminPa55word", "admin", null, "admin", UserType.SUPER);
     
     
     @BeforeAll

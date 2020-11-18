@@ -17,9 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TestUserDaoImpl extends TestDaoImplBase {
-    private static final UserDao userDao = new UserDaoImpl();
-    
-    
     static Stream<Arguments> correctUserFields() {
         return Stream.of(
                 Arguments.of("ol1ver2000", "ol1versPa55word!", "Oliver", null, "Berg", UserType.USER),
@@ -131,7 +128,7 @@ public class TestUserDaoImpl extends TestDaoImplBase {
     void testDelete() {
         User matteo = insertUser("matt30", "432ouN0F(", "Matteo", null, "Russo", UserType.USER);
         User selenia = insertUser("selenia", "Jev3g2-0", "Selenia", null, "Valenti", UserType.SUPER);
-    
+        
         userDao.delete(matteo);
         
         assertAll(

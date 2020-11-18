@@ -17,4 +17,5 @@ public interface SessionDao {
     
     void delete(User user);
     void delete(String token);
+    void deleteAll();
 }

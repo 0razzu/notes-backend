@@ -118,4 +118,22 @@ public class SessionDaoImpl extends DaoImplBase implements SessionDao {
             session.commit();
         }
     }
+    
+    
+    @Override
+    public void deleteAll() {
+        LOGGER.debug("Deleting all sessions");
+    
+        try (SqlSession session = getSession()) {
+            try {
+                getSessionMapper(session).deleteAll();
+            } catch (RuntimeException e) {
+                LOGGER.info("Cannot delete all sessions", e);
+                session.rollback();
+                throw e;
+            }
+        
+            session.commit();
+        }
+    }
 }
