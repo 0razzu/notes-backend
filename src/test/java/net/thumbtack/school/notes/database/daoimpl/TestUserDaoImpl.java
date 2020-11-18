@@ -125,4 +125,18 @@ public class TestUserDaoImpl extends TestDaoImplBase {
         
         assertEquals(List.of(admin, matteo, selenia), users);
     }
+    
+    
+    @Test
+    void testDelete() {
+        User matteo = insertUser("matt30", "432ouN0F(", "Matteo", null, "Russo", UserType.USER);
+        User selenia = insertUser("selenia", "Jev3g2-0", "Selenia", null, "Valenti", UserType.SUPER);
+    
+        userDao.delete(matteo);
+        
+        assertAll(
+                () -> assertNull(userDao.get(matteo.getId())),
+                () -> assertEquals(selenia, userDao.get(selenia.getId()))
+        );
+    }
 }
