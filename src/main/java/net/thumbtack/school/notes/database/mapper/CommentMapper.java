@@ -71,4 +71,12 @@ public interface CommentMapper {
             "WHERE note_id = #{note.id}")
     @ResultMap("commentFields")
     List<Comment> getByNote(Note note);
+    
+    
+    @Delete("DELETE FROM note_comment WHERE id = #{id}")
+    void delete(Comment comment);
+    
+    
+    @Delete("DELETE FROM note_comment")
+    void deleteAll();
 }
