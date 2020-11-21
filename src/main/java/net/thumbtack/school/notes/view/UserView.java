@@ -1,8 +1,6 @@
 package net.thumbtack.school.notes.view;
 
 
-import net.thumbtack.school.notes.model.UserType;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -16,8 +14,7 @@ public class UserView {
     private LocalDateTime timeRegistered;
     private boolean isOnline;
     private boolean isDeleted;
-    // REVU почему Boolean, не boolean ? Может быть null ? Когда ?
-    private Boolean isSuper;
+    private boolean isSuper;
     private double rating;
     
     
@@ -65,7 +62,7 @@ public class UserView {
     }
     
     
-    public void setSuper(Boolean aSuper) {
+    public void setSuper(boolean aSuper) {
         isSuper = aSuper;
     }
     
@@ -115,7 +112,7 @@ public class UserView {
     }
     
     
-    public Boolean isSuper() {
+    public boolean isSuper() {
         return isSuper;
     }
     
@@ -146,13 +143,13 @@ public class UserView {
         return getId() == userView.getId() &&
                 isOnline() == userView.isOnline() &&
                 isDeleted() == userView.isDeleted() &&
+                isSuper() == userView.isSuper() &&
                 Double.compare(userView.getRating(), getRating()) == 0 &&
                 Objects.equals(getFirstName(), userView.getFirstName()) &&
                 Objects.equals(getPatronymic(), userView.getPatronymic()) &&
                 Objects.equals(getLastName(), userView.getLastName()) &&
                 Objects.equals(getLogin(), userView.getLogin()) &&
-                Objects.equals(getTimeRegistered(), userView.getTimeRegistered()) &&
-                Objects.equals(isSuper, userView.isSuper);
+                Objects.equals(getTimeRegistered(), userView.getTimeRegistered());
     }
     
     

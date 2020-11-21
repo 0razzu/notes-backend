@@ -11,26 +11,20 @@ public class Comment {
     private LocalDateTime created;
     private String body;
     private User author;
-    // REVU а нужно ли обе ?
-    // может, в NoteREvision сделать обратную ссылку на Note ?
-    // как вариант - подумайте. Будет логичнее
-    // сейчас потенциально могут быть противоречия - а если noteRevision не от этой Note ? 
-    private Note note;
     private NoteRevision noteRevision;
     
     
-    public Comment(int id, LocalDateTime created, String body, User author, Note note, NoteRevision noteRevision) {
+    public Comment(int id, LocalDateTime created, String body, User author, NoteRevision noteRevision) {
         setId(id);
         setCreated(created);
         setBody(body);
         setAuthor(author);
-        setNote(note);
         setRevision(noteRevision);
     }
     
     
-    public Comment(LocalDateTime created, String body, User author, Note note, NoteRevision noteRevision) {
-        this(0, created, body, author, note, noteRevision);
+    public Comment(LocalDateTime created, String body, User author, NoteRevision noteRevision) {
+        this(0, created, body, author, noteRevision);
     }
     
     
@@ -51,11 +45,6 @@ public class Comment {
     
     public void setAuthor(User author) {
         this.author = author;
-    }
-    
-    
-    public void setNote(Note note) {
-        this.note = note;
     }
     
     
@@ -84,11 +73,6 @@ public class Comment {
     }
     
     
-    public Note getNote() {
-        return note;
-    }
-    
-    
     public NoteRevision getRevision() {
         return noteRevision;
     }
@@ -100,7 +84,6 @@ public class Comment {
                 "id=" + id +
                 ", created=" + created.format(DateTimeFormatter.ofPattern("''yyyy.MM.dd HH:mm:ss''")) +
                 ", author=" + author +
-                ", note=" + note +
                 ", revision=" + noteRevision +
                 '}';
     }
@@ -115,13 +98,12 @@ public class Comment {
                 Objects.equals(getCreated(), comment.getCreated()) &&
                 Objects.equals(getBody(), comment.getBody()) &&
                 Objects.equals(getAuthor(), comment.getAuthor()) &&
-                Objects.equals(getNote(), comment.getNote()) &&
                 Objects.equals(getRevision(), comment.getRevision());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCreated(), getBody(), getAuthor(), getNote(), getRevision());
+        return Objects.hash(getId(), getCreated(), getBody(), getAuthor(), getRevision());
     }
 }

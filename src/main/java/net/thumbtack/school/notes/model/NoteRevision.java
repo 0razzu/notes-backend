@@ -11,6 +11,7 @@ public class NoteRevision {
     private int id;
     private String body;
     private LocalDateTime created;
+    private Note note;
     private List<Comment> comments;
     
     
@@ -18,15 +19,17 @@ public class NoteRevision {
     }
     
     
-    public NoteRevision(int id, String body, LocalDateTime created, List<Comment> comments) {
+    public NoteRevision(int id, String body, LocalDateTime created, Note note, List<Comment> comments) {
         setId(id);
         setBody(body);
         setCreated(created);
+        setNote(note);
+        setComments(comments);
     }
     
     
-    public NoteRevision(String body, LocalDateTime created, List<Comment> comments) {
-        this(0, body, created, comments);
+    public NoteRevision(String body, LocalDateTime created, Note note, List<Comment> comments) {
+        this(0, body, created, note, comments);
     }
     
     
@@ -42,6 +45,11 @@ public class NoteRevision {
     
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+    
+    
+    public void setNote(Note note) {
+        this.note = note;
     }
     
     
@@ -62,6 +70,11 @@ public class NoteRevision {
     
     public LocalDateTime getCreated() {
         return created;
+    }
+    
+    
+    public Note getNote() {
+        return note;
     }
     
     
@@ -87,12 +100,13 @@ public class NoteRevision {
         return getId() == noteRevision.getId() &&
                 Objects.equals(getBody(), noteRevision.getBody()) &&
                 Objects.equals(getCreated(), noteRevision.getCreated()) &&
+                Objects.equals(getNote(), noteRevision.getNote()) &&
                 Objects.equals(getComments(), noteRevision.getComments());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getBody(), getCreated(), getComments());
+        return Objects.hash(getId(), getBody(), getCreated(), getNote(), getComments());
     }
 }
