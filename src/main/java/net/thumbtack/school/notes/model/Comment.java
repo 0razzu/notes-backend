@@ -11,6 +11,10 @@ public class Comment {
     private LocalDateTime created;
     private String body;
     private User author;
+    // REVU а нужно ли обе ?
+    // может, в NoteREvision сделать обратную ссылку на Note ?
+    // как вариант - подумайте. Будет логичнее
+    // сейчас потенциально могут быть противоречия - а если noteRevision не от этой Note ? 
     private Note note;
     private NoteRevision noteRevision;
     

@@ -16,6 +16,7 @@ public class UserView {
     private LocalDateTime timeRegistered;
     private boolean isOnline;
     private boolean isDeleted;
+    // REVU почему Boolean, не boolean ? Может быть null ? Когда ?
     private Boolean isSuper;
     private double rating;
     
