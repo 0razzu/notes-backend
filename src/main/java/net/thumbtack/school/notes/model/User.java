@@ -170,18 +170,12 @@ public class User {
                 Objects.equals(getFirstName(), user.getFirstName()) &&
                 Objects.equals(getPatronymic(), user.getPatronymic()) &&
                 Objects.equals(getLastName(), user.getLastName()) &&
-                getType() == user.getType() &&
-                Objects.equals(getNotes(), user.getNotes()) &&
-                Objects.equals(getComments(), user.getComments()) &&
-                Objects.equals(getRatings(), user.getRatings()) &&
-                Objects.equals(getSections(), user.getSections());
+                getType() == user.getType();
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(),
-                getFirstName(), getPatronymic(), getLastName(), getType(),
-                getNotes(), getComments(), getRatings(), getSections());
+        return Objects.hash(getId(), getLogin(), getPassword(), getFirstName(), getPatronymic(), getLastName(), getType());
     }
 }

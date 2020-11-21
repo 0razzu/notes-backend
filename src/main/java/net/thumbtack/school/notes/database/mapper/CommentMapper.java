@@ -27,13 +27,13 @@ public interface CommentMapper {
             @Result(property = "id", column = "id"),
             @Result(property = "author", column = "author_id", javaType = User.class,
                     one = @One(
-                            select = "net.thumbtack.school.notes.database.mappers.UserMapper.get",
+                            select = "net.thumbtack.school.notes.database.mapper.UserMapper.get",
                             fetchType = FetchType.LAZY
                     )
             ),
-            @Result(property = "revision", column = "note_revision_id", javaType = NoteRevision.class,
+            @Result(property = "noteRevision", column = "note_revision_id", javaType = NoteRevision.class,
                     one = @One(
-                            select = "net.thumbtack.school.notes.database.mappers.RevisionMapper.get",
+                            select = "net.thumbtack.school.notes.database.mapper.NoteRevisionMapper.get",
                             fetchType = FetchType.LAZY
                     )
             )

@@ -128,16 +128,12 @@ public class Note {
         Note note = (Note) o;
         return getId() == note.getId() &&
                 Objects.equals(getSubject(), note.getSubject()) &&
-                Objects.equals(getAuthor(), note.getAuthor()) &&
-                Objects.equals(getCreated(), note.getCreated()) &&
-                Objects.equals(getRevisions(), note.getRevisions()) &&
-                Objects.equals(getRatings(), note.getRatings()) &&
-                Objects.equals(getSection(), note.getSection());
+                Objects.equals(getCreated(), note.getCreated());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getSubject(), getAuthor(), getCreated(), getRevisions(), getRatings(), getSection());
+        return Objects.hash(getId(), getSubject(), getCreated());
     }
 }

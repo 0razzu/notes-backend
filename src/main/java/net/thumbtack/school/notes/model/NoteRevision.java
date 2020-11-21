@@ -96,17 +96,14 @@ public class NoteRevision {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof NoteRevision)) return false;
-        NoteRevision noteRevision = (NoteRevision) o;
-        return getId() == noteRevision.getId() &&
-                Objects.equals(getBody(), noteRevision.getBody()) &&
-                Objects.equals(getCreated(), noteRevision.getCreated()) &&
-                Objects.equals(getNote(), noteRevision.getNote()) &&
-                Objects.equals(getComments(), noteRevision.getComments());
+        NoteRevision that = (NoteRevision) o;
+        return getId() == that.getId() &&
+                Objects.equals(getBody(), that.getBody());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getBody(), getCreated(), getNote(), getComments());
+        return Objects.hash(getId(), getBody());
     }
 }

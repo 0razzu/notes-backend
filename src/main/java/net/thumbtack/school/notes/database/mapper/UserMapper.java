@@ -25,33 +25,33 @@ public interface UserMapper {
     
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
             "FROM user WHERE id = #{id}")
-//    @Results(id = "userFields", value = {
-//            @Result(property = "id", column = "id"),
+    @Results(id = "userFields", value = {
+            @Result(property = "id", column = "id"),
 //            @Result(property = "notes", column = "id", javaType = List.class,
 //                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mappers.NoteMapper.getByAuthor",
+//                            select = "net.thumbtack.school.notes.database.mapper.NoteMapper.getByAuthor",
 //                            fetchType = FetchType.LAZY
 //                    )
 //            ),
-//            @Result(property = "comments", column = "id", javaType = List.class,
-//                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mappers.CommentMapper.getByAuthor",
-//                            fetchType = FetchType.LAZY
-//                    )
-//            ),
+            @Result(property = "comments", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.CommentMapper.getByAuthor",
+                            fetchType = FetchType.LAZY
+                    )
+            )//,
 //            @Result(property = "ratings", column = "id", javaType = List.class,
 //                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mappers.RatingMapper.getByAuthor",
+//                            select = "net.thumbtack.school.notes.database.mapper.RatingMapper.getByAuthor",
 //                            fetchType = FetchType.LAZY
 //                    )
 //            ),
 //            @Result(property = "sections", column = "id", javaType = List.class,
 //                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mappers.SectionMapper.getByCreator",
+//                            select = "net.thumbtack.school.notes.database.mapper.SectionMapper.getByCreator",
 //                            fetchType = FetchType.LAZY
 //                    )
 //            )
-//    })
+    })
     User get(int id);
     
     

@@ -19,7 +19,7 @@ public class Comment {
         setCreated(created);
         setBody(body);
         setAuthor(author);
-        setRevision(noteRevision);
+        setNoteRevision(noteRevision);
     }
     
     
@@ -48,7 +48,7 @@ public class Comment {
     }
     
     
-    public void setRevision(NoteRevision noteRevision) {
+    public void setNoteRevision(NoteRevision noteRevision) {
         this.noteRevision = noteRevision;
     }
     
@@ -73,7 +73,7 @@ public class Comment {
     }
     
     
-    public NoteRevision getRevision() {
+    public NoteRevision getNoteRevision() {
         return noteRevision;
     }
     
@@ -96,14 +96,12 @@ public class Comment {
         Comment comment = (Comment) o;
         return getId() == comment.getId() &&
                 Objects.equals(getCreated(), comment.getCreated()) &&
-                Objects.equals(getBody(), comment.getBody()) &&
-                Objects.equals(getAuthor(), comment.getAuthor()) &&
-                Objects.equals(getRevision(), comment.getRevision());
+                Objects.equals(getBody(), comment.getBody());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCreated(), getBody(), getAuthor(), getRevision());
+        return Objects.hash(getId(), getCreated(), getBody());
     }
 }
