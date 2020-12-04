@@ -16,7 +16,7 @@ public interface SessionMapper {
     
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
             "FROM session JOIN user ON user_id = user.id WHERE token = #{token}")
-//    @ResultMap("net.thumbtack.school.notes.database.mapper.UserMapper.userFields")
+    @ResultMap("net.thumbtack.school.notes.database.mapper.UserMapper.userFields")
     User getUserByToken(String token);
     
     
@@ -30,7 +30,7 @@ public interface SessionMapper {
     
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
             "FROM session JOIN user ON user_id = user.id")
-//    @ResultMap("net.thumbtack.school.notes.database.mapper.UserMapper.userFields")
+    @ResultMap("net.thumbtack.school.notes.database.mapper.UserMapper.userFields")
     List<User> getOnline();
     
     
