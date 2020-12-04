@@ -1,10 +1,17 @@
 package net.thumbtack.school.notes.view;
 
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 
+@NoArgsConstructor
+@Setter
+@Getter
 public class UserView {
     private int id;
     private String firstName;
@@ -16,110 +23,6 @@ public class UserView {
     private boolean isDeleted;
     private boolean isSuper;
     private double rating;
-    
-    
-    public UserView() {
-    }
-    
-    
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
-    
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-    
-    
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    
-    public void setLogin(String login) {
-        this.login = login;
-    }
-    
-    
-    public void setTimeRegistered(LocalDateTime timeRegistered) {
-        this.timeRegistered = timeRegistered;
-    }
-    
-    
-    public void setOnline(boolean online) {
-        isOnline = online;
-    }
-    
-    
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
-    
-    
-    public void setSuper(boolean aSuper) {
-        isSuper = aSuper;
-    }
-    
-    
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-    
-    
-    public int getId() {
-        return id;
-    }
-    
-    
-    public String getFirstName() {
-        return firstName;
-    }
-    
-    
-    public String getPatronymic() {
-        return patronymic;
-    }
-    
-    
-    public String getLastName() {
-        return lastName;
-    }
-    
-    
-    public String getLogin() {
-        return login;
-    }
-    
-    
-    public LocalDateTime getTimeRegistered() {
-        return timeRegistered;
-    }
-    
-    
-    public boolean isOnline() {
-        return isOnline;
-    }
-    
-    
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-    
-    
-    public boolean isSuper() {
-        return isSuper;
-    }
-    
-    
-    public double getRating() {
-        return rating;
-    }
     
     
     @Override

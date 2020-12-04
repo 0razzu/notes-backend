@@ -1,10 +1,17 @@
 package net.thumbtack.school.notes.model;
 
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 import java.util.Objects;
 
 
+@NoArgsConstructor
+@Setter
+@Getter
 public class User {
     private int id;
     private String login;
@@ -23,10 +30,6 @@ public class User {
     private List<User> ignoredBy;
     
     
-    public User() {
-    }
-    
-    
     public User(int id, String login, String password, String firstName, String patronymic, String lastName, UserType type) {
         setId(id);
         setLogin(login);
@@ -40,156 +43,6 @@ public class User {
     
     public User(String login, String password, String firstName, String patronymic, String lastName, UserType type) {
         this(0, login, password, firstName, patronymic, lastName, type);
-    }
-    
-    
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    
-    public void setLogin(String login) {
-        this.login = login;
-    }
-    
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
-    
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-    
-    
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    
-    public void setType(UserType type) {
-        this.type = type;
-    }
-    
-    
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
-    }
-    
-    
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-    
-    
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
-    }
-    
-    
-    public void setSections(List<Section> sections) {
-        this.sections = sections;
-    }
-    
-    
-    public void setFollowing(List<User> following) {
-        this.following = following;
-    }
-    
-    
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
-    }
-    
-    
-    public void setIgnore(List<User> ignore) {
-        this.ignore = ignore;
-    }
-    
-    
-    public void setIgnoredBy(List<User> ignoredBy) {
-        this.ignoredBy = ignoredBy;
-    }
-    
-    
-    public int getId() {
-        return id;
-    }
-    
-    
-    public String getLogin() {
-        return login;
-    }
-    
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    
-    public String getFirstName() {
-        return firstName;
-    }
-    
-    
-    public String getPatronymic() {
-        return patronymic;
-    }
-    
-    
-    public String getLastName() {
-        return lastName;
-    }
-    
-    
-    public UserType getType() {
-        return type;
-    }
-    
-    
-    public List<Note> getNotes() {
-        return notes;
-    }
-    
-    
-    public List<Comment> getComments() {
-        return comments;
-    }
-    
-    
-    public List<Rating> getRatings() {
-        return ratings;
-    }
-    
-    
-    public List<Section> getSections() {
-        return sections;
-    }
-    
-    
-    public List<User> getFollowing() {
-        return following;
-    }
-    
-    
-    public List<User> getFollowers() {
-        return followers;
-    }
-    
-    
-    public List<User> getIgnore() {
-        return ignore;
-    }
-    
-    
-    public List<User> getIgnoredBy() {
-        return ignoredBy;
     }
     
     

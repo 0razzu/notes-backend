@@ -1,10 +1,19 @@
 package net.thumbtack.school.notes.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 import java.util.Objects;
 
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public class Section {
     private int id;
     private String name;
@@ -12,60 +21,8 @@ public class Section {
     private List<Note> notes;
     
     
-    public Section() {
-    }
-    
-    
-    public Section(int id, String name, User creator, List<Note> notes) {
-        setId(id);
-        setName(name);
-        setCreator(creator);
-        setNotes(notes);
-    }
-    
-    
     public Section(String name, User creator, List<Note> notes) {
         this(0, name, creator, notes);
-    }
-    
-    
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-    
-    
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
-    }
-    
-    
-    public int getId() {
-        return id;
-    }
-    
-    
-    public String getName() {
-        return name;
-    }
-    
-    
-    public User getCreator() {
-        return creator;
-    }
-    
-    
-    public List<Note> getNotes() {
-        return notes;
     }
     
     

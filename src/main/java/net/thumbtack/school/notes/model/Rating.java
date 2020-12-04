@@ -1,58 +1,26 @@
 package net.thumbtack.school.notes.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Objects;
 
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public class Rating {
     private int id;
     private int value;
     private User author;
     
     
-    public Rating() {
-    }
-    
-    
-    public Rating(int id, int value, User author) {
-        setId(id);
-        setValue(value);
-        setAuthor(author);
-    }
-    
-    
     public Rating(int value, User author) {
         this(0, value, author);
-    }
-    
-    
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
-    
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-    
-    
-    public int getId() {
-        return id;
-    }
-    
-    
-    public int getValue() {
-        return value;
-    }
-    
-    
-    public User getAuthor() {
-        return author;
     }
     
     

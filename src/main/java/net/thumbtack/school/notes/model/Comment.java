@@ -1,11 +1,20 @@
 package net.thumbtack.school.notes.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public class Comment {
     private int id;
     private LocalDateTime created;
@@ -14,67 +23,8 @@ public class Comment {
     private NoteRevision noteRevision;
     
     
-    public Comment(int id, LocalDateTime created, String body, User author, NoteRevision noteRevision) {
-        setId(id);
-        setCreated(created);
-        setBody(body);
-        setAuthor(author);
-        setNoteRevision(noteRevision);
-    }
-    
-    
     public Comment(LocalDateTime created, String body, User author, NoteRevision noteRevision) {
         this(0, created, body, author, noteRevision);
-    }
-    
-    
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-    
-    
-    public void setBody(String body) {
-        this.body = body;
-    }
-    
-    
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-    
-    
-    public void setNoteRevision(NoteRevision noteRevision) {
-        this.noteRevision = noteRevision;
-    }
-    
-    
-    public int getId() {
-        return id;
-    }
-    
-    
-    public LocalDateTime getCreated() {
-        return created;
-    }
-    
-    
-    public String getBody() {
-        return body;
-    }
-    
-    
-    public User getAuthor() {
-        return author;
-    }
-    
-    
-    public NoteRevision getNoteRevision() {
-        return noteRevision;
     }
     
     
