@@ -12,6 +12,9 @@ public interface UserDao {
     void insert(User user);
     void update(User user);
     
+    void follow(User user, User followed);
+    void ignore(User user, User ignored);
+    
     User get(int id);
     List<User> getAll();
     List<UserView> getAllWithRating(String sortByRating, boolean selectSuper, Integer from, Integer count);

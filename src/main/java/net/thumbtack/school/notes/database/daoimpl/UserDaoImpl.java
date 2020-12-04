@@ -53,6 +53,42 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
+    public void follow(User user, User followed) {
+        LOGGER.debug("Making {} follow {}", user, followed);
+        
+        try (SqlSession session = getSession()) {
+            try {
+                getUserMapper(session).follow(user, followed);
+            } catch (RuntimeException e) {
+                LOGGER.info("Cannot make {} follow {}", user, followed, e);
+                session.rollback();
+                throw e;
+            }
+            
+            session.commit();
+        }
+    }
+    
+    
+    @Override
+    public void ignore(User user, User ignored) {
+        LOGGER.debug("Making {} ignore {}", user, ignored);
+        
+        try (SqlSession session = getSession()) {
+            try {
+                getUserMapper(session).ignore(user, ignored);
+            } catch (RuntimeException e) {
+                LOGGER.info("Cannot make {} ignore {}", user, ignored, e);
+                session.rollback();
+                throw e;
+            }
+            
+            session.commit();
+        }
+    }
+    
+    
+    @Override
     public User get(int id) {
         LOGGER.debug("Getting user by id {}", id);
         
@@ -112,7 +148,7 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     public List<UserView> getAllByRelationToUser(User user, String relation, String sortByRating, boolean selectSuper, Integer from, Integer count) {
         LOGGER.debug("Getting all users by relation {} to {} (sortByRating={}, selectSuper={}, from={}, count={})",
                 relation, user, sortByRating, selectSuper, from, count);
-    
+        
         try (SqlSession session = getSession()) {
             return getUserMapper(session).getAllByRelationToUser(user, relation, sortByRating, selectSuper, from, count);
         } catch (RuntimeException e) {

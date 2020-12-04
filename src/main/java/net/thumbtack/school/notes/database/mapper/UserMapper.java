@@ -23,6 +23,14 @@ public interface UserMapper {
     void update(User user);
     
     
+    @Insert("INSERT INTO user_followed(user_id, followed_id) VALUES(#{user.id}, #{followed.id})")
+    void follow(@Param("user") User user, @Param("followed") User followed);
+    
+    
+    @Insert("INSERT INTO user_ignored(user_id, ignored_id) VALUES(#{user.id}, #{ignored.id})")
+    void ignore(@Param("user") User user, @Param("ignored") User ignored);
+    
+    
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
             "FROM user WHERE id = #{id}")
     @Results(id = "userFields", value = {
