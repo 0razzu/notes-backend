@@ -27,8 +27,16 @@ public interface UserMapper {
     void follow(@Param("user") User user, @Param("followed") User followed);
     
     
+    @Insert("DELETE FROM user_followed WHERE user_id = #{user.id} AND followed_id = #{followed.id}")
+    void unfollow(@Param("user") User user, @Param("followed") User followed);
+    
+    
     @Insert("INSERT INTO user_ignored(user_id, ignored_id) VALUES(#{user.id}, #{ignored.id})")
     void ignore(@Param("user") User user, @Param("ignored") User ignored);
+    
+    
+    @Insert("DELETE FROM user_ignored WHERE user_id = #{user.id} AND ignored_id = #{ignored.id}")
+    void unignore(@Param("user") User user, @Param("ignored") User ignored);
     
     
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +

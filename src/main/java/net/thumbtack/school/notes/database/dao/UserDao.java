@@ -13,7 +13,9 @@ public interface UserDao {
     void update(User user);
     
     void follow(User user, User followed);
+    void unfollow(User user, User followed);
     void ignore(User user, User ignored);
+    void unignore(User user, User ignored);
     
     User get(int id);
     List<User> getAll();

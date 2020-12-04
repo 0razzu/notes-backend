@@ -71,6 +71,24 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
+    public void unfollow(User user, User followed) {
+        LOGGER.debug("Making {} unfollow {}", user, followed);
+        
+        try (SqlSession session = getSession()) {
+            try {
+                getUserMapper(session).unfollow(user, followed);
+            } catch (RuntimeException e) {
+                LOGGER.info("Cannot make {} unfollow {}", user, followed, e);
+                session.rollback();
+                throw e;
+            }
+            
+            session.commit();
+        }
+    }
+    
+    
+    @Override
     public void ignore(User user, User ignored) {
         LOGGER.debug("Making {} ignore {}", user, ignored);
         
@@ -79,6 +97,24 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
                 getUserMapper(session).ignore(user, ignored);
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot make {} ignore {}", user, ignored, e);
+                session.rollback();
+                throw e;
+            }
+            
+            session.commit();
+        }
+    }
+    
+    
+    @Override
+    public void unignore(User user, User ignored) {
+        LOGGER.debug("Making {} unignore {}", user, ignored);
+        
+        try (SqlSession session = getSession()) {
+            try {
+                getUserMapper(session).unignore(user, ignored);
+            } catch (RuntimeException e) {
+                LOGGER.info("Cannot make {} unignore {}", user, ignored, e);
                 session.rollback();
                 throw e;
             }
