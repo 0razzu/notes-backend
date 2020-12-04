@@ -66,7 +66,7 @@ CREATE TABLE note (
 
 CREATE TABLE note_revision (
 	id INT NOT NULL AUTO_INCREMENT,
-    created DATETIME NOT NULL,
+    created DATETIME NOT NULL DEFAULT now(),
     body LONGTEXT NOT NULL,
     note_id INT NOT NULL,
     PRIMARY KEY (id),
@@ -76,7 +76,7 @@ CREATE TABLE note_revision (
 
 CREATE TABLE note_comment (
 	id INT NOT NULL AUTO_INCREMENT,
-    created DATETIME NOT NULL,
+    created DATETIME NOT NULL DEFAULT now(),
     body MEDIUMTEXT NOT NULL,
     author_id INT,
     note_revision_id INT NOT NULL,

@@ -38,7 +38,7 @@ public interface UserMapper {
                             select = "net.thumbtack.school.notes.database.mapper.CommentMapper.getByAuthor",
                             fetchType = FetchType.LAZY
                     )
-            )//,
+            ),
 //            @Result(property = "ratings", column = "id", javaType = List.class,
 //                    many = @Many(
 //                            select = "net.thumbtack.school.notes.database.mapper.RatingMapper.getByAuthor",
@@ -50,13 +50,65 @@ public interface UserMapper {
 //                            select = "net.thumbtack.school.notes.database.mapper.SectionMapper.getByCreator",
 //                            fetchType = FetchType.LAZY
 //                    )
-//            )
+//            ),
+            @Result(property = "following", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.UserMapper.getFollowing",
+                            fetchType = FetchType.LAZY
+                    )
+            ),
+            @Result(property = "followers", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.UserMapper.getFollowers",
+                            fetchType = FetchType.LAZY
+                    )
+            ),
+            @Result(property = "ignore", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.UserMapper.getIgnore",
+                            fetchType = FetchType.LAZY
+                    )
+            ),
+            @Result(property = "ignoredBy", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.UserMapper.getIgnoredBy",
+                            fetchType = FetchType.LAZY
+                    )
+            )
     })
     User get(int id);
     
     
+    @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
+            "FROM user JOIN user_followed ON user.id = user_followed.followed_id " +
+            "WHERE user_followed.user_id = #{id}")
+    @ResultMap("userFields")
+    List<User> getFollowing(User user);
+    
+    
+    @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
+            "FROM user JOIN user_followed ON user.id = user_followed.user_id " +
+            "WHERE user_followed.followed_id = #{id}")
+    @ResultMap("userFields")
+    List<User> getFollowers(User user);
+    
+    
+    @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
+            "FROM user JOIN user_ignored ON user.id = user_ignored.ignored_id " +
+            "WHERE user_ignored.user_id = #{id}")
+    @ResultMap("userFields")
+    List<User> getIgnore(User user);
+    
+    
+    @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
+            "FROM user JOIN user_ignored ON user.id = user_ignored.user_id " +
+            "WHERE user_ignored.ignored_id = #{id}")
+    @ResultMap("userFields")
+    List<User> getIgnoredBy(User user);
+    
+    
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type FROM user")
-//    @ResultMap("userFields")
+    @ResultMap("userFields")
     List<User> getAll();
     
     

@@ -17,6 +17,10 @@ public class User {
     private List<Comment> comments;
     private List<Rating> ratings;
     private List<Section> sections;
+    private List<User> following;
+    private List<User> followers;
+    private List<User> ignore;
+    private List<User> ignoredBy;
     
     
     public User() {
@@ -94,6 +98,26 @@ public class User {
     }
     
     
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+    
+    
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+    
+    
+    public void setIgnore(List<User> ignore) {
+        this.ignore = ignore;
+    }
+    
+    
+    public void setIgnoredBy(List<User> ignoredBy) {
+        this.ignoredBy = ignoredBy;
+    }
+    
+    
     public int getId() {
         return id;
     }
@@ -146,6 +170,26 @@ public class User {
     
     public List<Section> getSections() {
         return sections;
+    }
+    
+    
+    public List<User> getFollowing() {
+        return following;
+    }
+    
+    
+    public List<User> getFollowers() {
+        return followers;
+    }
+    
+    
+    public List<User> getIgnore() {
+        return ignore;
+    }
+    
+    
+    public List<User> getIgnoredBy() {
+        return ignoredBy;
     }
     
     

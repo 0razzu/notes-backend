@@ -1,7 +1,6 @@
 package net.thumbtack.school.notes.database.daoimpl;
 
 
-import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import org.junit.jupiter.api.Test;
