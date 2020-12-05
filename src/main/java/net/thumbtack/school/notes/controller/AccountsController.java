@@ -34,6 +34,7 @@ public class AccountsController {
     
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisterUserResponse> register(@Validated @RequestBody RegisterUserRequest request) { // TODO: exception handling
+        // REVU это все в сервис. Контроллер только вызывает метод сервиса
         User user = new User(
                 request.getLogin(),
                 request.getPassword(),
@@ -42,7 +43,6 @@ public class AccountsController {
                 request.getLastName(),
                 UserType.USER
         );
-        
         userDao.insert(user);
         String token = UUID.randomUUID().toString();
         sessionDao.insert(user, token);
