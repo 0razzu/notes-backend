@@ -22,6 +22,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/api/accounts")
 public class AccountsController {
+	// REVU контроллер не имеет доступа к DAO. Это в сервис
     private final UserDao userDao;
     private final SessionDao sessionDao;
     
