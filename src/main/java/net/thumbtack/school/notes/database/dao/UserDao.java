@@ -12,7 +12,7 @@ public interface UserDao {
     void insert(User user);
     void update(User user);
     
-    void follow(User user, User followed);
+    void follow(User user, User followed); // TODO: test
     void unfollow(User user, User followed);
     void ignore(User user, User ignored);
     void unignore(User user, User ignored);

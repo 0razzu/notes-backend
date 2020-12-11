@@ -8,10 +8,12 @@ import net.thumbtack.school.notes.view.UserView;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
+@Repository("userDao")
 public class UserDaoImpl extends DaoImplBase implements UserDao {
     private final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
     
