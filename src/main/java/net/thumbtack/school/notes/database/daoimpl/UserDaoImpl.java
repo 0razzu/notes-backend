@@ -37,6 +37,25 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
+    public void insertAndLogin(User user, String token) {
+        LOGGER.debug("Inserting and logging in {} with token {}", user, token);
+        
+        try (SqlSession session = getSession()) {
+            try {
+                getUserMapper(session).insert(user);
+                getSessionMapper(session).insert(user, token);
+            } catch (RuntimeException e) {
+                LOGGER.info("Cannot insert {} with token {}", user, token, e);
+                session.rollback();
+                throw e;
+            }
+            
+            session.commit();
+        }
+    }
+    
+    
+    @Override
     public void update(User user) {
         LOGGER.debug("Updating {}", user);
         

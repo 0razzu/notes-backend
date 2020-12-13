@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface UserDao {
     void insert(User user);
+    void insertAndLogin(User user, String token);
     void update(User user);
     
     void follow(User user, User followed); // TODO: test

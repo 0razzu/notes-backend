@@ -4,18 +4,16 @@ package net.thumbtack.school.notes.service;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
+import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.dto.response.RegisterUserResponse;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
-import org.springframework.http.HttpCookie;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 
@@ -33,7 +31,7 @@ public class AccountsService {
     }
     
     
-    public ResponseEntity<RegisterUserResponse> register(RegisterUserRequest request) {
+    public RegisterUserResponse register(RegisterUserRequest request, HttpServletResponse response) {
         User user = new User(
                 request.getLogin(),
                 request.getPassword(),
@@ -43,25 +41,36 @@ public class AccountsService {
                 UserType.USER
         );
         
-        userDao.insert(user);
         String token = UUID.randomUUID().toString();
-        sessionDao.insert(user, token);
+        userDao.insertAndLogin(user, token);
         
-        HttpCookie cookie = ResponseCookie.from("JAVASESSIONID", token)
-                .path("/")
-                .maxAge(Duration.of(properties.getUserIdleTimeout(), ChronoUnit.SECONDS))
-                .httpOnly(true)
-                .build();
+        Cookie cookie = new Cookie("JAVASESSIONID", token);
+        cookie.setMaxAge(properties.getUserIdleTimeout());
+        response.addCookie(cookie);
         
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(
-                        new RegisterUserResponse(
-                                user.getFirstName(),
-                                user.getPatronymic(),
-                                user.getLastName(),
-                                user.getLogin()
-                        )
-                );
+        return new RegisterUserResponse(
+                user.getFirstName(),
+                user.getPatronymic(),
+                user.getLastName(),
+                user.getLogin()
+        );
+    }
+    
+    
+    public EmptyResponse deregister(DeregisterUserRequest request, String token, HttpServletResponse response) {
+        User user = sessionDao.getUserByToken(token);
+
+//        if (user == null)
+//            throw new ServerException();
+//
+//        if (!user.getPassword().equals(request.getPassword()))
+//            throw new ServerException();
+        
+        userDao.delete(user);
+        
+        Cookie cookie = new Cookie("JAVASESSIONID", token);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return new EmptyResponse();
     }
 }
