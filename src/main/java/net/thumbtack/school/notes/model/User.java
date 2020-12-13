@@ -20,6 +20,7 @@ public class User {
     private String patronymic;
     private String lastName;
     private UserType type;
+    private boolean deleted;
     private List<Note> notes;
     private List<Comment> comments;
     private List<Rating> ratings;
@@ -52,6 +53,7 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", type=" + type +
+                ", deleted=" + deleted +
                 '}';
     }
     

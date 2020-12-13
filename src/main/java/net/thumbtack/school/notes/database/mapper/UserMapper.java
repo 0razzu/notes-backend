@@ -18,7 +18,8 @@ public interface UserMapper {
     
     
     @Update("UPDATE user SET password = #{password}, " +
-            "first_name = #{firstName}, patronymic = #{patronymic}, last_name = #{lastName}, type = #{type} " +
+            "first_name = #{firstName}, patronymic = #{patronymic}, last_name = #{lastName}, " +
+            "type = #{type}, deleted = #{deleted} " +
             "WHERE id = #{id}")
     void update(User user);
     

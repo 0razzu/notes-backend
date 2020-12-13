@@ -66,7 +66,9 @@ public class AccountsService {
 //        if (!user.getPassword().equals(request.getPassword()))
 //            throw new ServerException();
         
-        userDao.delete(user);
+        sessionDao.delete(user);
+        user.setDeleted(true);
+        userDao.update(user);
         
         Cookie cookie = new Cookie("JAVASESSIONID", token);
         cookie.setMaxAge(0);
