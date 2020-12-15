@@ -8,8 +8,11 @@ import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.dto.response.RegisterUserResponse;
+import net.thumbtack.school.notes.error.ErrorCodeWithField;
+import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -31,7 +34,8 @@ public class AccountsService {
     }
     
     
-    public RegisterUserResponse register(RegisterUserRequest request, HttpServletResponse response) {
+    public RegisterUserResponse register(RegisterUserRequest request, HttpServletResponse response)
+            throws ServerException {
         User user = new User(
                 request.getLogin(),
                 request.getPassword(),
@@ -42,7 +46,11 @@ public class AccountsService {
         );
         
         String token = UUID.randomUUID().toString();
-        userDao.insertAndLogin(user, token);
+        try {
+            userDao.insertAndLogin(user, token);
+        } catch (PersistenceException e) {
+            throw new ServerException(ErrorCodeWithField.LOGIN_EXISTS);
+        }
         
         Cookie cookie = new Cookie("JAVASESSIONID", token);
         cookie.setMaxAge(properties.getUserIdleTimeout());
@@ -57,14 +65,15 @@ public class AccountsService {
     }
     
     
-    public EmptyResponse deregister(DeregisterUserRequest request, String token, HttpServletResponse response) {
+    public EmptyResponse deregister(DeregisterUserRequest request, String token, HttpServletResponse response)
+            throws ServerException {
         User user = sessionDao.getUserByToken(token);
-
-//        if (user == null)
-//            throw new ServerException();
-//
-//        if (!user.getPassword().equals(request.getPassword()))
-//            throw new ServerException();
+        
+        if (user == null)
+            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
+    
+        if (!user.getPassword().equals(request.getPassword()))
+            throw new ServerException(ErrorCodeWithField.WRONG_PASSWORD);
         
         sessionDao.delete(user);
         user.setDeleted(true);

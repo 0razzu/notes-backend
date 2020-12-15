@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MinPasswordLength {
-    String message() default "Password is too short";
+    String message() default "PASSWORD_CONSTRAINT_VIOLATION";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

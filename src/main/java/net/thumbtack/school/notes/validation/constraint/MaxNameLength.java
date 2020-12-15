@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MaxNameLength {
-    String message() default "Name is too long or empty";
+    String message() default "NAME_CONSTRAINT_VIOLATION";
     boolean nullable() default false;
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

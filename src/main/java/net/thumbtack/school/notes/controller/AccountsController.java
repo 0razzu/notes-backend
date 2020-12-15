@@ -5,6 +5,7 @@ import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.dto.response.RegisterUserResponse;
+import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.AccountsService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
@@ -27,7 +28,7 @@ public class AccountsController {
     
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public RegisterUserResponse register(@Validated @RequestBody RegisterUserRequest request,
-                                         HttpServletResponse response) {
+                                         HttpServletResponse response) throws ServerException {
         return accountsService.register(request, response);
     }
     
@@ -35,7 +36,7 @@ public class AccountsController {
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public EmptyResponse deregister(@Validated @RequestBody DeregisterUserRequest request,
                                     @CookieValue(value = "JAVASESSIONID") String token,
-                                    HttpServletResponse response) {
+                                    HttpServletResponse response) throws ServerException {
         return accountsService.deregister(request, token, response);
     }
 }

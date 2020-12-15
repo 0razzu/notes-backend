@@ -28,6 +28,7 @@ public class MaxNameLengthValidator implements ConstraintValidator<MaxNameLength
     
     @Override
     public boolean isValid(String name, ConstraintValidatorContext constraintValidatorContext) {
-        return nullable && name == null || name != null && name.length() <= properties.getMaxNameLength();
+        return nullable && (name == null || name.isBlank()) ||
+                name != null && !name.isBlank() && name.length() <= properties.getMaxNameLength();
     }
 }
