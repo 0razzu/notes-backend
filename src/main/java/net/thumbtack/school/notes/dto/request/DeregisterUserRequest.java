@@ -6,9 +6,7 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@EqualsAndHashCode
+@Data
 public class DeregisterUserRequest {
     private String password;
 }

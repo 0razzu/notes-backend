@@ -6,9 +6,11 @@ import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.database.util.Properties;
 import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
+import net.thumbtack.school.notes.dto.request.UpdateUserRequest;
 import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.dto.response.GetCurrentUserResponse;
 import net.thumbtack.school.notes.dto.response.RegisterUserResponse;
+import net.thumbtack.school.notes.dto.response.UpdateUserResponse;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
@@ -38,6 +40,13 @@ public class AccountsService {
     }
     
     
+    private void setTokenCookie(HttpServletResponse response, String token, int maxAge) {
+        Cookie cookie = new Cookie(JAVA_SESSION_ID, token);
+        cookie.setMaxAge(maxAge);
+        response.addCookie(cookie);
+    }
+    
+    
     public RegisterUserResponse register(RegisterUserRequest request, HttpServletResponse response)
             throws ServerException {
         User user = new User(
@@ -57,11 +66,8 @@ public class AccountsService {
                 throw new ServerException(ErrorCodeWithField.LOGIN_EXISTS);
             throw e;
         }
-        
-        Cookie cookie = new Cookie(JAVA_SESSION_ID, token);
-        cookie.setMaxAge(properties.getUserIdleTimeout());
-        response.addCookie(cookie);
-        
+    
+        setTokenCookie(response, token, properties.getUserIdleTimeout());
         return new RegisterUserResponse(
                 user.getFirstName(),
                 user.getPatronymic(),
@@ -78,6 +84,7 @@ public class AccountsService {
         if (user == null)
             throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
         
+        setTokenCookie(response, token, properties.getUserIdleTimeout());
         return new GetCurrentUserResponse(
                 user.getFirstName(),
                 user.getPatronymic(),
@@ -100,9 +107,34 @@ public class AccountsService {
         sessionDao.delete(user);
         userDao.update(user);
         
-        Cookie cookie = new Cookie(JAVA_SESSION_ID, token);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+        setTokenCookie(response, token, 0);
         return new EmptyResponse();
+    }
+    
+    
+    public UpdateUserResponse update(UpdateUserRequest request, String token, HttpServletResponse response)
+            throws ServerException {
+        User user = sessionDao.getUserByToken(token);
+        
+        if (user == null)
+            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
+        
+        if (!user.getPassword().equals(request.getOldPassword()))
+            throw new ServerException(ErrorCodeWithField.WRONG_OLD_PASSWORD);
+        
+        user.setFirstName(request.getFirstName());
+        user.setPatronymic(request.getPatronymic());
+        user.setLastName(request.getLastName());
+        user.setPassword(request.getNewPassword());
+        userDao.update(user);
+        
+        setTokenCookie(response, token, properties.getUserIdleTimeout());
+        return new UpdateUserResponse(
+                user.getId(),
+                user.getFirstName(),
+                user.getPatronymic(),
+                user.getLastName(),
+                user.getLogin()
+        );
     }
 }
