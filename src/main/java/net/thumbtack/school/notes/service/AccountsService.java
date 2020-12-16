@@ -18,32 +18,21 @@ import net.thumbtack.school.notes.model.UserType;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.UUID;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
-
 
 @Service
-public class AccountsService {
-    private final Properties properties;
+public class AccountsService extends BaseService {
     private final UserDao userDao;
     private final SessionDao sessionDao;
     
     
     public AccountsService(Properties properties, UserDao userDao, SessionDao sessionDao) {
-        this.properties = properties;
+        super(properties);
         this.userDao = userDao;
         this.sessionDao = sessionDao;
-    }
-    
-    
-    private void setTokenCookie(HttpServletResponse response, String token, int maxAge) {
-        Cookie cookie = new Cookie(JAVA_SESSION_ID, token);
-        cookie.setMaxAge(maxAge);
-        response.addCookie(cookie);
     }
     
     
@@ -66,7 +55,7 @@ public class AccountsService {
                 throw new ServerException(ErrorCodeWithField.LOGIN_EXISTS);
             throw e;
         }
-    
+        
         setTokenCookie(response, token, properties.getUserIdleTimeout());
         return new RegisterUserResponse(
                 user.getFirstName(),
@@ -141,7 +130,7 @@ public class AccountsService {
     
     public EmptyResponse makeSuper(int id, String token, HttpServletResponse response) throws ServerException {
         User superuser = sessionDao.getUserByToken(token);
-    
+        
         if (superuser == null)
             throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
         
