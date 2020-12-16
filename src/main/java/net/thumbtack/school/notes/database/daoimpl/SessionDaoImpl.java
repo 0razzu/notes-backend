@@ -111,6 +111,7 @@ public class SessionDaoImpl extends DaoImplBase implements SessionDao {
         try (SqlSession session = getSession()) {
             try {
                 getSessionMapper(session).deleteByUser(user);
+                user.setDeleted(true);
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot delete session of {}", user, e);
                 session.rollback();

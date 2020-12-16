@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.UUID;
 
 
@@ -49,7 +50,9 @@ public class AccountsService {
         try {
             userDao.insertAndLogin(user, token);
         } catch (PersistenceException e) {
-            throw new ServerException(ErrorCodeWithField.LOGIN_EXISTS);
+            if (e.getCause().getClass() == SQLIntegrityConstraintViolationException.class)
+                throw new ServerException(ErrorCodeWithField.LOGIN_EXISTS);
+            throw e;
         }
         
         Cookie cookie = new Cookie("JAVASESSIONID", token);
@@ -71,12 +74,11 @@ public class AccountsService {
         
         if (user == null)
             throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
-    
+        
         if (!user.getPassword().equals(request.getPassword()))
             throw new ServerException(ErrorCodeWithField.WRONG_PASSWORD);
         
         sessionDao.delete(user);
-        user.setDeleted(true);
         userDao.update(user);
         
         Cookie cookie = new Cookie("JAVASESSIONID", token);
