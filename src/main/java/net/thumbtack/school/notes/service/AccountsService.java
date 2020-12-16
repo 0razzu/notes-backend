@@ -71,6 +71,22 @@ public class AccountsService {
     }
     
     
+    public GetCurrentUserResponse getCurrentUser(String token, HttpServletResponse response)
+            throws ServerException {
+        User user = sessionDao.getUserByToken(token);
+        
+        if (user == null)
+            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
+        
+        return new GetCurrentUserResponse(
+                user.getFirstName(),
+                user.getPatronymic(),
+                user.getLastName(),
+                user.getLogin()
+        );
+    }
+    
+    
     public EmptyResponse deregister(DeregisterUserRequest request, String token, HttpServletResponse response)
             throws ServerException {
         User user = sessionDao.getUserByToken(token);
@@ -88,21 +104,5 @@ public class AccountsService {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         return new EmptyResponse();
-    }
-    
-    
-    public GetCurrentUserResponse getCurrentUser(String token, HttpServletResponse response)
-            throws ServerException {
-        User user = sessionDao.getUserByToken(token);
-        
-        if (user == null)
-            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
-        
-        return new GetCurrentUserResponse(
-                user.getFirstName(),
-                user.getPatronymic(),
-                user.getLastName(),
-                user.getLogin()
-        );
     }
 }

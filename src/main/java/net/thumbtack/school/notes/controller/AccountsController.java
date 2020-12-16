@@ -36,17 +36,17 @@ public class AccountsController {
     }
     
     
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public GetCurrentUserResponse getCurrentUser(@CookieValue(value = JAVA_SESSION_ID) String token,
+                                                 HttpServletResponse response) throws ServerException {
+        return accountsService.getCurrentUser(token, response);
+    }
+    
+    
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public EmptyResponse deregister(@Validated @RequestBody DeregisterUserRequest request,
                                     @CookieValue(value = JAVA_SESSION_ID) String token,
                                     HttpServletResponse response) throws ServerException {
         return accountsService.deregister(request, token, response);
-    }
-    
-    
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public GetCurrentUserResponse getCurrentUser(@CookieValue(value = JAVA_SESSION_ID) String token,
-                                                 HttpServletResponse response) throws ServerException {
-        return accountsService.getCurrentUser(token, response);
     }
 }
