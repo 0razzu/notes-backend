@@ -60,4 +60,13 @@ public class AccountsController {
                                      HttpServletResponse response) throws ServerException {
         return accountsService.update(request, token, response);
     }
+    
+    
+    @PutMapping(path = "/{id}/super",
+            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public EmptyResponse makeSuper(@PathVariable("id") int id,
+                                   @CookieValue(value = JAVA_SESSION_ID) String token,
+                                   HttpServletResponse response) throws ServerException {
+        return accountsService.makeSuper(id, token, response);
+    }
 }

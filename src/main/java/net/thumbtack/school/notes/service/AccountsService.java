@@ -137,4 +137,26 @@ public class AccountsService {
                 user.getLogin()
         );
     }
+    
+    
+    public EmptyResponse makeSuper(int id, String token, HttpServletResponse response) throws ServerException {
+        User superuser = sessionDao.getUserByToken(token);
+    
+        if (superuser == null)
+            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
+        
+        if (superuser.getType() != UserType.SUPER)
+            throw new ServerException(ErrorCodeWithField.NOT_ALLOWED);
+        
+        User user = userDao.get(id);
+        
+        if (user == null)
+            throw new ServerException(ErrorCodeWithField.USER_NOT_FOUND);
+        
+        user.setType(UserType.SUPER);
+        userDao.update(user);
+        
+        setTokenCookie(response, token, properties.getUserIdleTimeout());
+        return new EmptyResponse();
+    }
 }
