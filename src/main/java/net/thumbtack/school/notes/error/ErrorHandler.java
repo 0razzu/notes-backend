@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -76,6 +77,18 @@ public class ErrorHandler {
                 ENDPOINT_NOT_FOUND.name(),
                 ENDPOINT_NOT_FOUND.getField(),
                 ENDPOINT_NOT_FOUND.getMessage()
+        )));
+    }
+    
+    
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorListResponse handleMethodNotSupported(HttpRequestMethodNotSupportedException e) {
+        return new ErrorListResponse(List.of(new ErrorResponse(
+                METHOD_NOT_SUPPORTED.name(),
+                METHOD_NOT_SUPPORTED.getField(),
+                METHOD_NOT_SUPPORTED.getMessage()
         )));
     }
     
