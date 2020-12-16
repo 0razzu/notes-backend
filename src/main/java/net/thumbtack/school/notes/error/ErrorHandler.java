@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,8 +18,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.thumbtack.school.notes.error.ErrorCodeWithField.ENDPOINT_NOT_FOUND;
-import static net.thumbtack.school.notes.error.ErrorCodeWithField.UNKNOWN_ERROR;
+import static net.thumbtack.school.notes.error.ErrorCodeWithField.*;
 
 
 @RestControllerAdvice
@@ -76,6 +76,18 @@ public class ErrorHandler {
                 ENDPOINT_NOT_FOUND.name(),
                 ENDPOINT_NOT_FOUND.getField(),
                 ENDPOINT_NOT_FOUND.getMessage()
+        )));
+    }
+    
+    
+    @ExceptionHandler(MissingRequestCookieException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorListResponse handleNoCookieException(MissingRequestCookieException e) {
+        return new ErrorListResponse(List.of(new ErrorResponse(
+                NO_COOKIE.name(),
+                NO_COOKIE.getField(),
+                NO_COOKIE.getMessage()
         )));
     }
     

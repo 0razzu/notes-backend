@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RegisterUserResponse {
+public class GetCurrentUserResponse {
     private String firstName;
     private String patronymic;
     private String lastName;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:application.properties")
 public class Properties {
+    public static final String JAVA_SESSION_ID = "JAVASESSIONID";
     @Value("${user_idle_timeout}")
     private int userIdleTimeout;
     @Value("${max_name_length}")
