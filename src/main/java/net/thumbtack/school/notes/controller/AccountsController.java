@@ -26,7 +26,7 @@ public class AccountsController {
     private final AccountsService accountsService;
     
     
-    public AccountsController(AccountsService accountsService, Environment environment) {
+    public AccountsController(AccountsService accountsService) {
         this.accountsService = accountsService;
     }
     
@@ -35,14 +35,6 @@ public class AccountsController {
     public RegisterUserResponse register(@Validated @RequestBody RegisterUserRequest request,
                                          HttpServletResponse response) throws ServerException {
         return accountsService.register(request, response);
-    }
-    
-    
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public GetCurrentUserResponse getCurrentUser(@CookieValue(value = JAVA_SESSION_ID) String token,
-                                                 HttpServletResponse response)
-            throws ServerException {
-        return accountsService.getCurrentUser(token, response);
     }
     
     

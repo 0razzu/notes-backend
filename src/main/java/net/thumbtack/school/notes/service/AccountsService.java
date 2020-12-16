@@ -66,23 +66,6 @@ public class AccountsService extends BaseService {
     }
     
     
-    public GetCurrentUserResponse getCurrentUser(String token, HttpServletResponse response)
-            throws ServerException {
-        User user = sessionDao.getUserByToken(token);
-        
-        if (user == null)
-            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
-        
-        setTokenCookie(response, token, properties.getUserIdleTimeout());
-        return new GetCurrentUserResponse(
-                user.getFirstName(),
-                user.getPatronymic(),
-                user.getLastName(),
-                user.getLogin()
-        );
-    }
-    
-    
     public EmptyResponse deregister(DeregisterUserRequest request, String token, HttpServletResponse response)
             throws ServerException {
         User user = sessionDao.getUserByToken(token);
