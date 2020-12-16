@@ -135,7 +135,7 @@ public class AccountsService extends BaseService {
             throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
         
         if (superuser.getType() != UserType.SUPER)
-            throw new ServerException(ErrorCodeWithField.NOT_ALLOWED);
+            throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
         
         User user = userDao.get(id);
         
