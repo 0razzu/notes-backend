@@ -21,7 +21,7 @@ public interface UserDao {
     User get(int id);
     List<User> getAll();
     List<UserView> getAllWithRating(String sortByRating, boolean selectSuper, Integer from, Integer count);
-    List<UserView> getAllByType(UserType userType, String sortByRating, boolean selectSuper, Integer from, Integer count);
+    List<UserView> getAllByType(String userType, String sortByRating, boolean selectSuper, Integer from, Integer count);
     List<UserView> getAllByRelationToUser(User user, String relation,
                                           String sortByRating, boolean selectSuper, Integer from, Integer count);
     

@@ -2,20 +2,21 @@ package net.thumbtack.school.notes.controller;
 
 
 import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
+import net.thumbtack.school.notes.dto.request.GetUsersRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.request.UpdateUserRequest;
 import net.thumbtack.school.notes.dto.response.EmptyResponse;
-import net.thumbtack.school.notes.dto.response.GetCurrentUserResponse;
+import net.thumbtack.school.notes.dto.response.GetUsersResponseItem;
 import net.thumbtack.school.notes.dto.response.RegisterUserResponse;
 import net.thumbtack.school.notes.dto.response.UpdateUserResponse;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.AccountsService;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 
@@ -60,5 +61,13 @@ public class AccountsController {
                                    @CookieValue(value = JAVA_SESSION_ID) String token,
                                    HttpServletResponse response) throws ServerException {
         return accountsService.makeSuper(id, token, response);
+    }
+    
+    
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<GetUsersResponseItem> getUsers(@Validated @RequestBody GetUsersRequest request,
+                                               @CookieValue(value = JAVA_SESSION_ID) String token,
+                                               HttpServletResponse response) throws ServerException {
+        return accountsService.getUsers(request, token, response);
     }
 }

@@ -187,7 +187,7 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
-    public List<UserView> getAllByType(UserType userType, String sortByRating, boolean selectSuper, Integer from, Integer count) {
+    public List<UserView> getAllByType(String userType, String sortByRating, boolean selectSuper, Integer from, Integer count) {
         LOGGER.debug("Getting all users by type {} (sortByRating={}, selectSuper={}, from={}, count={})",
                 userType, sortByRating, selectSuper, from, count);
         
