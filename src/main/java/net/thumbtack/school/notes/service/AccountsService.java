@@ -150,7 +150,7 @@ public class AccountsService extends BaseService {
         boolean isSuper = (user.getType() == UserType.SUPER);
         
         // TODO: highRating, lowRating
-        if (type == null)
+        if (type == null || type.equals("super") && !isSuper)
             userViews = userDao.getAllWithRating(
                     request.getSortByRating(),
                     isSuper,
@@ -175,8 +175,6 @@ public class AccountsService extends BaseService {
                 }
                 
                 case "super":
-                    if (!isSuper)
-                        throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
                 case "deleted": {
                     userViews = userDao.getAllByType(
                             type,
