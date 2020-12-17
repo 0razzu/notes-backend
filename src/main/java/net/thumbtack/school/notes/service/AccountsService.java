@@ -183,7 +183,6 @@ public class AccountsService extends BaseService {
                             request.getFrom(),
                             request.getCount()
                     );
-                    break;
                 }
             }
         
