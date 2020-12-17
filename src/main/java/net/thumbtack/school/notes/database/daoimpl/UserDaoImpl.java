@@ -222,7 +222,9 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
         
         try (SqlSession session = getSession()) {
             try {
-                getUserMapper(session).delete(user);
+                getSessionMapper(session).deleteByUser(user);
+                user.setDeleted(true);
+                getUserMapper(session).update(user);
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot delete {}", user, e);
                 session.rollback();

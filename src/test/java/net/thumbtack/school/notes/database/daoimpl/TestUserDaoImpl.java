@@ -131,7 +131,7 @@ public class TestUserDaoImpl extends TestDaoImplBase {
         userDao.delete(matteo);
         
         assertAll(
-                () -> assertNull(userDao.get(matteo.getId())),
+                () -> assertTrue(userDao.get(matteo.getId()).isDeleted()),
                 () -> assertEquals(selenia, userDao.get(selenia.getId()))
         );
     }

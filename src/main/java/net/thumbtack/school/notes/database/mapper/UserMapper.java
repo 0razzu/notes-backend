@@ -40,7 +40,7 @@ public interface UserMapper {
     void unignore(@Param("user") User user, @Param("ignored") User ignored);
     
     
-    @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
+    @Select("SELECT id, login, password, first_name, patronymic, last_name, type, deleted " +
             "FROM user WHERE id = #{id}")
     @Results(id = "userFields", value = {
             @Result(property = "id", column = "id"),
@@ -285,10 +285,6 @@ public interface UserMapper {
             @Param("from") Integer from,
             @Param("count") Integer count
     );
-    
-    
-    @Delete("DELETE FROM user WHERE id = #{id}")
-    void delete(User user);
     
     
     @Delete("DELETE FROM user")
