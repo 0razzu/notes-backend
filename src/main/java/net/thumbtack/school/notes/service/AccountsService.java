@@ -8,35 +8,24 @@ import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
 import net.thumbtack.school.notes.dto.request.GetUsersRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.request.UpdateUserRequest;
-import net.thumbtack.school.notes.dto.response.EmptyResponse;
-import net.thumbtack.school.notes.dto.response.GetUsersResponseItem;
-import net.thumbtack.school.notes.dto.response.RegisterUserResponse;
-import net.thumbtack.school.notes.dto.response.UpdateUserResponse;
+import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import net.thumbtack.school.notes.view.UserView;
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 
 @Service
-public class AccountsService extends BaseService {
-    private final UserDao userDao;
-    private final SessionDao sessionDao;
-    
-    
+public class AccountsService extends ServiceBase {
     public AccountsService(Properties properties, UserDao userDao, SessionDao sessionDao) {
-        super(properties);
-        this.userDao = userDao;
-        this.sessionDao = sessionDao;
+        super(properties, userDao, sessionDao);
     }
     
     
@@ -52,13 +41,7 @@ public class AccountsService extends BaseService {
         );
         
         String token = UUID.randomUUID().toString();
-        try {
-            userDao.insertAndLogin(user, token);
-        } catch (PersistenceException e) {
-            if (e.getCause().getClass() == SQLIntegrityConstraintViolationException.class)
-                throw new ServerException(ErrorCodeWithField.LOGIN_EXISTS);
-            throw e;
-        }
+        userDao.insertAndLogin(user, token);
         
         setTokenCookie(response, token, properties.getUserIdleTimeout());
         return new RegisterUserResponse(
@@ -70,15 +53,23 @@ public class AccountsService extends BaseService {
     }
     
     
+    public GetCurrentUserResponse getCurrentUser(String token, HttpServletResponse response)
+            throws ServerException {
+        User user = getUserByToken(token);
+        
+        setTokenCookie(response, token, properties.getUserIdleTimeout());
+        return new GetCurrentUserResponse(
+                user.getFirstName(),
+                user.getPatronymic(),
+                user.getLastName(),
+                user.getLogin()
+        );
+    }
+    
+    
     public EmptyResponse deregister(DeregisterUserRequest request, String token, HttpServletResponse response)
             throws ServerException {
-    	// REVU следующие 2 оператора будут почти везде
-    	// сделайте private getUserByToken(String token) в BaseService и поместите их туда
-    	
-        User user = sessionDao.getUserByToken(token);
-        
-        if (user == null)
-            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
+        User user = getUserByToken(token);
         
         if (!user.getPassword().equals(request.getPassword()))
             throw new ServerException(ErrorCodeWithField.WRONG_PASSWORD);
@@ -93,10 +84,7 @@ public class AccountsService extends BaseService {
     
     public UpdateUserResponse update(UpdateUserRequest request, String token, HttpServletResponse response)
             throws ServerException {
-        User user = sessionDao.getUserByToken(token);
-        
-        if (user == null)
-            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
+        User user = getUserByToken(token);
         
         if (!user.getPassword().equals(request.getOldPassword()))
             throw new ServerException(ErrorCodeWithField.WRONG_OLD_PASSWORD);
@@ -119,10 +107,7 @@ public class AccountsService extends BaseService {
     
     
     public EmptyResponse makeSuper(int id, String token, HttpServletResponse response) throws ServerException {
-        User superuser = sessionDao.getUserByToken(token);
-        
-        if (superuser == null)
-            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
+        User superuser = getUserByToken(token);
         
         if (superuser.getType() != UserType.SUPER)
             throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
@@ -142,10 +127,7 @@ public class AccountsService extends BaseService {
     
     public List<GetUsersResponseItem> getUsers(GetUsersRequest request, String token, HttpServletResponse response)
             throws ServerException {
-        User user = sessionDao.getUserByToken(token);
-        
-        if (user == null)
-            throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
+        User user = getUserByToken(token);
         
         List<UserView> userViews = null;
         

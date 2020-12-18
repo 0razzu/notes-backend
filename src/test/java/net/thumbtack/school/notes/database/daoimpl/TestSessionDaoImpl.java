@@ -1,6 +1,7 @@
 package net.thumbtack.school.notes.database.daoimpl;
 
 
+import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
     
     
     @Test
-    void testInsert() {
+    void testInsert() throws ServerException {
         userDao.insert(james);
         
         sessionDao.insert(admin, "token1");
@@ -34,7 +35,7 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
     
     
     @Test
-    void testInsertSeveralTimes() {
+    void testInsertSeveralTimes() throws ServerException {
         userDao.insert(james);
         
         sessionDao.insert(james, "token1");
@@ -51,7 +52,7 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
     
     
     @Test
-    void testGetUserByToken() {
+    void testGetUserByToken() throws ServerException {
         userDao.insert(mia);
         
         sessionDao.insert(admin, "adminToken");
@@ -77,7 +78,7 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
     
     
     @Test
-    void testGetOnline() {
+    void testGetOnline() throws ServerException {
         userDao.insert(james);
         userDao.insert(mia);
         
@@ -93,13 +94,13 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
     
     
     @Test
-    void testGetOnlineEmpty() {
+    void testGetOnlineEmpty() throws ServerException {
         assertEquals(Collections.emptyList(), sessionDao.getOnline());
     }
     
     
     @Test
-    void testGetOnlineAfterLogout() {
+    void testGetOnlineAfterLogout() throws ServerException {
         userDao.insert(james);
         userDao.insert(mia);
         

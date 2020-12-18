@@ -10,6 +10,7 @@ import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_I
 @AllArgsConstructor
 @Getter
 public enum ErrorCodeWithField {
+    DATABASE_ERROR("unknown", "An unknown database error has occurred"),
     ENDPOINT_NOT_FOUND("url", "Cannot find the requested endpoint"),
     LOGIN_EXISTS("login", "A user with this login already exists"),
     METHOD_NOT_SUPPORTED("url", "The called method is not supported by this endpoint"),

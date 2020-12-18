@@ -1,6 +1,7 @@
 package net.thumbtack.school.notes.database.dao;
 
 
+import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import net.thumbtack.school.notes.view.UserView;
@@ -9,22 +10,22 @@ import java.util.List;
 
 
 public interface UserDao {
-    void insert(User user);
-    void insertAndLogin(User user, String token);
-    void update(User user);
+    void insert(User user) throws ServerException;
+    void insertAndLogin(User user, String token) throws ServerException;
+    void update(User user) throws ServerException;
     
-    void follow(User user, User followed); // TODO: test
-    void unfollow(User user, User followed);
-    void ignore(User user, User ignored);
-    void unignore(User user, User ignored);
+    void follow(User user, User followed) throws ServerException; // TODO: test
+    void unfollow(User user, User followed) throws ServerException;
+    void ignore(User user, User ignored) throws ServerException;
+    void unignore(User user, User ignored) throws ServerException;
     
-    User get(int id);
-    List<User> getAll();
-    List<UserView> getAllWithRating(String sortByRating, boolean selectSuper, Integer from, Integer count);
-    List<UserView> getAllByType(String userType, String sortByRating, boolean selectSuper, Integer from, Integer count);
+    User get(int id) throws ServerException;
+    List<User> getAll() throws ServerException;
+    List<UserView> getAllWithRating(String sortByRating, boolean selectSuper, Integer from, Integer count) throws ServerException;
+    List<UserView> getAllByType(String userType, String sortByRating, boolean selectSuper, Integer from, Integer count) throws ServerException;
     List<UserView> getAllByRelationToUser(User user, String relation,
-                                          String sortByRating, boolean selectSuper, Integer from, Integer count);
+                                          String sortByRating, boolean selectSuper, Integer from, Integer count) throws ServerException;
     
-    void delete(User user);
-    void deleteAll();
+    void delete(User user) throws ServerException;
+    void deleteAll() throws ServerException;
 }

@@ -5,6 +5,7 @@ import net.thumbtack.school.notes.database.dao.CommonDao;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.database.util.MyBatisUtil;
+import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import org.junit.jupiter.api.BeforeAll;
@@ -31,14 +32,15 @@ public class TestDaoImplBase {
     
     
     @BeforeEach
-    void clear() {
+    void clear() throws ServerException {
         commonDao.clear();
         userDao.insert(admin);
     }
     
     
     protected User insertUser(
-            String login, String password, String firstName, String patronymic, String lastName, UserType type) {
+            String login, String password, String firstName, String patronymic, String lastName, UserType type)
+            throws ServerException {
         User user = new User(login, password, firstName, patronymic, lastName, type);
         
         userDao.insert(user);

@@ -1,6 +1,7 @@
 package net.thumbtack.school.notes.database.daoimpl;
 
 
+import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,8 @@ public class TestUserDaoImpl extends TestDaoImplBase {
     @ParameterizedTest
     @MethodSource("correctUserFields")
     void testInsert(
-            String login, String password, String firstName, String patronymic, String lastName, UserType type) {
+            String login, String password, String firstName, String patronymic, String lastName, UserType type)
+            throws ServerException {
         insertUser(login, password, firstName, patronymic, lastName, type);
     }
     
@@ -53,12 +55,12 @@ public class TestUserDaoImpl extends TestDaoImplBase {
     @ParameterizedTest
     @MethodSource("incorrectUsers")
     void testInsertIncorrect(User incorrectUser) {
-        assertThrows(RuntimeException.class, () -> userDao.insert(incorrectUser));
+        assertThrows(ServerException.class, () -> userDao.insert(incorrectUser));
     }
     
     
     @Test
-    void testUpdate1() {
+    void testUpdate1() throws ServerException {
         int id = insertUser("aNИa", ";lsafd3-Usd2", "Анна", "Петровна", "Птицына", UserType.USER).getId();
         
         userDao.update(new User(
@@ -85,7 +87,7 @@ public class TestUserDaoImpl extends TestDaoImplBase {
     
     
     @Test
-    void testUpdate2() {
+    void testUpdate2() throws ServerException {
         int id = insertUser("andy123", "K3rdv-223k", "Andy", null, "Johnson", UserType.USER).getId();
         
         userDao.update(new User(
@@ -112,7 +114,7 @@ public class TestUserDaoImpl extends TestDaoImplBase {
     
     
     @Test
-    void testGetAll() {
+    void testGetAll() throws ServerException {
         User matteo = insertUser("matt30", "432ouN0F(", "Matteo", null, "Russo", UserType.USER);
         User selenia = insertUser("selenia", "Jev3g2-0", "Selenia", null, "Valenti", UserType.SUPER);
         
@@ -124,7 +126,7 @@ public class TestUserDaoImpl extends TestDaoImplBase {
     
     
     @Test
-    void testDelete() {
+    void testDelete() throws ServerException {
         User matteo = insertUser("matt30", "432ouN0F(", "Matteo", null, "Russo", UserType.USER);
         User selenia = insertUser("selenia", "Jev3g2-0", "Selenia", null, "Valenti", UserType.SUPER);
         
