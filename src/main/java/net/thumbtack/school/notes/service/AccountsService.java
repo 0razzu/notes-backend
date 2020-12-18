@@ -72,6 +72,9 @@ public class AccountsService extends BaseService {
     
     public EmptyResponse deregister(DeregisterUserRequest request, String token, HttpServletResponse response)
             throws ServerException {
+    	// REVU следующие 2 оператора будут почти везде
+    	// сделайте private getUserByToken(String token) в BaseService и поместите их туда
+    	
         User user = sessionDao.getUserByToken(token);
         
         if (user == null)

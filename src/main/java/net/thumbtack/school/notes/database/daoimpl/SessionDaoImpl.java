@@ -26,6 +26,10 @@ public class SessionDaoImpl extends DaoImplBase implements SessionDao {
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot insert session of {} with token {}", user, token, e);
                 session.rollback();
+                // REVU пора уже здесь заменить выброс RuntimeException
+                // на выброс своего исключения ServerException с ErrorCode.DATABASE_ERROR
+                // тогда оно будет обрабатываться в GlobalExceptionHandler как нужно
+                // а RuntimeException пойдут там как исключения неизвестной природы
                 throw e;
             }
             

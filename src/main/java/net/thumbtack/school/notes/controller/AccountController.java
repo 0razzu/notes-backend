@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 
+//REVU ради одного метода заводить контроллер ?
+//в AccountsController его, и все дела
 
 @RestController
 @RequestMapping("/api/account")

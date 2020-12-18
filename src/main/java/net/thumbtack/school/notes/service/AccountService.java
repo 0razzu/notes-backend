@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 
+// REVU ради одного метода заводить сервис ?
+// в AccountsService его, и все дела
 
 @Service
 public class AccountService extends BaseService {

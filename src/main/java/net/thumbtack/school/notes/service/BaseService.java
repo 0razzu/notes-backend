@@ -11,6 +11,7 @@ import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_I
 
 
 @Service
+// REVU лучше ServiceBase. Это не самостоятельный сервис
 public class BaseService {
     protected final Properties properties;
     
