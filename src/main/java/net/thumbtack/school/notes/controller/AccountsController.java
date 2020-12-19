@@ -7,7 +7,7 @@ import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.request.UpdateUserRequest;
 import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ServerException;
-import net.thumbtack.school.notes.service.AccountsService;
+import net.thumbtack.school.notes.service.AccountService;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +21,11 @@ import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_I
 @RestController
 @RequestMapping("/api")
 public class AccountsController {
-    private final AccountsService accountsService;
+    private final AccountService accountService;
     
     
-    public AccountsController(AccountsService accountsService) {
-        this.accountsService = accountsService;
+    public AccountsController(AccountService accountService) {
+        this.accountService = accountService;
     }
     
     
@@ -33,7 +33,7 @@ public class AccountsController {
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public RegisterUserResponse register(@Validated @RequestBody RegisterUserRequest request,
                                          HttpServletResponse response) throws ServerException {
-        return accountsService.register(request, response);
+        return accountService.register(request, response);
     }
     
     
@@ -42,7 +42,7 @@ public class AccountsController {
     public GetCurrentUserResponse getCurrentUser(@CookieValue(value = JAVA_SESSION_ID) String token,
                                                  HttpServletResponse response)
             throws ServerException {
-        return accountsService.getCurrentUser(token, response);
+        return accountService.getCurrentUser(token, response);
     }
     
     
@@ -51,7 +51,7 @@ public class AccountsController {
     public EmptyResponse deregister(@Validated @RequestBody DeregisterUserRequest request,
                                     @CookieValue(value = JAVA_SESSION_ID) String token,
                                     HttpServletResponse response) throws ServerException {
-        return accountsService.deregister(request, token, response);
+        return accountService.deregister(request, token, response);
     }
     
     
@@ -60,7 +60,7 @@ public class AccountsController {
     public UpdateUserResponse update(@Validated @RequestBody UpdateUserRequest request,
                                      @CookieValue(value = JAVA_SESSION_ID) String token,
                                      HttpServletResponse response) throws ServerException {
-        return accountsService.update(request, token, response);
+        return accountService.update(request, token, response);
     }
     
     
@@ -69,7 +69,7 @@ public class AccountsController {
     public EmptyResponse makeSuper(@PathVariable("id") int id,
                                    @CookieValue(value = JAVA_SESSION_ID) String token,
                                    HttpServletResponse response) throws ServerException {
-        return accountsService.makeSuper(id, token, response);
+        return accountService.makeSuper(id, token, response);
     }
     
     
@@ -78,6 +78,6 @@ public class AccountsController {
     public List<GetUsersResponseItem> getUsers(@Validated @RequestBody GetUsersRequest request,
                                                @CookieValue(value = JAVA_SESSION_ID) String token,
                                                HttpServletResponse response) throws ServerException {
-        return accountsService.getUsers(request, token, response);
+        return accountService.getUsers(request, token, response);
     }
 }

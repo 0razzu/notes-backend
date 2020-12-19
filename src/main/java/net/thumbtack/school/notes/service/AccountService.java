@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class AccountsService extends ServiceBase {
-    public AccountsService(Properties properties, UserDao userDao, SessionDao sessionDao) {
+public class AccountService extends ServiceBase {
+    public AccountService(Properties properties, UserDao userDao, SessionDao sessionDao) {
         super(properties, userDao, sessionDao);
     }
     
@@ -115,7 +115,7 @@ public class AccountsService extends ServiceBase {
         User user = userDao.get(id);
         
         if (user == null)
-            throw new ServerException(ErrorCodeWithField.USER_NOT_FOUND);
+            throw new ServerException(ErrorCodeWithField.USER_NOT_FOUND_BY_ID);
         
         user.setType(UserType.SUPER);
         userDao.update(user);

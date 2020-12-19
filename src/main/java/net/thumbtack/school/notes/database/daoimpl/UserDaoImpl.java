@@ -165,6 +165,19 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
+    public User getByLogin(String login) throws ServerException {
+        LOGGER.debug("Getting user by login {}", login);
+        
+        try (SqlSession session = getSession()) {
+            return getUserMapper(session).getByLogin(login);
+        } catch (RuntimeException e) {
+            LOGGER.info("Cannot get user by login {}", login, e);
+            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
+        }
+    }
+    
+    
+    @Override
     public List<User> getAll() throws ServerException {
         LOGGER.debug("Getting all users");
         

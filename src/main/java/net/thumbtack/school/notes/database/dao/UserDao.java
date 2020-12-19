@@ -20,6 +20,7 @@ public interface UserDao {
     void unignore(User user, User ignored) throws ServerException;
     
     User get(int id) throws ServerException;
+    User getByLogin(String login) throws ServerException;
     List<User> getAll() throws ServerException;
     List<UserView> getAllWithRating(String sortByRating, boolean selectSuper, Integer from, Integer count) throws ServerException;
     List<UserView> getAllByRatingType(String ratingType, boolean selectSuper, Integer from, Integer count) throws ServerException;

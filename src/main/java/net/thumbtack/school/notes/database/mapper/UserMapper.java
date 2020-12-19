@@ -96,6 +96,12 @@ public interface UserMapper {
     User get(int id);
     
     
+    @Select("SELECT id, login, password, first_name, patronymic, last_name, type, deleted " +
+            "FROM user WHERE login = #{login}")
+    @ResultMap("userFields")
+    User getByLogin(String login);
+    
+    
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +
             "FROM user JOIN user_followed ON user.id = user_followed.followed_id " +
             "WHERE user_followed.user_id = #{id}")
@@ -124,7 +130,7 @@ public interface UserMapper {
     List<User> getIgnoredBy(User user);
     
     
-    @Select("SELECT id, login, password, first_name, patronymic, last_name, type FROM user")
+    @Select("SELECT id, login, password, first_name, patronymic, last_name, type, deleted FROM user")
     @ResultMap("userFields")
     List<User> getAll();
     
