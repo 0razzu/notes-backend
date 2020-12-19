@@ -36,6 +36,16 @@ public class ServiceBase {
     }
     
     
+    protected void updateSession(HttpServletResponse response, String token, int maxAge) throws ServerException {
+        if (maxAge == 0)
+            sessionDao.delete(token);
+        else
+            sessionDao.update(token);
+        
+        setTokenCookie(response, token, maxAge);
+    }
+    
+    
     protected User getUserByToken(String token) throws ServerException {
         User user = sessionDao.getUserByToken(token);
         

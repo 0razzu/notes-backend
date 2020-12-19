@@ -9,6 +9,7 @@ import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,12 @@ import java.util.UUID;
 public class SessionService extends ServiceBase {
     public SessionService(Properties properties, UserDao userDao, SessionDao sessionDao) {
         super(properties, userDao, sessionDao);
+    }
+    
+    
+    @Scheduled(fixedRateString = "${clear_outdated_sessions_rate}")
+    public void clearOutdatedSessions() {
+        sessionDao.deleteOutdated();
     }
     
     

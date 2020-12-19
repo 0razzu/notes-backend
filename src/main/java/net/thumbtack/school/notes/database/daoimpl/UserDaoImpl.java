@@ -2,6 +2,7 @@ package net.thumbtack.school.notes.database.daoimpl;
 
 
 import net.thumbtack.school.notes.database.dao.UserDao;
+import net.thumbtack.school.notes.database.util.Properties;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
@@ -18,6 +19,12 @@ import java.util.List;
 @Repository("userDao")
 public class UserDaoImpl extends DaoImplBase implements UserDao {
     private final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
+    private final Properties properties;
+    
+    
+    public UserDaoImpl(Properties properties) {
+        this.properties = properties;
+    }
     
     
     @Override
@@ -197,7 +204,8 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
                 sortByRating, selectSuper, from, count);
         
         try (SqlSession session = getSession()) {
-            return getUserMapper(session).getAllWithRating(sortByRating, selectSuper, from, count);
+            return getUserMapper(session).getAllWithRating(sortByRating, selectSuper, from, count,
+                    properties.getUserIdleTimeout());
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get all users with rating (sortByRating={}, selectSuper={}, from={}, count={})",
                     sortByRating, selectSuper, from, count, e);
@@ -213,7 +221,8 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
                 ratingType, selectSuper, from, count);
         
         try (SqlSession session = getSession()) {
-            return getUserMapper(session).getAllByRatingType(ratingType, selectSuper, from, count);
+            return getUserMapper(session).getAllByRatingType(ratingType, selectSuper, from, count,
+                    properties.getUserIdleTimeout());
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get all users by rating type {} (selectSuper={}, from={}, count={})",
                     ratingType, selectSuper, from, count, e);
@@ -229,7 +238,8 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
                 userType, sortByRating, selectSuper, from, count);
         
         try (SqlSession session = getSession()) {
-            return getUserMapper(session).getAllByType(userType, sortByRating, selectSuper, from, count);
+            return getUserMapper(session).getAllByType(userType, sortByRating, selectSuper, from, count,
+                    properties.getUserIdleTimeout());
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get all users by type {} (sortByRating={}, selectSuper={}, from={}, count={})",
                     userType, sortByRating, selectSuper, from, count, e);
@@ -245,7 +255,8 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
                 relation, user, sortByRating, selectSuper, from, count);
         
         try (SqlSession session = getSession()) {
-            return getUserMapper(session).getAllByRelationToUser(user, relation, sortByRating, selectSuper, from, count);
+            return getUserMapper(session).getAllByRelationToUser(user, relation, sortByRating, selectSuper,
+                    from, count, properties.getUserIdleTimeout());
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get all users by relation {} to {} (sortByRating={}, selectSuper={}, from={}, count={}",
                     relation, user, sortByRating, selectSuper, from, count, e);

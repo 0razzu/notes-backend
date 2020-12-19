@@ -57,7 +57,7 @@ public class AccountService extends ServiceBase {
             throws ServerException {
         User user = getUserByToken(token);
         
-        setTokenCookie(response, token, properties.getUserIdleTimeout());
+        updateSession(response, token, properties.getUserIdleTimeout());
         return new GetCurrentUserResponse(
                 user.getFirstName(),
                 user.getPatronymic(),
@@ -77,7 +77,7 @@ public class AccountService extends ServiceBase {
         sessionDao.delete(user);
         userDao.update(user);
         
-        setTokenCookie(response, token, 0);
+        updateSession(response, token, 0);
         return new EmptyResponse();
     }
     
@@ -95,7 +95,7 @@ public class AccountService extends ServiceBase {
         user.setPassword(request.getNewPassword());
         userDao.update(user);
         
-        setTokenCookie(response, token, properties.getUserIdleTimeout());
+        updateSession(response, token, properties.getUserIdleTimeout());
         return new UpdateUserResponse(
                 user.getId(),
                 user.getFirstName(),
@@ -120,7 +120,7 @@ public class AccountService extends ServiceBase {
         user.setType(UserType.SUPER);
         userDao.update(user);
         
-        setTokenCookie(response, token, properties.getUserIdleTimeout());
+        updateSession(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();
     }
     
@@ -181,7 +181,7 @@ public class AccountService extends ServiceBase {
                 }
             }
         
-        setTokenCookie(response, token, properties.getUserIdleTimeout());
+        updateSession(response, token, properties.getUserIdleTimeout());
         return userViews.stream().map((UserView u) -> new GetUsersResponseItem(
                 u.getId(),
                 u.getFirstName(),

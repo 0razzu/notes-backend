@@ -2,7 +2,6 @@ package net.thumbtack.school.notes.database.mapper;
 
 
 import net.thumbtack.school.notes.model.User;
-import net.thumbtack.school.notes.model.UserType;
 import net.thumbtack.school.notes.view.UserView;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
@@ -138,7 +137,7 @@ public interface UserMapper {
     @Select({
             "<script>",
             "   SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
-            "   (session.token IS NOT NULL) AS isOnline,",
+            "   (date_add(session.was_active, INTERVAL #{userIdleTimeout} SECOND) > now()) AS isOnline,",
             "   deleted AS isDeleted,",
             "   <if test='selectSuper'>",
             "       (type = 'SUPER') AS isSuper,",
@@ -171,7 +170,8 @@ public interface UserMapper {
             @Param("sortByRating") String sortByRating,
             @Param("selectSuper") boolean selectSuper,
             @Param("from") Integer from,
-            @Param("count") Integer count
+            @Param("count") Integer count,
+            @Param("userIdleTimeout") int userIdleTimeout
     );
     
     
@@ -179,7 +179,7 @@ public interface UserMapper {
             "<script>",
             "   WITH t AS (",
             "       SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
-            "       (session.token IS NOT NULL) AS isOnline,",
+            "       (date_add(session.was_active, INTERVAL userIdleTimeout SECOND) > now()) AS isOnline,",
             "       deleted AS isDeleted,",
             "       <if test='selectSuper'>",
             "           (type = 'SUPER') AS isSuper,",
@@ -215,14 +215,15 @@ public interface UserMapper {
             @Param("ratingType") String ratingType,
             @Param("selectSuper") boolean selectSuper,
             @Param("from") Integer from,
-            @Param("count") Integer count
+            @Param("count") Integer count,
+            @Param("userIdleTimeout") int userIdleTimeout
     );
     
     
     @Select({
             "<script>",
             "   SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
-            "   (session.token IS NOT NULL) AS isOnline,",
+            "   (date_add(session.was_active, INTERVAL userIdleTimeout SECOND) > now()) AS isOnline,",
             "   deleted AS isDeleted,",
             "   <if test='selectSuper'>",
             "       (type = 'SUPER') AS isSuper,",
@@ -259,14 +260,15 @@ public interface UserMapper {
             @Param("sortByRating") String sortByRating,
             @Param("selectSuper") boolean selectSuper,
             @Param("from") Integer from,
-            @Param("count") Integer count
+            @Param("count") Integer count,
+            @Param("userIdleTimeout") int userIdleTimeout
     );
     
     
     @Select({
             "<script>",
             "   SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
-            "   (session.token IS NOT NULL) AS isOnline,",
+            "   (date_add(session.was_active, INTERVAL userIdleTimeout SECOND) > now()) AS isOnline,",
             "   deleted AS isDeleted,",
             "   <if test='selectSuper'>",
             "       (type = 'SUPER') AS isSuper,",
@@ -332,7 +334,8 @@ public interface UserMapper {
             @Param("sortByRating") String sortByRating,
             @Param("selectSuper") boolean selectSuper,
             @Param("from") Integer from,
-            @Param("count") Integer count
+            @Param("count") Integer count,
+            @Param("userIdleTimeout") int userIdleTimeout
     );
     
     

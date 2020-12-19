@@ -26,10 +26,8 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
         sessionDao.insert(james, "token2");
         
         assertAll(
-                () -> assertTrue(sessionDao.isOnline(admin)),
-                () -> assertTrue(sessionDao.isOnline("token1")),
-                () -> assertTrue(sessionDao.isOnline(james)),
-                () -> assertTrue(sessionDao.isOnline("token2"))
+                () -> assertNotNull(sessionDao.getUserByToken("token1")),
+                () -> assertNotNull(sessionDao.getUserByToken("token2"))
         );
     }
     
@@ -43,10 +41,9 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
         sessionDao.insert(james, "token3");
         
         assertAll(
-                () -> assertTrue(sessionDao.isOnline(james)),
-                () -> assertFalse(sessionDao.isOnline("token1")),
-                () -> assertFalse(sessionDao.isOnline("token2")),
-                () -> assertTrue(sessionDao.isOnline("token3"))
+                () -> assertNull(sessionDao.getUserByToken("token1")),
+                () -> assertNull(sessionDao.getUserByToken("token2")),
+                () -> assertNotNull(sessionDao.getUserByToken("token3"))
         );
     }
     
@@ -63,54 +60,5 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
                 () -> assertEquals(mia, sessionDao.getUserByToken("miaToken")),
                 () -> assertNull(sessionDao.getUserByToken("nobodyToken"))
         );
-    }
-    
-    
-    @Test
-    void testIsOnlineNonExisting() {
-        User alexey = new User("lex123", "34wer43Lj46", "Алексей", "Сергеевич", "Алексеев", UserType.SUPER);
-        
-        assertAll(
-                () -> assertFalse(sessionDao.isOnline(alexey)),
-                () -> assertFalse(sessionDao.isOnline("neverExistedToken"))
-        );
-    }
-    
-    
-    @Test
-    void testGetOnline() throws ServerException {
-        userDao.insert(james);
-        userDao.insert(mia);
-        
-        sessionDao.insert(admin, "adminToken");
-        sessionDao.insert(james, "jamesToken");
-        sessionDao.insert(mia, "miaToken");
-        
-        List<User> online = sessionDao.getOnline();
-        online.sort(Comparator.comparing(User::getLogin));
-        
-        assertEquals(List.of(admin, james, mia), online);
-    }
-    
-    
-    @Test
-    void testGetOnlineEmpty() throws ServerException {
-        assertEquals(Collections.emptyList(), sessionDao.getOnline());
-    }
-    
-    
-    @Test
-    void testGetOnlineAfterLogout() throws ServerException {
-        userDao.insert(james);
-        userDao.insert(mia);
-        
-        sessionDao.insert(admin, "adminToken");
-        sessionDao.insert(james, "jamesToken");
-        sessionDao.insert(mia, "miaToken");
-        
-        sessionDao.delete("adminToken");
-        sessionDao.delete(mia);
-        
-        assertEquals(List.of(james), sessionDao.getOnline());
     }
 }

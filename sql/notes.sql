@@ -1,3 +1,4 @@
+SET GLOBAL time_zone = '+00:00';
 DROP DATABASE IF EXISTS notes;
 CREATE DATABASE notes;
 USE notes;
@@ -21,9 +22,11 @@ CREATE TABLE user (
 CREATE TABLE session (
 	user_id INT NOT NULL,
     token VARCHAR(36) NOT NULL,
+    was_active DATETIME NOT NULL DEFAULT now(),
     PRIMARY KEY (user_id),
     FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE,
-    UNIQUE KEY (token)
+    UNIQUE KEY (token),
+    KEY (was_active)
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE user_followed (
