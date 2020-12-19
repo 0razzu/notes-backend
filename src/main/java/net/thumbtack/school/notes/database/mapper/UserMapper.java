@@ -171,6 +171,50 @@ public interface UserMapper {
     
     @Select({
             "<script>",
+            "   WITH t AS (",
+            "       SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
+            "       (session.token IS NOT NULL) AS isOnline,",
+            "       deleted AS isDeleted,",
+            "       <if test='selectSuper'>",
+            "           (type = 'SUPER') AS isSuper,",
+            "       </if>",
+            "       avg(rating.value) AS rating",
+            "       FROM user",
+            "       LEFT JOIN note ON user.id = note.author_id",
+            "       LEFT JOIN rating ON note.id = rating.note_id",
+            "       LEFT JOIN session ON user.id = session.user_id",
+            "       GROUP BY user.id",
+            "   ) SELECT * FROM t WHERE rating =",
+            "       <choose>",
+            "           <when test='ratingType == \"highRating\"'>",
+            "               (SELECT max(rating) FROM t)",
+            "           </when>",
+            "           <when test='ratingType == \"lowRating\"'>",
+            "               (SELECT min(rating) FROM t)",
+            "           </when>",
+            "       </choose>",
+            "   <if test='count == null and from != null'>",
+            "       LIMIT 2147483647",
+            "       OFFSET #{from}",
+            "   </if>",
+            "   <if test='count != null'>",
+            "       LIMIT #{count}",
+            "       <if test='from != null'>",
+            "           OFFSET #{from}",
+            "       </if>",
+            "   </if>",
+            "</script>"
+    })
+    List<UserView> getAllByRatingType(
+            @Param("ratingType") String ratingType,
+            @Param("selectSuper") boolean selectSuper,
+            @Param("from") Integer from,
+            @Param("count") Integer count
+    );
+    
+    
+    @Select({
+            "<script>",
             "   SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
             "   (session.token IS NOT NULL) AS isOnline,",
             "   deleted AS isDeleted,",

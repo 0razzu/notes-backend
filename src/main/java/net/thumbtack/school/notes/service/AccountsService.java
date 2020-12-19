@@ -134,7 +134,6 @@ public class AccountsService extends ServiceBase {
         String type = request.getType();
         boolean isSuper = (user.getType() == UserType.SUPER);
         
-        // TODO: highRating, lowRating
         if (type == null || type.equals("super") && !isSuper)
             userViews = userDao.getAllWithRating(
                     request.getSortByRating(),
@@ -144,6 +143,17 @@ public class AccountsService extends ServiceBase {
             );
         else
             switch (type) {
+                case "highRating":
+                case "lowRating": {
+                    userViews = userDao.getAllByRatingType(
+                            type,
+                            isSuper,
+                            request.getFrom(),
+                            request.getCount()
+                    );
+                    break;
+                }
+                
                 case "following":
                 case "followers":
                 case "ignore":

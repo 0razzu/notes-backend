@@ -178,7 +178,8 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
-    public List<UserView> getAllWithRating(String sortByRating, boolean selectSuper, Integer from, Integer count) throws ServerException {
+    public List<UserView> getAllWithRating(String sortByRating,
+                                           boolean selectSuper, Integer from, Integer count) throws ServerException {
         LOGGER.debug("Getting all users with rating (sortByRating={}, selectSuper={}, from={}, count={})",
                 sortByRating, selectSuper, from, count);
         
@@ -193,7 +194,24 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
-    public List<UserView> getAllByType(String userType, String sortByRating, boolean selectSuper, Integer from, Integer count) throws ServerException {
+    public List<UserView> getAllByRatingType(String ratingType,
+                                             boolean selectSuper, Integer from, Integer count) throws ServerException {
+        LOGGER.debug("Getting all users by rating type {} (selectSuper={}, from={}, count={})",
+                ratingType, selectSuper, from, count);
+        
+        try (SqlSession session = getSession()) {
+            return getUserMapper(session).getAllByRatingType(ratingType, selectSuper, from, count);
+        } catch (RuntimeException e) {
+            LOGGER.info("Cannot get all users by rating type {} (selectSuper={}, from={}, count={})",
+                    ratingType, selectSuper, from, count, e);
+            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
+        }
+    }
+    
+    
+    @Override
+    public List<UserView> getAllByType(String userType, String sortByRating,
+                                       boolean selectSuper, Integer from, Integer count) throws ServerException {
         LOGGER.debug("Getting all users by type {} (sortByRating={}, selectSuper={}, from={}, count={})",
                 userType, sortByRating, selectSuper, from, count);
         
@@ -208,7 +226,8 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
-    public List<UserView> getAllByRelationToUser(User user, String relation, String sortByRating, boolean selectSuper, Integer from, Integer count) throws ServerException {
+    public List<UserView> getAllByRelationToUser(User user, String relation, String sortByRating,
+                                                 boolean selectSuper, Integer from, Integer count) throws ServerException {
         LOGGER.debug("Getting all users by relation {} to {} (sortByRating={}, selectSuper={}, from={}, count={})",
                 relation, user, sortByRating, selectSuper, from, count);
         
