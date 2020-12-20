@@ -11,16 +11,26 @@ import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class TestDaoImplBase {
     private static boolean setUp = false;
-    private static final CommonDao commonDao = new CommonDaoImpl();
-    private static final Properties properties = new Properties();
-    protected static final SessionDao sessionDao = new SessionDaoImpl(properties);
-    protected static final UserDao userDao = new UserDaoImpl(properties);
+    @Autowired
+    private CommonDao commonDao;
+    @Autowired
+    private Properties properties;
+    @Autowired
+    protected SessionDao sessionDao;
+    @Autowired
+    protected UserDao userDao;
     protected static final User admin = new User("admin", "adminPa55word", "admin", null, "admin", UserType.SUPER);
     
     

@@ -5,9 +5,12 @@ import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +19,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class TestUserDaoImpl extends TestDaoImplBase {
     static Stream<Arguments> correctUserFields() {
         return Stream.of(
