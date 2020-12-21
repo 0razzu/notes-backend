@@ -9,7 +9,8 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     MIN_CONSTRAINT_VIOLATION("The value is too small"),
-    NAME_CONSTRAINT_VIOLATION("The name is too long or empty"),
+    NAME_CONSTRAINT_VIOLATION("The name is not valid"),
+    NAME_LENGTH_CONSTRAINT_VIOLATION("The name is too long or empty"),
     NOT_BLANK("The field is blank"),
     PASSWORD_CONSTRAINT_VIOLATION("The password is too short"),
     SORTING_CONSTRAINT_VIOLATION("Incorrect sorting type"),
