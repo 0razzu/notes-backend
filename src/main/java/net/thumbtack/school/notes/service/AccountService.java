@@ -74,10 +74,9 @@ public class AccountService extends ServiceBase {
         if (!user.getPassword().equals(request.getPassword()))
             throw new ServerException(ErrorCodeWithField.WRONG_PASSWORD);
         
-        sessionDao.delete(user);
-        userDao.update(user);
+        userDao.delete(user);
         
-        updateSession(response, token, 0);
+        setTokenCookie(response, token, 0);
         return new EmptyResponse();
     }
     

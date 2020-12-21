@@ -27,7 +27,7 @@ public class SessionsController {
     
     
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public EmptyResponse register(@Validated @RequestBody LoginRequest request,
+    public EmptyResponse login(@Validated @RequestBody LoginRequest request,
                                   HttpServletResponse response) throws ServerException {
         return sessionService.login(request, response);
     }

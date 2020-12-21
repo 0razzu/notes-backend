@@ -35,6 +35,9 @@ public class SessionService extends ServiceBase {
         if (user == null)
             throw new ServerException(ErrorCodeWithField.USER_NOT_FOUND_BY_LOGIN);
         
+        if (user.isDeleted())
+            throw new ServerException(ErrorCodeWithField.USER_DELETED);
+        
         if (!user.getPassword().equals(request.getPassword()))
             throw new ServerException(ErrorCodeWithField.WRONG_PASSWORD);
         
