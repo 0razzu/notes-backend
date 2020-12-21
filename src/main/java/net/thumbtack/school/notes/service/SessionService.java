@@ -47,4 +47,11 @@ public class SessionService extends ServiceBase {
         setTokenCookie(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();
     }
+    
+    
+    public EmptyResponse logout(String token, HttpServletResponse response) throws ServerException {
+        updateSession(response, token, 0);
+        
+        return new EmptyResponse();
+    }
 }

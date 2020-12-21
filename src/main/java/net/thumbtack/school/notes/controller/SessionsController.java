@@ -7,12 +7,11 @@ import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.SessionService;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+
+import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 
 
 @RestController
@@ -28,7 +27,14 @@ public class SessionsController {
     
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public EmptyResponse login(@Validated @RequestBody LoginRequest request,
-                                  HttpServletResponse response) throws ServerException {
+                               HttpServletResponse response) throws ServerException {
         return sessionService.login(request, response);
+    }
+    
+    
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public EmptyResponse logout(@CookieValue(value = JAVA_SESSION_ID) String token,
+                                HttpServletResponse response) throws ServerException {
+        return sessionService.logout(token, response);
     }
 }
