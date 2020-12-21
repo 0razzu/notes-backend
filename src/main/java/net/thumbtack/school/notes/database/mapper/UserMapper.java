@@ -179,7 +179,7 @@ public interface UserMapper {
             "<script>",
             "   WITH t AS (",
             "       SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
-            "       (date_add(session.was_active, INTERVAL userIdleTimeout SECOND) > now()) AS isOnline,",
+            "       (date_add(session.was_active, INTERVAL #{userIdleTimeout} SECOND) > now()) AS isOnline,",
             "       deleted AS isDeleted,",
             "       <if test='selectSuper'>",
             "           (type = 'SUPER') AS isSuper,",
@@ -223,7 +223,7 @@ public interface UserMapper {
     @Select({
             "<script>",
             "   SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
-            "   (date_add(session.was_active, INTERVAL userIdleTimeout SECOND) > now()) AS isOnline,",
+            "   (date_add(session.was_active, INTERVAL #{userIdleTimeout} SECOND) > now()) AS isOnline,",
             "   deleted AS isDeleted,",
             "   <if test='selectSuper'>",
             "       (type = 'SUPER') AS isSuper,",
@@ -268,7 +268,7 @@ public interface UserMapper {
     @Select({
             "<script>",
             "   SELECT user.id AS id, first_name, patronymic, last_name, login, time_registered,",
-            "   (date_add(session.was_active, INTERVAL userIdleTimeout SECOND) > now()) AS isOnline,",
+            "   (date_add(session.was_active, INTERVAL #{userIdleTimeout} SECOND) > now()) AS isOnline,",
             "   deleted AS isDeleted,",
             "   <if test='selectSuper'>",
             "       (type = 'SUPER') AS isSuper,",
