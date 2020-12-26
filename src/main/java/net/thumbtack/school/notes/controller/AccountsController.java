@@ -75,6 +75,8 @@ public class AccountsController {
     
     @GetMapping(path = "/accounts",
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    // REVU что за body в GET ?
+    // данные в запросе должны передаваться через @RequestParam
     public List<GetUsersResponseItem> getUsers(@Validated @RequestBody GetUsersRequest request,
                                                @CookieValue(value = JAVA_SESSION_ID) String token,
                                                HttpServletResponse response) throws ServerException {
