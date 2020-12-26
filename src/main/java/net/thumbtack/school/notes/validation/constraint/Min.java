@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = MinValidator.class)
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Min {
     String message() default "MIN_CONSTRAINT_VIOLATION";

@@ -2,12 +2,14 @@ package net.thumbtack.school.notes.controller;
 
 
 import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
-import net.thumbtack.school.notes.dto.request.GetUsersRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.request.UpdateUserRequest;
 import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.AccountService;
+import net.thumbtack.school.notes.validation.constraint.Min;
+import net.thumbtack.school.notes.validation.constraint.Sorting;
+import net.thumbtack.school.notes.validation.constraint.UserListType;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_I
 
 
 @RestController
+@Validated
 @RequestMapping("/api")
 public class AccountsController {
     private final AccountService accountService;
@@ -74,12 +77,13 @@ public class AccountsController {
     
     
     @GetMapping(path = "/accounts",
-            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    // REVU что за body в GET ?
-    // данные в запросе должны передаваться через @RequestParam
-    public List<GetUsersResponseItem> getUsers(@Validated @RequestBody GetUsersRequest request,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<GetUsersResponseItem> getUsers(@RequestParam(required = false) @Sorting String sortByRating,
+                                               @RequestParam(required = false) @UserListType String type,
+                                               @RequestParam(required = false) @Min(0) Integer from,
+                                               @RequestParam(required = false) @Min(1) Integer count,
                                                @CookieValue(value = JAVA_SESSION_ID) String token,
                                                HttpServletResponse response) throws ServerException {
-        return accountService.getUsers(request, token, response);
+        return accountService.getUsers(sortByRating, type, from, count, token, response);
     }
 }

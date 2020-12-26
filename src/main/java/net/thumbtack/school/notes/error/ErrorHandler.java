@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.thumbtack.school.notes.error.ErrorCode.TYPE_MISMATCH;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.*;
 
 
@@ -47,6 +51,26 @@ public class ErrorHandler {
             errors.add(new ErrorResponse(
                     errorCode.name(),
                     errorCode.getField(),
+                    errorCode.getMessage()
+            ));
+        }
+        
+        return new ErrorListResponse(errors);
+    }
+    
+    
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorListResponse handleConstraintException(ConstraintViolationException e) {
+        List<ErrorResponse> errors = new ArrayList<>();
+        
+        for (ConstraintViolation<?> error: e.getConstraintViolations()) {
+            ErrorCode errorCode = ErrorCode.valueOf(error.getMessage());
+            
+            errors.add(new ErrorResponse(
+                    errorCode.name(),
+                    error.getPropertyPath().toString().split("\\.")[1],
                     errorCode.getMessage()
             ));
         }
@@ -101,6 +125,18 @@ public class ErrorHandler {
                 NO_COOKIE.name(),
                 NO_COOKIE.getField(),
                 NO_COOKIE.getMessage()
+        )));
+    }
+    
+    
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorListResponse handleArgTypeException(MethodArgumentTypeMismatchException e) {
+        return new ErrorListResponse(List.of(new ErrorResponse(
+                TYPE_MISMATCH.name(),
+                e.getParameter().getParameterName(),
+                TYPE_MISMATCH.getMessage()
         )));
     }
     

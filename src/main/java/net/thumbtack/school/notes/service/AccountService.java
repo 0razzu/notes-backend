@@ -5,7 +5,6 @@ import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.database.util.Properties;
 import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
-import net.thumbtack.school.notes.dto.request.GetUsersRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.request.UpdateUserRequest;
 import net.thumbtack.school.notes.dto.response.*;
@@ -124,32 +123,20 @@ public class AccountService extends ServiceBase {
     }
     
     
-    public List<GetUsersResponseItem> getUsers(GetUsersRequest request, String token, HttpServletResponse response)
-            throws ServerException {
+    public List<GetUsersResponseItem> getUsers(String sortByRating, String type, Integer from, Integer count,
+                                               String token, HttpServletResponse response) throws ServerException {
         User user = getUserByToken(token);
+        boolean isSuper = (user.getType() == UserType.SUPER);
         
         List<UserView> userViews = null;
         
-        String type = request.getType();
-        boolean isSuper = (user.getType() == UserType.SUPER);
-        
         if (type == null || type.equals("super") && !isSuper)
-            userViews = userDao.getAllWithRating(
-                    request.getSortByRating(),
-                    isSuper,
-                    request.getFrom(),
-                    request.getCount()
-            );
+            userViews = userDao.getAllWithRating(sortByRating, isSuper, from, count);
         else
             switch (type) {
                 case "highRating":
                 case "lowRating": {
-                    userViews = userDao.getAllByRatingType(
-                            type,
-                            isSuper,
-                            request.getFrom(),
-                            request.getCount()
-                    );
+                    userViews = userDao.getAllByRatingType(type, isSuper, from, count);
                     break;
                 }
                 
@@ -157,26 +144,13 @@ public class AccountService extends ServiceBase {
                 case "followers":
                 case "ignore":
                 case "ignoredBy": {
-                    userViews = userDao.getAllByRelationToUser(
-                            user,
-                            type,
-                            request.getSortByRating(),
-                            isSuper,
-                            request.getFrom(),
-                            request.getCount()
-                    );
+                    userViews = userDao.getAllByRelationToUser(user, type, sortByRating, isSuper, from, count);
                     break;
                 }
                 
                 case "super":
                 case "deleted": {
-                    userViews = userDao.getAllByType(
-                            type,
-                            request.getSortByRating(),
-                            isSuper,
-                            request.getFrom(),
-                            request.getCount()
-                    );
+                    userViews = userDao.getAllByType(type, sortByRating, isSuper, from, count);
                 }
             }
         

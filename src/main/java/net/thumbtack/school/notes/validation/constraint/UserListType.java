@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = UserListTypeValidator.class)
-@Target({ElementType.FIELD})
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UserListType {
     String message() default "USER_LIST_TYPE_CONSTRAINT_VIOLATION";

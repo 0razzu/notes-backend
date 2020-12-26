@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = SortingValidator.class)
-@Target({ElementType.FIELD})
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Sorting {
     String message() default "SORTING_CONSTRAINT_VIOLATION";

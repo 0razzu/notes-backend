@@ -14,6 +14,7 @@ public enum ErrorCode {
     NOT_BLANK("The field is blank"),
     PASSWORD_CONSTRAINT_VIOLATION("The password is too short"),
     SORTING_CONSTRAINT_VIOLATION("Incorrect sorting type"),
+    TYPE_MISMATCH("Wrong field type"),
     USER_LIST_TYPE_CONSTRAINT_VIOLATION("Incorrect user list type");
     
     
