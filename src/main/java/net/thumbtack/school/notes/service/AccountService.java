@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class AccountService extends ServiceBase {
     public AccountService(Properties properties, UserDao userDao, SessionDao sessionDao) {
-        super(properties, userDao, sessionDao);
+        super(properties, userDao, null, sessionDao);
     }
     
     

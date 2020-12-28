@@ -11,13 +11,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-public class MainApp {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainApp.class);
+public class NotesServer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotesServer.class);
     
     
     public static void main(String[] args) {
         if (MyBatisUtil.initSqlSessionFactory())
-            SpringApplication.run(MainApp.class);
+            SpringApplication.run(NotesServer.class);
         
         else
             LOGGER.error("Failed to initialize SQL session factory");

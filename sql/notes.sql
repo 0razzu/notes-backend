@@ -52,6 +52,7 @@ CREATE TABLE section (
     name VARCHAR(255) NOT NULL,
     creator_id INT,
     PRIMARY KEY (id),
+    UNIQUE KEY (name),
     FOREIGN KEY (creator_id) REFERENCES user (id) ON DELETE SET NULL
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 

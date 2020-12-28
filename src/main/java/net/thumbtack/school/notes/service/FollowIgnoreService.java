@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @Service
 public class FollowIgnoreService extends ServiceBase {
     public FollowIgnoreService(Properties properties, UserDao userDao, SessionDao sessionDao) {
-        super(properties, userDao, sessionDao);
+        super(properties, userDao, null, sessionDao);
     }
     
     

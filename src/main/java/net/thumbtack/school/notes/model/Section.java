@@ -26,12 +26,16 @@ public class Section {
     }
     
     
+    public Section(String name, User creator) {
+        this(name, creator, null);
+    }
+    
+    
     @Override
     public String toString() {
         return "Section{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", creator=" + creator +
                 '}';
     }
     

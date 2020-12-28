@@ -13,6 +13,7 @@ public enum ErrorCode {
     NAME_LENGTH_CONSTRAINT_VIOLATION("The name is too long or empty"),
     NOT_BLANK("The field is blank"),
     PASSWORD_CONSTRAINT_VIOLATION("The password is too short"),
+    SECTION_NAME_CONSTRAINT_VIOLATION("The section name is not valid"),
     SORTING_CONSTRAINT_VIOLATION("Incorrect sorting type"),
     TYPE_MISMATCH("Wrong field type"),
     USER_LIST_TYPE_CONSTRAINT_VIOLATION("Incorrect user list type");
