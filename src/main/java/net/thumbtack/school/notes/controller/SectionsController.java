@@ -45,7 +45,7 @@ public class SectionsController {
                                         @Validated @RequestBody RenameSectionRequest request,
                                         @CookieValue(value = JAVA_SESSION_ID) String token,
                                         HttpServletResponse response) throws ServerException {
-        return sectionService.update(id, request, token, response);
+        return sectionService.rename(id, request, token, response);
     }
     
     

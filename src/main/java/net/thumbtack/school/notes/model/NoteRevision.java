@@ -24,17 +24,15 @@ public class NoteRevision {
     private List<Comment> comments;
     
     
-    public NoteRevision(String body, LocalDateTime created, Note note, List<Comment> comments) {
-        this(0, body, created, note, comments);
+    public NoteRevision(String body, LocalDateTime created, Note note) {
+        this(0, body, created, note, null);
     }
     
     
     @Override
     public String toString() {
-        return "Revision{" +
-                "id=" + id +
-                ", created=" + created.format(DateTimeFormatter.ofPattern("''yyyy.MM.dd HH:mm:ss''")) +
-                '}';
+        return String.format("NoteRevision{id=%d, created=%s}", id,
+                created == null? "null" : created.format(DateTimeFormatter.ofPattern("''yyyy.MM.dd HH:mm:ss''")));
     }
     
     

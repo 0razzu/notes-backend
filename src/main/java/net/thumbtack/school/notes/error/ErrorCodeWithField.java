@@ -21,6 +21,7 @@ public enum ErrorCodeWithField {
     USER_NOT_FOUND_BY_ID("id", "Cannot find a user with this id"),
     USER_NOT_FOUND_BY_LOGIN("login", "Cannot find a user with this login"),
     SECTION_EXISTS("name", "A section with this name already exists"),
+    SECTION_NOT_FOUND("sectionId", "Cannot find a section with this id"),
     SESSION_NOT_FOUND(JAVA_SESSION_ID, "Cannot find a session with this token"),
     WRONG_OLD_PASSWORD("oldPassword", "The provided password is wrong"),
     WRONG_PASSWORD("password", "The provided password is wrong");

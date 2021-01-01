@@ -1,6 +1,7 @@
 package net.thumbtack.school.notes.service;
 
 
+import net.thumbtack.school.notes.database.dao.NoteDao;
 import net.thumbtack.school.notes.database.dao.SectionDao;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
@@ -19,16 +20,19 @@ import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_I
 @Service
 public class ServiceBase {
     protected final Properties properties;
-    protected final UserDao userDao;
+    protected final NoteDao noteDao;
     protected final SectionDao sectionDao;
     protected final SessionDao sessionDao;
+    protected final UserDao userDao;
     
     
-    protected ServiceBase(Properties properties, UserDao userDao, SectionDao sectionDao, SessionDao sessionDao) {
+    protected ServiceBase(Properties properties, NoteDao noteDao, SectionDao sectionDao,
+                          SessionDao sessionDao, UserDao userDao) {
         this.properties = properties;
-        this.userDao = userDao;
+        this.noteDao = noteDao;
         this.sectionDao = sectionDao;
         this.sessionDao = sessionDao;
+        this.userDao = userDao;
     }
     
     

@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class SectionService extends ServiceBase {
-    protected SectionService(Properties properties, UserDao userDao, SectionDao sectionDao, SessionDao sessionDao) {
-        super(properties, userDao, sectionDao, sessionDao);
+    protected SectionService(Properties properties, SectionDao sectionDao, SessionDao sessionDao, UserDao userDao) {
+        super(properties, null, sectionDao, sessionDao, userDao);
     }
     
     
@@ -45,12 +45,12 @@ public class SectionService extends ServiceBase {
     }
     
     
-    public RenameSectionResponse update(int id, RenameSectionRequest request, String token, HttpServletResponse response)
+    public RenameSectionResponse rename(int id, RenameSectionRequest request, String token, HttpServletResponse response)
             throws ServerException {
         User user = getUserByToken(token);
         Section section = sectionDao.get(id);
         
-        if (user.getType() != UserType.SUPER && !section.getCreator().equals(user))
+        if (!section.getCreator().equals(user))
             throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
         
         section.setName(request.getName());

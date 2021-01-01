@@ -26,19 +26,15 @@ public class Note {
     private Section section;
     
     
-    public Note(String subject, User author, LocalDateTime created,
-                List<NoteRevision> noteRevisions, List<Rating> ratings, Section section) {
-        this(0, subject, author, created, noteRevisions, ratings, section);
+    public Note(String subject, User author, LocalDateTime created, Section section) {
+        this(0, subject, author, null, null, null, section);
     }
     
     
     @Override
     public String toString() {
-        return "Note{" +
-                "id=" + id +
-                ", subject='" + subject + '\'' +
-                ", created=" + created.format(DateTimeFormatter.ofPattern("''yyyy.MM.dd HH:mm:ss''")) +
-                '}';
+        return String.format("Note{id=%d, subject='%s', created=%s}", id, subject,
+                created == null? "null" : created.format(DateTimeFormatter.ofPattern("''yyyy.MM.dd HH:mm:ss''")));
     }
     
     
