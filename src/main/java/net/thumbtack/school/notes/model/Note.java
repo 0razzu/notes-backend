@@ -21,13 +21,13 @@ public class Note {
     private String subject;
     private User author;
     private LocalDateTime created;
+    private Section section;
     private List<NoteRevision> noteRevisions;
     private List<Rating> ratings;
-    private Section section;
     
     
     public Note(String subject, User author, LocalDateTime created, Section section) {
-        this(0, subject, author, null, null, null, section);
+        this(0, subject, author, null, section, null, null);
     }
     
     
