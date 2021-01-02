@@ -60,4 +60,8 @@ public interface NoteMapper {
             "   WHERE note.id = #{id}" +
             ") SELECT * FROM t WHERE revision_id = (SELECT max(revision_id) FROM t)")
     NoteView getView(int id);
+    
+    
+    @Delete("DELETE FROM note WHERE id = #{id}")
+    void delete(Note note);
 }

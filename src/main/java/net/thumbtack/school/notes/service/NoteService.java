@@ -10,6 +10,7 @@ import net.thumbtack.school.notes.dto.request.CreateNoteRequest;
 import net.thumbtack.school.notes.dto.request.EditNoteRequest;
 import net.thumbtack.school.notes.dto.response.CreateNoteResponse;
 import net.thumbtack.school.notes.dto.response.EditNoteResponse;
+import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.dto.response.GetNoteResponse;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
@@ -118,5 +119,22 @@ public class NoteService extends ServiceBase {
                 view.getCreated(),
                 view.getRevisionId()
         );
+    }
+    
+    
+    public EmptyResponse delete(int id, String token, HttpServletResponse response) throws ServerException {
+        User user = getUserByToken(token);
+        
+        Note note = noteDao.get(id);
+        
+        if (note != null) {
+            if (!note.getAuthor().equals(user))
+                throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
+            
+            noteDao.delete(note);
+        }
+        
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return new EmptyResponse();
     }
 }

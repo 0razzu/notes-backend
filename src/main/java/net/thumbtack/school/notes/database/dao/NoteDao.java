@@ -13,4 +13,6 @@ public interface NoteDao {
     
     Note get(int id) throws ServerException;
     NoteView getView(int id) throws ServerException;
+    
+    void delete(Note note) throws ServerException;
 }

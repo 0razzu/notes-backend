@@ -88,4 +88,22 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }
+    
+    
+    @Override
+    public void delete(Note note) throws ServerException {
+        LOGGER.debug("Deleting {}", note);
+        
+        try (SqlSession session = getSession()) {
+            try {
+                getNoteMapper(session).delete(note);
+            } catch (RuntimeException e) {
+                LOGGER.info("Cannot delete {}", note, e);
+                session.rollback();
+                throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
+            }
+            
+            session.commit();
+        }
+    }
 }
