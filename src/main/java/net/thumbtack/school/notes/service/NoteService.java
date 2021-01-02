@@ -35,7 +35,7 @@ public class NoteService extends ServiceBase {
         if (section == null)
             throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
         
-        LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC")).withNano(0);
+        LocalDateTime created = getCurrentTime();
         Note note = new Note(request.getSubject(), author, created, section);
         NoteRevision revision = new NoteRevision(request.getBody(), created, note);
         

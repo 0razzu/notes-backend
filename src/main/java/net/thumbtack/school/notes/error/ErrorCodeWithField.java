@@ -10,6 +10,7 @@ import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_I
 @AllArgsConstructor
 @Getter
 public enum ErrorCodeWithField {
+    COMMENT_NOT_FOUND("id", "Cannot find a comment with this id"),
     DATABASE_ERROR("unknown", "An unknown database error has occurred"),
     EDIT_NOTE_CONSTRAINT_VIOLATION("request", "Edit note request with empty body"),
     ENDPOINT_NOT_FOUND("url", "Cannot find the requested endpoint"),

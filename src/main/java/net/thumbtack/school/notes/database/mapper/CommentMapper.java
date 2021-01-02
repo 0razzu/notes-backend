@@ -16,7 +16,7 @@ public interface CommentMapper {
     Integer insert(Comment comment);
     
     
-    @Update("UPDATE note_comment SET created = #{created}, body = #{body}, revision_id = #{noteRevision.id} " +
+    @Update("UPDATE note_comment SET created = #{created}, body = #{body}, note_revision_id = #{noteRevision.id} " +
             "WHERE id = #{id}")
     void update(Comment comment);
     

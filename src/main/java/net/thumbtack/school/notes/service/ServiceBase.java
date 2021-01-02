@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 
 
@@ -64,5 +67,10 @@ public class ServiceBase {
             throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);
         
         return user;
+    }
+    
+    
+    protected LocalDateTime getCurrentTime() {
+        return LocalDateTime.now(ZoneId.of("UTC")).withNano(0);
     }
 }
