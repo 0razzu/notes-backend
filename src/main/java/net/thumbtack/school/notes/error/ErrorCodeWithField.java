@@ -11,6 +11,7 @@ import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_I
 @Getter
 public enum ErrorCodeWithField {
     DATABASE_ERROR("unknown", "An unknown database error has occurred"),
+    EDIT_NOTE_CONSTRAINT_VIOLATION("request", "Edit note request with empty body"),
     ENDPOINT_NOT_FOUND("url", "Cannot find the requested endpoint"),
     LOGIN_EXISTS("login", "A user with this login already exists"),
     METHOD_NOT_SUPPORTED("url", "The called method is not supported by this endpoint"),
