@@ -43,12 +43,12 @@ public interface UserMapper {
             "FROM user WHERE id = #{id}")
     @Results(id = "userFields", value = {
             @Result(property = "id", column = "id"),
-//            @Result(property = "notes", column = "id", javaType = List.class,
-//                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mapper.NoteMapper.getByAuthor",
-//                            fetchType = FetchType.LAZY
-//                    )
-//            ),
+            @Result(property = "notes", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.NoteMapper.getByAuthor",
+                            fetchType = FetchType.LAZY
+                    )
+            ),
             @Result(property = "comments", column = "id", javaType = List.class,
                     many = @Many(
                             select = "net.thumbtack.school.notes.database.mapper.CommentMapper.getByAuthor",

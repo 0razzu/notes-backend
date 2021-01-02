@@ -35,12 +35,12 @@ public interface NoteMapper {
                             select = "net.thumbtack.school.notes.database.mapper.SectionMapper.get",
                             fetchType = FetchType.LAZY
                     )
-//            ),
-//            @Result(property = "noteRevisions", column = "id", javaType = List.class,
-//                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mapper.NoteRevisionMapper.getByNote",
-//                            fetchType = FetchType.LAZY
-//                    )
+            ),
+            @Result(property = "noteRevisions", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.NoteRevisionMapper.getByNote",
+                            fetchType = FetchType.LAZY
+                    )
 //            ),
 //            @Result(property = "ratings", column = "id", javaType = List.class,
 //                    many = @Many(
@@ -60,6 +60,16 @@ public interface NoteMapper {
             "   WHERE note.id = #{id}" +
             ") SELECT * FROM t WHERE revision_id = (SELECT max(revision_id) FROM t)")
     NoteView getView(int id);
+    
+    
+    @Select("SELECT id, subject, created, author_id, section_id FROM note WHERE author_id = #{id}")
+    @ResultMap("noteFields")
+    List<Note> getByAuthor(User author);
+    
+    
+    @Select("SELECT id, subject, created, author_id, section_id FROM note WHERE section_id = #{id}")
+    @ResultMap("noteFields")
+    List<Note> getBySection(Section section);
     
     
     @Delete("DELETE FROM note WHERE id = #{id}")

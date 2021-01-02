@@ -27,27 +27,19 @@ public interface SectionMapper {
                             select = "net.thumbtack.school.notes.database.mapper.UserMapper.get",
                             fetchType = FetchType.LAZY
                     )
-//            ),
-//            @Result(property = "notes", column = "id", javaType = List.class,
-//                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mapper.NoteMapper.getBySection",
-//                            fetchType = FetchType.LAZY
-//                    )
+            ),
+            @Result(property = "notes", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.NoteMapper.getBySection",
+                            fetchType = FetchType.LAZY
+                    )
             )
     })
     Section get(int id);
     
     
     @Select("SELECT id, name FROM section WHERE creator_id = #{creator.id}")
-//    @Results({
-//            @Result(property = "id", column = "id"),
-//            @Result(property = "notes", column = "id", javaType = List.class,
-//                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mapper.NoteMapper.getBySection",
-//                            fetchType = FetchType.LAZY
-//                    )
-//            )
-//    })
+    @ResultMap("sectionFields")
     List<Section> getByCreator(User creator);
     
     
