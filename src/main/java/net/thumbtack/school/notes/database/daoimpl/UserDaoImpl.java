@@ -283,22 +283,4 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
             session.commit();
         }
     }
-    
-    
-    @Override
-    public void deleteAll() throws ServerException {
-        LOGGER.debug("Deleting all users");
-        
-        try (SqlSession session = getSession()) {
-            try {
-                getUserMapper(session).deleteAll();
-            } catch (RuntimeException e) {
-                LOGGER.info("Cannot delete all users", e);
-                session.rollback();
-                throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
-            }
-            
-            session.commit();
-        }
-    }
 }

@@ -1,9 +1,9 @@
-package net.thumbtack.school.notes.database.dao;
+package net.thumbtack.school.notes.debug;
 
 
 import net.thumbtack.school.notes.error.ServerException;
 
 
-public interface CommonDao {
+public interface DebugDao {
     void clear() throws ServerException;
 }

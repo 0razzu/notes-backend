@@ -1,7 +1,7 @@
 package net.thumbtack.school.notes.database.daoimpl;
 
 
-import net.thumbtack.school.notes.database.dao.CommonDao;
+import net.thumbtack.school.notes.debug.DebugDao;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.database.util.MyBatisUtil;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class TestDaoImplBase {
     private static boolean setUp = false;
     @Autowired
-    private CommonDao commonDao;
+    private DebugDao debugDao;
     @Autowired
     private Properties properties;
     @Autowired
@@ -45,7 +45,7 @@ public class TestDaoImplBase {
     
     @BeforeEach
     void clear() throws ServerException {
-        commonDao.clear();
+        debugDao.clear();
         userDao.insert(admin);
     }
     

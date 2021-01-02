@@ -1,7 +1,7 @@
-package net.thumbtack.school.notes.database.daoimpl;
+package net.thumbtack.school.notes.debug;
 
 
-import net.thumbtack.school.notes.database.dao.CommonDao;
+import net.thumbtack.school.notes.database.daoimpl.DaoImplBase;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import org.apache.ibatis.session.SqlSession;
@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 
-@Repository("commonDao")
-public class CommonDaoImpl extends DaoImplBase implements CommonDao {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonDaoImpl.class);
+@Repository("debugDao")
+public class DebugDaoImpl extends DaoImplBase implements DebugDao {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DebugDaoImpl.class);
     
     
     @Override
@@ -21,12 +21,13 @@ public class CommonDaoImpl extends DaoImplBase implements CommonDao {
         
         try (SqlSession session = getSession()) {
             try {
-//                getCommentMapper(session).deleteAll();
-//                getNoteMapper(session).deleteAll();
-//                getRatingMapper(session).deleteAll();
-//                getSectionMapper(session).deleteAll();
-                getSessionMapper(session).deleteAll();
-                getUserMapper(session).deleteAll();
+                DebugMapper debugMapper = session.getMapper(DebugMapper.class);
+                debugMapper.deleteRatings();
+                debugMapper.deleteComments();
+                debugMapper.deleteNotes();
+                debugMapper.deleteSections();
+                debugMapper.deleteSessions();
+                debugMapper.deleteUsers();
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot clear database", e);
                 session.rollback();

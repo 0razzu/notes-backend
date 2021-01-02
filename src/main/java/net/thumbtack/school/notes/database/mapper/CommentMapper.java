@@ -75,8 +75,4 @@ public interface CommentMapper {
     
     @Delete("DELETE FROM note_comment WHERE id = #{id}")
     void delete(Comment comment);
-    
-    
-    @Delete("DELETE FROM note_comment")
-    void deleteAll();
 }

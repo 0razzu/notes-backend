@@ -337,8 +337,4 @@ public interface UserMapper {
             @Param("count") Integer count,
             @Param("userIdleTimeout") int userIdleTimeout
     );
-    
-    
-    @Delete("DELETE FROM user")
-    void deleteAll();
 }

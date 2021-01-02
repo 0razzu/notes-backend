@@ -28,5 +28,4 @@ public interface UserDao {
     List<UserView> getAllByRelationToUser(User user, String relation, String sortByRating, boolean selectSuper, Integer from, Integer count) throws ServerException;
     
     void delete(User user) throws ServerException;
-    void deleteAll() throws ServerException;
 }

@@ -29,5 +29,6 @@
         <mapper class="net.thumbtack.school.notes.database.mapper.SectionMapper"/>
         <mapper class="net.thumbtack.school.notes.database.mapper.SessionMapper"/>
         <mapper class="net.thumbtack.school.notes.database.mapper.UserMapper"/>
+        <mapper class="net.thumbtack.school.notes.debug.DebugMapper"/>
     </mappers>
 </configuration>

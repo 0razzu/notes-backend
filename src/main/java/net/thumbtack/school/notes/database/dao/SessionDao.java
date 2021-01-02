@@ -14,5 +14,4 @@ public interface SessionDao {
     void delete(User user) throws ServerException;
     void delete(String token) throws ServerException;
     void deleteOutdated();
-    void deleteAll() throws ServerException;
 }

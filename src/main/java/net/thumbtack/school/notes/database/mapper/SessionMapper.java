@@ -32,8 +32,4 @@ public interface SessionMapper {
     
     @Delete("DELETE FROM session WHERE date_add(session.was_active, INTERVAL #{userIdleTimeout} SECOND) < now()")
     void deleteOutdated(int userIdleTimeout);
-    
-    
-    @Delete("DELETE FROM session")
-    void deleteAll();
 }
