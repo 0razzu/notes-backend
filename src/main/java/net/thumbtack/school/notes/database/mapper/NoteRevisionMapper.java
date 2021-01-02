@@ -15,7 +15,7 @@ public interface NoteRevisionMapper {
     Integer insert(NoteRevision revision);
     
     
-    @Select("SELECT id, body, created, note_id FROM note_revision")
+    @Select("SELECT id, body, created, note_id FROM note_revision WHERE id = #{id}")
     @Results(id = "noteRevisionFields", value = {
             @Result(property = "id", column = "id"),
             @Result(property = "note", column = "note_id", javaType = Note.class,
@@ -23,14 +23,19 @@ public interface NoteRevisionMapper {
                             select = "net.thumbtack.school.notes.database.mapper.NoteMapper.get",
                             fetchType = FetchType.LAZY
                     )
-//            ),
-//            @Result(property = "comments", column = "id", javaType = List.class,
-//                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mapper.CommentMapper.getByRevision",
-//                            fetchType = FetchType.LAZY
-//                    )
+            ),
+            @Result(property = "comments", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.CommentMapper.getByNoteRevision",
+                            fetchType = FetchType.LAZY
+                    )
             )
     })
+    NoteRevision get(int id);
+    
+    
+    @Select("SELECT id, body, created, note_id FROM note_revision WHERE note_id = #{id}")
+    @ResultMap("noteRevisionFields")
     List<NoteRevision> getByNote(Note note);
     
     

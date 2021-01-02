@@ -1,36 +1,29 @@
 package net.thumbtack.school.notes.service;
 
 
-import net.thumbtack.school.notes.database.dao.NoteDao;
-import net.thumbtack.school.notes.database.dao.SectionDao;
-import net.thumbtack.school.notes.database.dao.SessionDao;
-import net.thumbtack.school.notes.database.dao.UserDao;
+import net.thumbtack.school.notes.database.dao.*;
 import net.thumbtack.school.notes.database.util.Properties;
 import net.thumbtack.school.notes.dto.request.CreateNoteRequest;
 import net.thumbtack.school.notes.dto.request.EditNoteRequest;
-import net.thumbtack.school.notes.dto.response.CreateNoteResponse;
-import net.thumbtack.school.notes.dto.response.EditNoteResponse;
-import net.thumbtack.school.notes.dto.response.EmptyResponse;
-import net.thumbtack.school.notes.dto.response.GetNoteResponse;
+import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
-import net.thumbtack.school.notes.model.Note;
-import net.thumbtack.school.notes.model.NoteRevision;
-import net.thumbtack.school.notes.model.Section;
-import net.thumbtack.school.notes.model.User;
+import net.thumbtack.school.notes.model.*;
 import net.thumbtack.school.notes.view.NoteView;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 public class NoteService extends ServiceBase {
-    protected NoteService(Properties properties, NoteDao noteDao, SectionDao sectionDao,
+    protected NoteService(Properties properties, CommentDao commentDao, NoteDao noteDao, SectionDao sectionDao,
                           SessionDao sessionDao, UserDao userDao) {
-        super(properties, null, noteDao, null, sectionDao, sessionDao, userDao);
+        super(properties, commentDao, noteDao, null, sectionDao, sessionDao, userDao);
     }
     
     
@@ -139,5 +132,27 @@ public class NoteService extends ServiceBase {
         
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();
+    }
+    
+    
+    public List<GetNoteCommentsResponseItem> getComments(int id, String token, HttpServletResponse response)
+            throws ServerException {
+        getUserByToken(token);
+        Note note = noteDao.get(id);
+        
+        if (note == null)
+            throw new ServerException(ErrorCodeWithField.NOTE_NOT_FOUND);
+        
+        List<Comment> comments = commentDao.getByNote(note);
+        
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return comments.stream().map((Comment c) -> new GetNoteCommentsResponseItem(
+                c.getId(),
+                c.getBody(),
+                id,
+                c.getAuthor().getId(),
+                c.getNoteRevision().getId(),
+                c.getCreated()
+        )).collect(Collectors.toList());
     }
 }

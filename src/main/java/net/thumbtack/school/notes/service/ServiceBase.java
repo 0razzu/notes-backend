@@ -42,6 +42,7 @@ public class ServiceBase {
     protected void setTokenCookie(HttpServletResponse response, String token, int maxAge) {
         Cookie cookie = new Cookie(JAVA_SESSION_ID, token);
         cookie.setMaxAge(maxAge);
+        cookie.setPath("/api");
         response.addCookie(cookie);
     }
     

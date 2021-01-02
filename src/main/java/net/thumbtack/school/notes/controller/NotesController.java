@@ -3,10 +3,7 @@ package net.thumbtack.school.notes.controller;
 
 import net.thumbtack.school.notes.dto.request.CreateNoteRequest;
 import net.thumbtack.school.notes.dto.request.EditNoteRequest;
-import net.thumbtack.school.notes.dto.response.CreateNoteResponse;
-import net.thumbtack.school.notes.dto.response.EditNoteResponse;
-import net.thumbtack.school.notes.dto.response.EmptyResponse;
-import net.thumbtack.school.notes.dto.response.GetNoteResponse;
+import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.NoteService;
 import org.springframework.http.MediaType;
@@ -14,6 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.List;
 
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 
@@ -62,5 +61,14 @@ public class NotesController {
                                 @CookieValue(value = JAVA_SESSION_ID) String token,
                                 HttpServletResponse response) throws ServerException {
         return noteService.delete(id, token, response);
+    }
+    
+    
+    @GetMapping(path = "/{id}/comments",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<GetNoteCommentsResponseItem> getComments(@PathVariable("id") int id,
+                                                         @CookieValue(value = JAVA_SESSION_ID) String token,
+                                                         HttpServletResponse response) throws ServerException {
+        return noteService.getComments(id, token, response);
     }
 }

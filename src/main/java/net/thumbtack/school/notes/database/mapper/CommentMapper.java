@@ -68,7 +68,7 @@ public interface CommentMapper {
     @Select("SELECT note_comment.id, note_comment.created, note_comment.body, author_id, note_revision_id " +
             "FROM note_comment " +
             "JOIN note_revision ON note_comment.note_revision_id = note_revision.id " +
-            "WHERE note_id = #{note.id}")
+            "WHERE note_id = #{id}")
     @ResultMap("commentFields")
     List<Comment> getByNote(Note note);
     

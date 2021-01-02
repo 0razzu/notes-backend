@@ -75,7 +75,7 @@ public class CommentDaoImpl extends DaoImplBase implements CommentDao {
         try (SqlSession session = getSession()) {
             return getCommentMapper(session).getByCreated(created);
         } catch (RuntimeException e) {
-            LOGGER.info("Cannot get comment by created {}", created, e);
+            LOGGER.info("Cannot get comments by created {}", created, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }
@@ -88,7 +88,7 @@ public class CommentDaoImpl extends DaoImplBase implements CommentDao {
         try (SqlSession session = getSession()) {
             return getCommentMapper(session).getByAuthor(author);
         } catch (RuntimeException e) {
-            LOGGER.info("Cannot get comment by {}", author, e);
+            LOGGER.info("Cannot get comments by {}", author, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }
@@ -101,7 +101,7 @@ public class CommentDaoImpl extends DaoImplBase implements CommentDao {
         try (SqlSession session = getSession()) {
             return getCommentMapper(session).getBySection(section);
         } catch (RuntimeException e) {
-            LOGGER.info("Cannot get comment by {}", section, e);
+            LOGGER.info("Cannot get comments by {}", section, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }
@@ -114,7 +114,7 @@ public class CommentDaoImpl extends DaoImplBase implements CommentDao {
         try (SqlSession session = getSession()) {
             return getCommentMapper(session).getByNoteRevision(revision);
         } catch (RuntimeException e) {
-            LOGGER.info("Cannot get comment by {}", revision, e);
+            LOGGER.info("Cannot get comments by {}", revision, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }
@@ -127,7 +127,7 @@ public class CommentDaoImpl extends DaoImplBase implements CommentDao {
         try (SqlSession session = getSession()) {
             return getCommentMapper(session).getByNote(note);
         } catch (RuntimeException e) {
-            LOGGER.info("Cannot get comment by {}", note, e);
+            LOGGER.info("Cannot get comments by {}", note, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }
