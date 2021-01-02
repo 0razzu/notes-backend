@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository("sessionDao")
 public class SessionDaoImpl extends DaoImplBase implements SessionDao {
-    private final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(SessionDaoImpl.class);
     private final Properties properties;
     
     

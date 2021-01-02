@@ -10,18 +10,18 @@ import java.util.List;
 
 
 public interface CommentMapper {
-    @Insert("INSERT INTO note_comment (created, body, author_id, note_revision_id)" +
-            "VALUES (#{created}, #{body}, #{author.id}, #{revision.id})")
+    @Insert("INSERT INTO note_comment (created, body, author_id, note_revision_id) " +
+            "VALUES (#{created}, #{body}, #{author.id}, #{noteRevision.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Integer insert(Comment comment);
     
     
-    @Update("UPDATE note_comment SET created = #{created}, body = #{body}, revision_id = #{revision.id} " +
-            "WHERE id = #{comment.id}")
+    @Update("UPDATE note_comment SET created = #{created}, body = #{body}, revision_id = #{noteRevision.id} " +
+            "WHERE id = #{id}")
     void update(Comment comment);
     
     
-    @Select("SELECT (id, created, body, author_id, note_revision_id) " +
+    @Select("SELECT id, created, body, author_id, note_revision_id " +
             "FROM note_comment WHERE id = #{id}")
     @Results(id = "commentFields", value = {
             @Result(property = "id", column = "id"),

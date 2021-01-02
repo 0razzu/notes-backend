@@ -31,8 +31,6 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot insert {} with {}", note, revision, e);
                 session.rollback();
-                if (e.getCause().getClass() == SQLIntegrityConstraintViolationException.class)
-                    throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
                 throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
             }
             
@@ -54,8 +52,6 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot update {} with {}", note, revision, e);
                 session.rollback();
-                if (e.getCause().getClass() == SQLIntegrityConstraintViolationException.class)
-                    throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
                 throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
             }
             

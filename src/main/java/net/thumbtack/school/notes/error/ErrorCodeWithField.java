@@ -18,6 +18,7 @@ public enum ErrorCodeWithField {
     NO_COOKIE(JAVA_SESSION_ID, "There is no cookie in the request"),
     NOT_PERMITTED(JAVA_SESSION_ID, "This operation is not permitted for your account"),
     NOTE_NOT_FOUND("id", "Cannot find a note with this id"),
+    NOTE_NOT_FOUND_NOTE_ID("noteId", "Cannot find a note with this id"),
     UNKNOWN_ERROR("unknown", "An unknown error has occurred"),
     USER_DELETED("login", "This user has left the server"),
     USER_NOT_FOUND_BY_ID("id", "Cannot find a user with this id"),

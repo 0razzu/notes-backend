@@ -30,7 +30,7 @@ import java.time.ZoneId;
 public class NoteService extends ServiceBase {
     protected NoteService(Properties properties, NoteDao noteDao, SectionDao sectionDao,
                           SessionDao sessionDao, UserDao userDao) {
-        super(properties, noteDao, sectionDao, sessionDao, userDao);
+        super(properties, null, noteDao, null, sectionDao, sessionDao, userDao);
     }
     
     
@@ -38,6 +38,10 @@ public class NoteService extends ServiceBase {
             throws ServerException {
         User author = getUserByToken(token);
         Section section = sectionDao.get(request.getSectionId());
+        
+        if (section == null)
+            throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
+        
         LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC")).withNano(0);
         Note note = new Note(request.getSubject(), author, created, section);
         NoteRevision revision = new NoteRevision(request.getBody(), created, note);
@@ -124,7 +128,6 @@ public class NoteService extends ServiceBase {
     
     public EmptyResponse delete(int id, String token, HttpServletResponse response) throws ServerException {
         User user = getUserByToken(token);
-        
         Note note = noteDao.get(id);
         
         if (note != null) {

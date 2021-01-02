@@ -19,7 +19,7 @@ import java.util.UUID;
 @Service
 public class SessionService extends ServiceBase {
     public SessionService(Properties properties, SessionDao sessionDao, UserDao userDao) {
-        super(properties, null, null, sessionDao, userDao);
+        super(properties, null, null, null, null, sessionDao, userDao);
     }
     
     

@@ -32,4 +32,14 @@ public interface NoteRevisionMapper {
             )
     })
     List<NoteRevision> getByNote(Note note);
+    
+    
+    @Select("WITH t AS (" +
+            "   SELECT note_revision.id, body, note_revision.created, note_id" +
+            "   FROM note" +
+            "   LEFT JOIN note_revision ON note.id = note_revision.note_id" +
+            "   WHERE note.id = #{id}" +
+            ") SELECT * FROM t WHERE id = (SELECT max(id) FROM t)")
+    @ResultMap("noteRevisionFields")
+    NoteRevision getMostRecent(Note note);
 }
