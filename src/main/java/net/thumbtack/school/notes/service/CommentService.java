@@ -7,12 +7,10 @@ import net.thumbtack.school.notes.dto.request.CreateCommentRequest;
 import net.thumbtack.school.notes.dto.request.EditCommentRequest;
 import net.thumbtack.school.notes.dto.response.CreateCommentResponse;
 import net.thumbtack.school.notes.dto.response.EditCommentResponse;
+import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
-import net.thumbtack.school.notes.model.Comment;
-import net.thumbtack.school.notes.model.Note;
-import net.thumbtack.school.notes.model.NoteRevision;
-import net.thumbtack.school.notes.model.User;
+import net.thumbtack.school.notes.model.*;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -70,13 +68,14 @@ public class CommentService extends ServiceBase {
         String body = request.getBody();
         Note note = comment.getNoteRevision().getNote();
         NoteRevision revision = noteRevisionDao.getMostRecent(note);
-    
+        
         comment.setCreated(created);
         comment.setBody(body);
         comment.setNoteRevision(revision);
         
         commentDao.update(comment);
-        
+    
+        updateSession(response, token, properties.getUserIdleTimeout());
         return new EditCommentResponse(
                 id,
                 body,
@@ -85,5 +84,21 @@ public class CommentService extends ServiceBase {
                 revision.getId(),
                 created
         );
+    }
+    
+    
+    public EmptyResponse delete(int id, String token, HttpServletResponse response) throws ServerException {
+        User user = getUserByToken(token);
+        Comment comment = commentDao.get(id);
+        
+        if (comment != null) {
+            if (user.getType() != UserType.SUPER && !comment.getAuthor().equals(user))
+                throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
+            
+            commentDao.delete(comment);
+        }
+    
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return new EmptyResponse();
     }
 }

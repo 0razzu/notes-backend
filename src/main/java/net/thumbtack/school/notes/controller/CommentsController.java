@@ -5,6 +5,7 @@ import net.thumbtack.school.notes.dto.request.CreateCommentRequest;
 import net.thumbtack.school.notes.dto.request.EditCommentRequest;
 import net.thumbtack.school.notes.dto.response.CreateCommentResponse;
 import net.thumbtack.school.notes.dto.response.EditCommentResponse;
+import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.CommentService;
 import org.springframework.http.MediaType;
@@ -42,5 +43,14 @@ public class CommentsController {
                                     @CookieValue(value = JAVA_SESSION_ID) String token,
                                     HttpServletResponse response) throws ServerException {
         return commentService.edit(id, request, token, response);
+    }
+    
+    
+    @DeleteMapping(path = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public EmptyResponse delete(@PathVariable("id") int id,
+                                @CookieValue(value = JAVA_SESSION_ID) String token,
+                                HttpServletResponse response) throws ServerException {
+        return commentService.delete(id, token, response);
     }
 }
