@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.List;
 
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
@@ -70,5 +69,14 @@ public class NotesController {
                                                          @CookieValue(value = JAVA_SESSION_ID) String token,
                                                          HttpServletResponse response) throws ServerException {
         return noteService.getComments(id, token, response);
+    }
+    
+    
+    @DeleteMapping(path = "/{id}/comments",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public EmptyResponse deleteCommentsToMostRecentRevision(@PathVariable("id") int id,
+                                                            @CookieValue(value = JAVA_SESSION_ID) String token,
+                                                            HttpServletResponse response) throws ServerException {
+        return noteService.deleteCommentsToMostRecentRevision(id, token, response);
     }
 }

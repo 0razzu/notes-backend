@@ -155,4 +155,21 @@ public class NoteService extends ServiceBase {
                 c.getCreated()
         )).collect(Collectors.toList());
     }
+    
+    
+    public EmptyResponse deleteCommentsToMostRecentRevision(int id, String token, HttpServletResponse response)
+            throws ServerException {
+        User user = getUserByToken(token);
+        Note note = noteDao.get(id);
+        
+        if (note != null) {
+            if (user.getType() != UserType.SUPER && !note.getAuthor().equals(user))
+                throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
+            
+            commentDao.deleteByMostRecentNoteRevision(note);
+        }
+        
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return new EmptyResponse();
+    }
 }

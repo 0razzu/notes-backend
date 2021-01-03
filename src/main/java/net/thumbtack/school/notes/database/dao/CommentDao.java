@@ -20,4 +20,5 @@ public interface CommentDao {
     List<Comment> getByNote(Note note) throws ServerException;
     
     void delete(Comment comment) throws ServerException;
+    void deleteByMostRecentNoteRevision(Note note) throws ServerException;
 }

@@ -149,4 +149,22 @@ public class CommentDaoImpl extends DaoImplBase implements CommentDao {
             session.commit();
         }
     }
+    
+    
+    @Override
+    public void deleteByMostRecentNoteRevision(Note note) throws ServerException {
+        LOGGER.debug("Deleting comments to most recent revision of {}", note);
+        
+        try (SqlSession session = getSession()) {
+            try {
+                getCommentMapper(session).deleteByMostRecentNoteRevision(note);
+            } catch (RuntimeException e) {
+                LOGGER.info("Cannot delete comments to most recent revision of {}", note, e);
+                session.rollback();
+                throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
+            }
+            
+            session.commit();
+        }
+    }
 }

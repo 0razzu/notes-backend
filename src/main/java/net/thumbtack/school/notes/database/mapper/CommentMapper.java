@@ -75,4 +75,14 @@ public interface CommentMapper {
     
     @Delete("DELETE FROM note_comment WHERE id = #{id}")
     void delete(Comment comment);
+    
+    
+    @Delete("DELETE FROM note_comment WHERE id IN (" +
+            "   SELECT * FROM (" +
+            "       SELECT note_comment.id FROM note_comment" +
+            "       JOIN note_revision ON note_revision_id = note_revision.id" +
+            "       WHERE note_id = #{id}" +
+            "   ) AS t" +
+            ")")
+    void deleteByMostRecentNoteRevision(Note note);
 }
