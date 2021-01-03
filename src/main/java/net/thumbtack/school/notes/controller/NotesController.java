@@ -3,6 +3,7 @@ package net.thumbtack.school.notes.controller;
 
 import net.thumbtack.school.notes.dto.request.CreateNoteRequest;
 import net.thumbtack.school.notes.dto.request.EditNoteRequest;
+import net.thumbtack.school.notes.dto.request.RateNoteRequest;
 import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.NoteService;
@@ -78,5 +79,15 @@ public class NotesController {
                                                             @CookieValue(value = JAVA_SESSION_ID) String token,
                                                             HttpServletResponse response) throws ServerException {
         return noteService.deleteCommentsToMostRecentRevision(id, token, response);
+    }
+    
+    
+    @PostMapping(path = "/{id}/rating",
+            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public EmptyResponse create(@PathVariable("id") int id,
+                                @Validated @RequestBody RateNoteRequest request,
+                                @CookieValue(value = JAVA_SESSION_ID) String token,
+                                HttpServletResponse response) throws ServerException {
+        return noteService.rate(id, request, token, response);
     }
 }

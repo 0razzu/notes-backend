@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class SectionService extends ServiceBase {
     protected SectionService(Properties properties, SectionDao sectionDao, SessionDao sessionDao, UserDao userDao) {
-        super(properties, null, null, null, sectionDao, sessionDao, userDao);
+        super(properties, null, null, null, null, sectionDao, sessionDao, userDao);
     }
     
     

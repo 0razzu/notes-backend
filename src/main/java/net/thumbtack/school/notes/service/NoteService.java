@@ -5,6 +5,7 @@ import net.thumbtack.school.notes.database.dao.*;
 import net.thumbtack.school.notes.database.util.Properties;
 import net.thumbtack.school.notes.dto.request.CreateNoteRequest;
 import net.thumbtack.school.notes.dto.request.EditNoteRequest;
+import net.thumbtack.school.notes.dto.request.RateNoteRequest;
 import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
@@ -21,9 +22,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class NoteService extends ServiceBase {
-    protected NoteService(Properties properties, CommentDao commentDao, NoteDao noteDao, SectionDao sectionDao,
+    protected NoteService(Properties properties, CommentDao commentDao,
+                          NoteDao noteDao, RatingDao ratingDao, SectionDao sectionDao,
                           SessionDao sessionDao, UserDao userDao) {
-        super(properties, commentDao, noteDao, null, sectionDao, sessionDao, userDao);
+        super(properties, commentDao, noteDao, null, ratingDao, sectionDao, sessionDao, userDao);
     }
     
     
@@ -168,6 +170,24 @@ public class NoteService extends ServiceBase {
             
             commentDao.deleteByMostRecentNoteRevision(note);
         }
+        
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return new EmptyResponse();
+    }
+    
+    
+    public EmptyResponse rate(int id, RateNoteRequest request, String token, HttpServletResponse response)
+            throws ServerException {
+        User user = getUserByToken(token);
+        Note note = noteDao.get(id);
+        
+        if (note == null)
+            throw new ServerException(ErrorCodeWithField.NOTE_NOT_FOUND);
+        
+        if (user.equals(note.getAuthor()))
+            throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
+        
+        ratingDao.insert(new Rating(request.getRating(), user), note);
         
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();

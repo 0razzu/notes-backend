@@ -5,13 +5,11 @@ import net.thumbtack.school.notes.database.dao.*;
 import net.thumbtack.school.notes.database.util.Properties;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
-import net.thumbtack.school.notes.model.NoteRevision;
 import net.thumbtack.school.notes.model.User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -24,18 +22,20 @@ public class ServiceBase {
     protected final CommentDao commentDao;
     protected final NoteDao noteDao;
     protected final NoteRevisionDao noteRevisionDao;
+    protected final RatingDao ratingDao;
     protected final SectionDao sectionDao;
     protected final SessionDao sessionDao;
     protected final UserDao userDao;
     
     
     protected ServiceBase(Properties properties, CommentDao commentDao,
-                          NoteDao noteDao, NoteRevisionDao noteRevisionDao, SectionDao sectionDao,
+                          NoteDao noteDao, NoteRevisionDao noteRevisionDao, RatingDao ratingDao, SectionDao sectionDao,
                           SessionDao sessionDao, UserDao userDao) {
         this.properties = properties;
         this.commentDao = commentDao;
         this.noteDao = noteDao;
         this.noteRevisionDao = noteRevisionDao;
+        this.ratingDao = ratingDao;
         this.sectionDao = sectionDao;
         this.sessionDao = sessionDao;
         this.userDao = userDao;

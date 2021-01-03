@@ -22,7 +22,7 @@ public class CommentService extends ServiceBase {
     protected CommentService(Properties properties, CommentDao commentDao,
                              NoteDao noteDao, NoteRevisionDao noteRevisionDao, SectionDao sectionDao,
                              SessionDao sessionDao, UserDao userDao) {
-        super(properties, commentDao, noteDao, noteRevisionDao, sectionDao, sessionDao, userDao);
+        super(properties, commentDao, noteDao, noteRevisionDao, null, sectionDao, sessionDao, userDao);
     }
     
     
@@ -74,7 +74,7 @@ public class CommentService extends ServiceBase {
         comment.setNoteRevision(revision);
         
         commentDao.update(comment);
-    
+        
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EditCommentResponse(
                 id,
@@ -97,7 +97,7 @@ public class CommentService extends ServiceBase {
             
             commentDao.delete(comment);
         }
-    
+        
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();
     }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DebugService extends ServiceBase {
     protected DebugService(Properties properties) {
-        super(properties, null, null, null, null, null, null);
+        super(properties, null, null, null, null, null, null, null);
     }
     
     

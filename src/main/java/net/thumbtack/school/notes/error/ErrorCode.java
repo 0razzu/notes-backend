@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ErrorCode {
+    MAX_CONSTRAINT_VIOLATION("The value is too large"),
     MIN_CONSTRAINT_VIOLATION("The value is too small"),
     NAME_CONSTRAINT_VIOLATION("The name is not valid"),
     NAME_LENGTH_CONSTRAINT_VIOLATION("The name is too long or empty"),
