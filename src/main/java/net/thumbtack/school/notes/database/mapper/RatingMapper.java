@@ -7,6 +7,8 @@ import net.thumbtack.school.notes.model.User;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
+import java.util.List;
+
 
 public interface RatingMapper {
     @Insert("INSERT INTO rating (value, note_id, author_id) VALUES (#{rating.value}, #{note.id}, #{rating.author.id}) " +
@@ -26,4 +28,14 @@ public interface RatingMapper {
             )
     })
     Rating get(int id);
+    
+    
+    @Select("SELECT id, value, author_id FROM rating WHERE author_id = #{author.id}")
+    @ResultMap("ratingFields")
+    List<Rating> getByAuthor(User author);
+    
+    
+    @Select("SELECT id, value, author_id FROM rating WHERE note_id = #{note.id}")
+    @ResultMap("ratingFields")
+    List<Rating> getByNote(Note note);
 }
