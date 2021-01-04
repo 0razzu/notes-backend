@@ -7,17 +7,22 @@ import net.thumbtack.school.notes.dto.request.RateNoteRequest;
 import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.NoteService;
+import net.thumbtack.school.notes.validation.constraint.Include;
+import net.thumbtack.school.notes.validation.constraint.Min;
+import net.thumbtack.school.notes.validation.constraint.Sorting;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 
 
 @RestController
+@Validated
 @RequestMapping("/api/notes")
 public class NotesController {
     private final NoteService noteService;
@@ -89,5 +94,26 @@ public class NotesController {
                                 @CookieValue(value = JAVA_SESSION_ID) String token,
                                 HttpServletResponse response) throws ServerException {
         return noteService.rate(id, request, token, response);
+    }
+    
+    
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<GetNotesResponseItem> getNotes(@RequestParam(required = false) Integer sectionId,
+                                               @RequestParam(required = false) @Sorting String sortByRating,
+                                               @RequestParam(required = false) List<String> tags,
+                                               @RequestParam(defaultValue = "false") boolean allTags,
+                                               @RequestParam(required = false) LocalDateTime timeFrom,
+                                               @RequestParam(required = false) LocalDateTime timeTo,
+                                               @RequestParam(required = false) Integer user,
+                                               @RequestParam(required = false) @Include String include,
+                                               @RequestParam(defaultValue = "false") boolean comments,
+                                               @RequestParam(defaultValue = "false") boolean allVersions,
+                                               @RequestParam(defaultValue = "false") boolean commentVersion,
+                                               @RequestParam(required = false) @Min(0) Integer from,
+                                               @RequestParam(required = false) @Min(1) Integer count,
+                                               @CookieValue(value = JAVA_SESSION_ID) String token,
+                                               HttpServletResponse response) throws ServerException {
+        return noteService.getNotes(sectionId, sortByRating, tags, allTags, timeFrom, timeTo, user, include,
+                comments, allVersions, commentVersion, from, count, token, response);
     }
 }

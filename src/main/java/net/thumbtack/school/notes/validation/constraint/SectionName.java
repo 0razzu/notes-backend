@@ -1,7 +1,6 @@
 package net.thumbtack.school.notes.validation.constraint;
 
 
-import net.thumbtack.school.notes.validation.validator.NameValidator;
 import net.thumbtack.school.notes.validation.validator.SectionNameValidator;
 
 import javax.validation.Constraint;

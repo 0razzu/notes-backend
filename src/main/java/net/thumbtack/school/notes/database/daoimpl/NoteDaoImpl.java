@@ -12,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-
 
 @Repository("noteDao")
 public class NoteDaoImpl extends DaoImplBase implements NoteDao {

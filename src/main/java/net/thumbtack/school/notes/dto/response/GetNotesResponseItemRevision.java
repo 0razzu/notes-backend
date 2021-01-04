@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -13,16 +15,18 @@ import java.util.Objects;
 @AllArgsConstructor
 @Setter
 @Getter
-public class GetSectionsResponseItem {
+public class GetNotesResponseItemRevision {
     private int id;
-    private String name;
+    private String body;
+    private LocalDateTime created;
+    private List<GetNotesResponseItemComment> comments;
     
     
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GetSectionsResponseItem)) return false;
-        GetSectionsResponseItem that = (GetSectionsResponseItem) o;
+        if (!(o instanceof GetNotesResponseItemRevision)) return false;
+        GetNotesResponseItemRevision that = (GetNotesResponseItemRevision) o;
         return getId() == that.getId();
     }
     

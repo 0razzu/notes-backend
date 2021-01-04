@@ -1,7 +1,6 @@
 package net.thumbtack.school.notes.validation.constraint;
 
 
-import net.thumbtack.school.notes.validation.validator.MaxNameLengthValidator;
 import net.thumbtack.school.notes.validation.validator.MinValidator;
 
 import javax.validation.Constraint;

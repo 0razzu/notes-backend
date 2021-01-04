@@ -8,7 +8,6 @@ import lombok.Setter;
 import net.thumbtack.school.notes.util.LocalDateTimeFormatter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -16,27 +15,21 @@ import java.util.Objects;
 @AllArgsConstructor
 @Setter
 @Getter
-public class NoteView {
+public class CommentView {
     private int id;
-    private String subject;
     private String body;
-    private int sectionId;
     private int authorId;
+    private Integer noteRevisionId;
     private LocalDateTime created;
-    private int revisionId;
-    private List<NoteRevisionView> revisions;
-    private List<CommentView> comments;
     
     
     @Override
     public String toString() {
-        return "NoteView{" +
+        return "CommentView{" +
                 "id=" + id +
-                ", subject='" + subject + '\'' +
-                ", sectionId=" + sectionId +
                 ", authorId=" + authorId +
+                ", noteRevisionId=" + noteRevisionId +
                 ", created=" + LocalDateTimeFormatter.format(created) +
-                ", revisionId=" + revisionId +
                 '}';
     }
     
@@ -44,9 +37,9 @@ public class NoteView {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof NoteView)) return false;
-        NoteView noteView = (NoteView) o;
-        return getId() == noteView.getId();
+        if (!(o instanceof CommentView)) return false;
+        CommentView that = (CommentView) o;
+        return getId() == that.getId();
     }
     
     

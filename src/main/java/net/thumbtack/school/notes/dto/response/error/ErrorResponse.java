@@ -3,7 +3,6 @@ package net.thumbtack.school.notes.dto.response.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.thumbtack.school.notes.error.ErrorCode;
 
 
 @AllArgsConstructor

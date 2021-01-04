@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -191,5 +192,15 @@ public class NoteService extends ServiceBase {
         
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();
+    }
+    
+    
+    public List<GetNotesResponseItem> getNotes(Integer sectionId, String sortByRating, List<String> tags, boolean allTags,
+                                               LocalDateTime timeFrom, LocalDateTime timeTo,
+                                               Integer user, String include,
+                                               boolean comments, boolean allVersions, boolean commentVersion,
+                                               Integer from, Integer count, String token, HttpServletResponse response)
+            throws ServerException {
+        return new ArrayList<>();
     }
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ErrorCode {
+    INCLUDE_CONSTRAINT_VIOLATION("Incorrect note inclusion type"),
     MAX_CONSTRAINT_VIOLATION("The value is too large"),
     MIN_CONSTRAINT_VIOLATION("The value is too small"),
     NAME_CONSTRAINT_VIOLATION("The name is not valid"),

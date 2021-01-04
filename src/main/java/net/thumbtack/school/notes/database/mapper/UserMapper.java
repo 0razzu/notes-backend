@@ -55,12 +55,12 @@ public interface UserMapper {
                             fetchType = FetchType.LAZY
                     )
             ),
-//            @Result(property = "ratings", column = "id", javaType = List.class,
-//                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mapper.RatingMapper.getByAuthor",
-//                            fetchType = FetchType.LAZY
-//                    )
-//            ),
+            @Result(property = "ratings", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.RatingMapper.getByAuthor",
+                            fetchType = FetchType.LAZY
+                    )
+            ),
             @Result(property = "sections", column = "id", javaType = List.class,
                     many = @Many(
                             select = "net.thumbtack.school.notes.database.mapper.SectionMapper.getByCreator",

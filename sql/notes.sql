@@ -75,6 +75,7 @@ CREATE TABLE note_revision (
     note_id INT NOT NULL,
     PRIMARY KEY (id),
     KEY (created),
+    FULLTEXT KEY (body),
     FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 
@@ -97,6 +98,7 @@ CREATE TABLE rating (
     author_id INT,
     PRIMARY KEY (id),
     KEY (note_id),
+    UNIQUE KEY (note_id, author_id),
     FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE,
     FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE CASCADE
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;

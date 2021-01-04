@@ -1,11 +1,11 @@
 package net.thumbtack.school.notes.database.daoimpl;
 
 
-import net.thumbtack.school.notes.debug.DebugDao;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.database.util.MyBatisUtil;
 import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.debug.DebugDao;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;

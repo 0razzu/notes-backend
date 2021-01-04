@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.thumbtack.school.notes.util.LocalDateTimeFormatter;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,7 +34,7 @@ public class Note {
     @Override
     public String toString() {
         return String.format("Note{id=%d, subject='%s', created=%s}", id, subject,
-                created == null? "null" : created.format(DateTimeFormatter.ofPattern("''yyyy.MM.dd HH:mm:ss''")));
+                created == null? "null" : LocalDateTimeFormatter.format(created));
     }
     
     

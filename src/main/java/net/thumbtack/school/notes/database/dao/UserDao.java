@@ -3,7 +3,6 @@ package net.thumbtack.school.notes.database.dao;
 
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
-import net.thumbtack.school.notes.model.UserType;
 import net.thumbtack.school.notes.view.UserView;
 
 import java.util.List;

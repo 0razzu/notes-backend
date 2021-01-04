@@ -41,12 +41,12 @@ public interface NoteMapper {
                             select = "net.thumbtack.school.notes.database.mapper.NoteRevisionMapper.getByNote",
                             fetchType = FetchType.LAZY
                     )
-//            ),
-//            @Result(property = "ratings", column = "id", javaType = List.class,
-//                    many = @Many(
-//                            select = "net.thumbtack.school.notes.database.mapper.RatingMapper.getByNote",
-//                            fetchType = FetchType.LAZY
-//                    )
+            ),
+            @Result(property = "ratings", column = "id", javaType = List.class,
+                    many = @Many(
+                            select = "net.thumbtack.school.notes.database.mapper.RatingMapper.getByNote",
+                            fetchType = FetchType.LAZY
+                    )
             )
     })
     Note get(int id);
