@@ -16,7 +16,7 @@ public interface NoteDao {
     Note get(int id) throws ServerException;
     NoteView getView(int id) throws ServerException;
     List<NoteView> getAllByParams(Integer sectionId, String tags,
-                                  Integer user,
+                                  Integer author, int user, String include,
                                   boolean comments, boolean allVersions, boolean commentVersion,
                                   Integer from, Integer count) throws ServerException;
     

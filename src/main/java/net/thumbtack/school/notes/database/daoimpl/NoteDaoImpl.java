@@ -91,7 +91,7 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
     @Override
     public List<NoteView> getAllByParams(Integer sectionId,
                                          String tags,
-                                         Integer user,
+                                         Integer author, int user, String include,
                                          boolean comments, boolean allVersions, boolean commentVersion,
                                          Integer from, Integer count) throws ServerException {
         LOGGER.debug("Getting note views by params");
@@ -100,7 +100,9 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
             Map<String, Object> params = new HashMap<>();
             params.put("sectionId", sectionId);
             params.put("tags", tags);
+            params.put("author", author);
             params.put("user", user);
+            params.put("include", include);
             params.put("comments", comments);
             params.put("allVersions", allVersions);
             params.put("commentVersion", commentVersion);

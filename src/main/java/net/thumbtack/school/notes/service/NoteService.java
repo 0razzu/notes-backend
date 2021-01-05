@@ -199,11 +199,11 @@ public class NoteService extends ServiceBase {
     
     public List<GetNotesResponseItem> getNotes(Integer sectionId, String sortByRating, List<String> tags, boolean allTags,
                                                LocalDateTime timeFrom, LocalDateTime timeTo,
-                                               Integer user, String include,
+                                               Integer author, String include,
                                                boolean comments, boolean allVersions, boolean commentVersion,
                                                Integer from, Integer count, String token, HttpServletResponse response)
             throws ServerException {
-        getUserByToken(token);
+        User user = getUserByToken(token);
         
         if (allTags)
             for (int i = 0; i < tags.size(); i++)
@@ -212,7 +212,7 @@ public class NoteService extends ServiceBase {
         List<NoteView> notes = noteDao.getAllByParams(
                 sectionId,
                 tags == null? null : String.join(" ", tags),
-                user,
+                author, user.getId(), include,
                 comments, allVersions, commentVersion,
                 from, count
         );

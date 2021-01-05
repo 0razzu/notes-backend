@@ -45,8 +45,23 @@
                 <if test="tags != null">
                     AND match(note_revision.body) against(#{tags} in boolean mode)
                 </if>
-                <if test="user != null">
-                    AND author_id = #{user}
+                <if test="author != null">
+                    AND author_id = #{author}
+                </if>
+                <if test="include != null">
+                    AND author_id
+                    <choose>
+                        <when test="include == 'notIgnore'">
+                            NOT IN (SELECT ignored_id FROM user_ignored
+                        </when>
+                        <when test="include == 'onlyFollowings'">
+                            IN (SELECT followed_id FROM user_followed
+                        </when>
+                        <when test="include == 'onlyIgnore'">
+                            IN (SELECT ignored_id FROM user_ignored
+                        </when>
+                    </choose>
+                    WHERE user_id = #{user})
                 </if>
             </where>
             GROUP BY note.id
