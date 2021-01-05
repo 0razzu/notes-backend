@@ -6,6 +6,8 @@ import net.thumbtack.school.notes.model.Note;
 import net.thumbtack.school.notes.model.NoteRevision;
 import net.thumbtack.school.notes.view.NoteView;
 
+import java.util.List;
+
 
 public interface NoteDao {
     void insert(Note note, NoteRevision revision) throws ServerException;
@@ -13,6 +15,7 @@ public interface NoteDao {
     
     Note get(int id) throws ServerException;
     NoteView getView(int id) throws ServerException;
+    List<NoteView> getAllByParams(String tags, Integer from, Integer count) throws ServerException;
     
     void delete(Note note) throws ServerException;
 }

@@ -12,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @Repository("noteDao")
 public class NoteDaoImpl extends DaoImplBase implements NoteDao {
@@ -79,6 +83,25 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
             return getNoteMapper(session).getView(id);
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get note view by id {}", id, e);
+            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
+        }
+    }
+    
+    
+    @Override
+    public List<NoteView> getAllByParams(String tags, Integer from, Integer count) throws ServerException {
+        LOGGER.debug("Getting note views by params");
+        
+        try (SqlSession session = getSession()) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("tags", tags);
+            params.put("from", from);
+            params.put("count", count);
+            
+            return session.selectList("net.thumbtack.school.notes.database.mapper.NoteMapper.getAllByParams",
+                    params);
+        } catch (RuntimeException e) {
+            LOGGER.info("Cannot get note views by params", e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }

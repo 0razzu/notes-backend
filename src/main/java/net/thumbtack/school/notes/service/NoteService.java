@@ -10,6 +10,8 @@ import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.*;
+import net.thumbtack.school.notes.view.CommentView;
+import net.thumbtack.school.notes.view.NoteRevisionView;
 import net.thumbtack.school.notes.view.NoteView;
 import org.springframework.stereotype.Service;
 
@@ -201,6 +203,51 @@ public class NoteService extends ServiceBase {
                                                boolean comments, boolean allVersions, boolean commentVersion,
                                                Integer from, Integer count, String token, HttpServletResponse response)
             throws ServerException {
-        return new ArrayList<>();
+        getUserByToken(token);
+        
+        if (allTags)
+            for (int i = 0; i < tags.size(); i++)
+                tags.add(i, "+" + tags.remove(i));
+        
+        List<NoteView> notes = noteDao.getAllByParams(tags == null? null : String.join(" ", tags), from, count);
+        List<GetNotesResponseItem> responseList = new ArrayList<>(notes.size());
+        
+        for (NoteView noteView: notes) {
+            List<GetNotesResponseItemRevision> revisions = noteView.getRevisions().stream().map((NoteRevisionView r) ->
+                    new GetNotesResponseItemRevision(
+                            r.getId(),
+                            r.getBody(),
+                            r.getCreated(),
+                            r.getComments().stream().map((CommentView c) ->
+                                    new GetNotesResponseItemComment(
+                                            c.getId(),
+                                            c.getBody(),
+                                            c.getAuthorId(),
+                                            c.getNoteRevisionId(),
+                                            c.getCreated()
+                                    )).collect(Collectors.toList())
+                    )).collect(Collectors.toList());
+            List<GetNotesResponseItemComment> comms = noteView.getComments().stream().map((CommentView c) ->
+                    new GetNotesResponseItemComment(
+                            c.getId(),
+                            c.getBody(),
+                            c.getAuthorId(),
+                            c.getNoteRevisionId(),
+                            c.getCreated()
+                    )).collect(Collectors.toList());
+            responseList.add(new GetNotesResponseItem(
+                    noteView.getId(),
+                    noteView.getSubject(),
+                    noteView.getBody(),
+                    noteView.getSectionId(),
+                    noteView.getAuthorId(),
+                    noteView.getCreated(),
+                    revisions,
+                    comms
+            ));
+        }
+    
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return responseList;
     }
 }

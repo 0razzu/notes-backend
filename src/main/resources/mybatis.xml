@@ -30,5 +30,6 @@
         <mapper class="net.thumbtack.school.notes.database.mapper.SessionMapper"/>
         <mapper class="net.thumbtack.school.notes.database.mapper.UserMapper"/>
         <mapper class="net.thumbtack.school.notes.debug.DebugMapper"/>
+        <mapper resource="net/thumbtack/school/notes/database/mapper/NoteMapper.xml"/>
     </mappers>
 </configuration>
