@@ -209,32 +209,16 @@ public class NoteService extends ServiceBase {
             for (int i = 0; i < tags.size(); i++)
                 tags.add(i, "+" + tags.remove(i));
         
-        List<NoteView> notes = noteDao.getAllByParams(tags == null? null : String.join(" ", tags), from, count);
+        List<NoteView> notes = noteDao.getAllByParams(
+                sectionId,
+                tags == null? null : String.join(" ", tags),
+                user,
+                comments, allVersions, commentVersion,
+                from, count
+        );
         List<GetNotesResponseItem> responseList = new ArrayList<>(notes.size());
         
         for (NoteView noteView: notes) {
-            List<GetNotesResponseItemRevision> revisions = noteView.getRevisions().stream().map((NoteRevisionView r) ->
-                    new GetNotesResponseItemRevision(
-                            r.getId(),
-                            r.getBody(),
-                            r.getCreated(),
-                            r.getComments().stream().map((CommentView c) ->
-                                    new GetNotesResponseItemComment(
-                                            c.getId(),
-                                            c.getBody(),
-                                            c.getAuthorId(),
-                                            c.getNoteRevisionId(),
-                                            c.getCreated()
-                                    )).collect(Collectors.toList())
-                    )).collect(Collectors.toList());
-            List<GetNotesResponseItemComment> comms = noteView.getComments().stream().map((CommentView c) ->
-                    new GetNotesResponseItemComment(
-                            c.getId(),
-                            c.getBody(),
-                            c.getAuthorId(),
-                            c.getNoteRevisionId(),
-                            c.getCreated()
-                    )).collect(Collectors.toList());
             responseList.add(new GetNotesResponseItem(
                     noteView.getId(),
                     noteView.getSubject(),
@@ -242,11 +226,37 @@ public class NoteService extends ServiceBase {
                     noteView.getSectionId(),
                     noteView.getAuthorId(),
                     noteView.getCreated(),
-                    revisions,
-                    comms
+                    allVersions?
+                            noteView.getRevisions().stream().map((NoteRevisionView r) ->
+                                    new GetNotesResponseItemRevision(
+                                            r.getId(),
+                                            r.getBody(),
+                                            r.getCreated(),
+                                            comments?
+                                                    r.getComments().stream().map((CommentView c) ->
+                                                            new GetNotesResponseItemComment(
+                                                                    c.getId(),
+                                                                    c.getBody(),
+                                                                    c.getAuthorId(),
+                                                                    c.getNoteRevisionId(),
+                                                                    c.getCreated()
+                                                            )).collect(Collectors.toList()) :
+                                                    null
+                                    )).collect(Collectors.toList()) :
+                            null,
+                    comments?
+                            noteView.getComments().stream().map((CommentView c) ->
+                                    new GetNotesResponseItemComment(
+                                            c.getId(),
+                                            c.getBody(),
+                                            c.getAuthorId(),
+                                            c.getNoteRevisionId(),
+                                            c.getCreated()
+                                    )).collect(Collectors.toList()) :
+                            null
             ));
         }
-    
+        
         updateSession(response, token, properties.getUserIdleTimeout());
         return responseList;
     }

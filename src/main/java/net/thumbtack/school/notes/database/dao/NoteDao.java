@@ -15,7 +15,10 @@ public interface NoteDao {
     
     Note get(int id) throws ServerException;
     NoteView getView(int id) throws ServerException;
-    List<NoteView> getAllByParams(String tags, Integer from, Integer count) throws ServerException;
+    List<NoteView> getAllByParams(Integer sectionId, String tags,
+                                  Integer user,
+                                  boolean comments, boolean allVersions, boolean commentVersion,
+                                  Integer from, Integer count) throws ServerException;
     
     void delete(Note note) throws ServerException;
 }

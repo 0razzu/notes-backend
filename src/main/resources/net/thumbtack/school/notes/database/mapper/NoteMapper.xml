@@ -13,7 +13,7 @@
                     ofType="net.thumbtack.school.notes.view.NoteRevisionView">
             <result property="id" column="rev1_id"/>
             <result property="body" column="revision_body"/>
-            <result property="created" column="revision_created"/>
+            <result property="created" column="rev1_created"/>
             <collection property="comments" column="comment_id" javaType="java.util.List"
                         ofType="net.thumbtack.school.notes.view.CommentView">
                 <result property="id" column="comment_id"/>
@@ -38,9 +38,17 @@
             SELECT note.id, max(note_revision.id) AS revision_id
             FROM note
             JOIN note_revision ON note.id = note_revision.note_id
-            <if test="tags != null">
-                WHERE match(note_revision.body) against(#{tags} in boolean mode)
-            </if>
+            <where>
+                <if test="sectionId != null">
+                    note.section_id = #{sectionId}
+                </if>
+                <if test="tags != null">
+                    AND match(note_revision.body) against(#{tags} in boolean mode)
+                </if>
+                <if test="user != null">
+                    AND author_id = #{user}
+                </if>
+            </where>
             GROUP BY note.id
             <if test='count == null and from != null'>
                 LIMIT 2147483647
@@ -53,14 +61,33 @@
                 </if>
             </if>
         ) SELECT note.id, subject, note.created, note.author_id, section_id,
-            revision_id, note_revision.created AS revision_created, note_revision.body,
-            note_revision1.id AS rev1_id, note_revision1.body AS revision_body,
-            note_comment.id AS comment_id, note_comment.created AS comment_created, note_comment.body AS comment_body,
-            note_comment.author_id AS comment_author_id, note_comment.note_revision_id AS comment_revision_id
+            revision_id, note_revision.created AS revision_created, note_revision.body
+            <if test="allVersions">
+                , note_revision1.id AS rev1_id, note_revision1.created AS rev1_created,
+                note_revision1.body AS revision_body
+            </if>
+            <if test="comments">
+                , note_comment.id AS comment_id, note_comment.created AS comment_created,
+                note_comment.body AS comment_body, note_comment.author_id AS comment_author_id
+                <if test="commentVersion">
+                    , note_comment.note_revision_id AS comment_revision_id
+                </if>
+            </if>
         FROM t
         JOIN note ON t.id = note.id
         JOIN note_revision ON revision_id = note_revision.id
-        LEFT JOIN note_revision AS note_revision1 ON t.id = note_revision1.note_id
-        LEFT JOIN note_comment ON note_revision1.id = note_comment.note_revision_id
+        <if test="allVersions">
+            LEFT JOIN note_revision AS note_revision1 ON t.id = note_revision1.note_id
+        </if>
+        <if test="comments">
+            LEFT JOIN note_comment ON
+            <if test="allVersions">
+                note_revision1.id
+            </if>
+            <if test="!allVersions">
+                note_revision.id
+            </if>
+                = note_comment.note_revision_id
+        </if>
     </select>
 </mapper>
