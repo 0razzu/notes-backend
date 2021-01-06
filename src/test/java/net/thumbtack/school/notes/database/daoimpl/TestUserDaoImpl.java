@@ -66,6 +66,19 @@ public class TestUserDaoImpl extends TestDaoImplBase {
     
     
     @Test
+    void testInsertAndLogin() throws ServerException {
+        User petrov = new User("p3tr0v", "Er34gd45bf!rw", "Иван", "Александрович", "Петров", UserType.SUPER);
+        
+        userDao.insertAndLogin(petrov, "token");
+        
+        assertAll(
+                () -> assertEquals(petrov, userDao.get(petrov.getId())),
+                () -> assertEquals(petrov, sessionDao.getUser("token"))
+        );
+    }
+    
+    
+    @Test
     void testUpdate1() throws ServerException {
         int id = insertUser("aNИa", ";lsafd3-Usd2", "Анна", "Петровна", "Птицына", UserType.USER).getId();
         

@@ -27,8 +27,8 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
         sessionDao.insert(james, "token2");
         
         assertAll(
-                () -> assertNotNull(sessionDao.getUserByToken("token1")),
-                () -> assertNotNull(sessionDao.getUserByToken("token2"))
+                () -> assertNotNull(sessionDao.getUser("token1")),
+                () -> assertNotNull(sessionDao.getUser("token2"))
         );
     }
     
@@ -42,9 +42,9 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
         sessionDao.insert(james, "token3");
         
         assertAll(
-                () -> assertNull(sessionDao.getUserByToken("token1")),
-                () -> assertNull(sessionDao.getUserByToken("token2")),
-                () -> assertNotNull(sessionDao.getUserByToken("token3"))
+                () -> assertNull(sessionDao.getUser("token1")),
+                () -> assertNull(sessionDao.getUser("token2")),
+                () -> assertNotNull(sessionDao.getUser("token3"))
         );
     }
     
@@ -57,9 +57,20 @@ public class TestSessionDaoImpl extends TestDaoImplBase {
         sessionDao.insert(mia, "miaToken");
         
         assertAll(
-                () -> assertEquals(admin, sessionDao.getUserByToken("adminToken")),
-                () -> assertEquals(mia, sessionDao.getUserByToken("miaToken")),
-                () -> assertNull(sessionDao.getUserByToken("nobodyToken"))
+                () -> assertEquals(admin, sessionDao.getUser("adminToken")),
+                () -> assertEquals(mia, sessionDao.getUser("miaToken")),
+                () -> assertNull(sessionDao.getUser("nobodyToken"))
         );
+    }
+    
+    
+    @Test
+    void testDelete() throws ServerException {
+        userDao.insert(james);
+        
+        sessionDao.insert(james, "token");
+        sessionDao.delete("token");
+        
+        assertNull(sessionDao.getUser("token"));
     }
 }

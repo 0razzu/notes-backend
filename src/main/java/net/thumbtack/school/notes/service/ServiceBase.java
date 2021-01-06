@@ -61,7 +61,7 @@ public class ServiceBase {
     
     
     protected User getUserByToken(String token) throws ServerException {
-        User user = sessionDao.getUserByToken(token);
+        User user = sessionDao.getUser(token);
         
         if (user == null)
             throw new ServerException(ErrorCodeWithField.SESSION_NOT_FOUND);

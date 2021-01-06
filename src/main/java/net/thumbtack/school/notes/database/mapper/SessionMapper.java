@@ -19,7 +19,7 @@ public interface SessionMapper {
             "FROM session JOIN user ON user_id = user.id WHERE token = #{token} " +
             "AND (date_add(session.was_active, INTERVAL #{userIdleTimeout} SECOND) > now())")
     @ResultMap("net.thumbtack.school.notes.database.mapper.UserMapper.userFields")
-    User getUserByToken(@Param("token") String token, @Param("userIdleTimeout") int userIdleTimeout);
+    User getUser(@Param("token") String token, @Param("userIdleTimeout") int userIdleTimeout);
     
     
     @Delete("DELETE FROM session WHERE user_id = #{id}")

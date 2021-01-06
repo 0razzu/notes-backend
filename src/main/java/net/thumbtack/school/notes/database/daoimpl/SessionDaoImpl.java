@@ -60,11 +60,11 @@ public class SessionDaoImpl extends DaoImplBase implements SessionDao {
     
     
     @Override
-    public User getUserByToken(String token) throws ServerException {
+    public User getUser(String token) throws ServerException {
         LOGGER.debug("Getting user by token {}", token);
         
         try (SqlSession session = getSession()) {
-            return getSessionMapper(session).getUserByToken(token, properties.getUserIdleTimeout());
+            return getSessionMapper(session).getUser(token, properties.getUserIdleTimeout());
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get user by token {}", token, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
@@ -100,24 +100,6 @@ public class SessionDaoImpl extends DaoImplBase implements SessionDao {
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot delete outdated sessions", e);
                 session.rollback();
-            }
-            
-            session.commit();
-        }
-    }
-    
-    
-    @Override
-    public void delete(User user) throws ServerException {
-        LOGGER.debug("Deleting session of {}", user);
-        
-        try (SqlSession session = getSession()) {
-            try {
-                getSessionMapper(session).deleteByUser(user);
-            } catch (RuntimeException e) {
-                LOGGER.info("Cannot delete session of {}", user, e);
-                session.rollback();
-                throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
             }
             
             session.commit();

@@ -9,9 +9,8 @@ public interface SessionDao {
     void insert(User user, String token) throws ServerException;
     void update(String token) throws ServerException;
     
-    User getUserByToken(String token) throws ServerException;
+    User getUser(String token) throws ServerException;
     
-    void delete(User user) throws ServerException;
     void delete(String token) throws ServerException;
     void deleteOutdated();
 }
