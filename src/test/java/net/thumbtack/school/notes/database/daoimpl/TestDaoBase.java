@@ -1,9 +1,7 @@
 package net.thumbtack.school.notes.database.daoimpl;
 
 
-import net.thumbtack.school.notes.database.dao.SectionDao;
-import net.thumbtack.school.notes.database.dao.SessionDao;
-import net.thumbtack.school.notes.database.dao.UserDao;
+import net.thumbtack.school.notes.database.dao.*;
 import net.thumbtack.school.notes.database.util.MyBatisUtil;
 import net.thumbtack.school.notes.database.util.Properties;
 import net.thumbtack.school.notes.debug.DebugDao;
@@ -19,12 +17,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 @SpringBootTest
-public class TestDaoImplBase {
+public class TestDaoBase {
     private static boolean setUp = false;
     @Autowired
     private Properties properties;
     @Autowired
     private DebugDao debugDao;
+    @Autowired
+    protected NoteDao noteDao;
+    @Autowired
+    protected NoteRevisionDao noteRevisionDao;
     @Autowired
     protected SectionDao sectionDao;
     @Autowired

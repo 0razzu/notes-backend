@@ -27,7 +27,7 @@ public class Note {
     
     
     public Note(String subject, User author, LocalDateTime created, Section section) {
-        this(0, subject, author, null, section, null, null);
+        this(0, subject, author, created, section, null, null);
     }
     
     

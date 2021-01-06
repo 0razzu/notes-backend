@@ -13,7 +13,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class TestSectionDaoImpl extends TestDaoImplBase {
+public class TestSectionDao extends TestDaoBase {
     private static final User creator1 = new User("creator1", "pa55word", "Creator", null, "Creator", UserType.SUPER);
     private static final User creator2 = new User("creator2", "pa55word", "Creator", null, "Creator", UserType.USER);
     

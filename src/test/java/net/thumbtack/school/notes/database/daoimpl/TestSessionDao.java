@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class TestSessionDaoImpl extends TestDaoImplBase {
+public class TestSessionDao extends TestDaoBase {
     private static final User james = new User("blackDragon", "1234-Asepgk", "James", null, "Black", UserType.USER);
     private static final User mia = new User("mia", "M1AmiaMIA", "Mia", null, "Evans", UserType.SUPER);
     

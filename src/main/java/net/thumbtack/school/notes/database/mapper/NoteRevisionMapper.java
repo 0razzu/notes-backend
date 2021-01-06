@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public interface NoteRevisionMapper {
-    @Insert("INSERT INTO note_revision (body, note_id) VALUES (#{body}, #{note.id})")
+    @Insert("INSERT INTO note_revision (body, created, note_id) VALUES (#{body}, #{created}, #{note.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Integer insert(NoteRevision revision);
     

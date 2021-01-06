@@ -12,7 +12,8 @@ import java.util.List;
 
 
 public interface NoteMapper {
-    @Insert("INSERT INTO note (subject, author_id, section_id) VALUES (#{subject}, #{author.id}, #{section.id})")
+    @Insert("INSERT INTO note (subject, author_id, created, section_id) " +
+            "VALUES (#{subject}, #{author.id}, #{created}, #{section.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Integer insert(Note note);
     

@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class TestUserDaoImpl extends TestDaoImplBase {
+public class TestUserDao extends TestDaoBase {
     static Stream<Arguments> correctUserFields() {
         return Stream.of(
                 Arguments.of("ol1ver2000", "ol1versPa55word!", "Oliver", null, "Berg", UserType.USER),
@@ -142,11 +142,11 @@ public class TestUserDaoImpl extends TestDaoImplBase {
         User matteoDb = userDao.get(matteo.getId());
         
         assertAll(
-                () -> assertEquals(andyDb, annaDb.getFollowing().get(0)),
-                () -> assertEquals(andyDb, annaDb.getFollowers().get(0)),
-                () -> assertEquals(annaDb, andyDb.getFollowing().get(0)),
+                () -> assertEquals(List.of(andyDb), annaDb.getFollowing()),
+                () -> assertEquals(List.of(andyDb), annaDb.getFollowers()),
+                () -> assertEquals(List.of(annaDb), andyDb.getFollowing()),
                 () -> assertEquals(Set.of(annaDb, matteoDb), Set.copyOf(andyDb.getFollowers())),
-                () -> assertEquals(andyDb, matteoDb.getFollowing().get(0)),
+                () -> assertEquals(List.of(andyDb), matteoDb.getFollowing()),
                 () -> assertTrue(matteoDb.getFollowers().isEmpty())
         );
     }
@@ -167,11 +167,11 @@ public class TestUserDaoImpl extends TestDaoImplBase {
         User matteoDb = userDao.get(matteo.getId());
         
         assertAll(
-                () -> assertEquals(andyDb, annaDb.getIgnore().get(0)),
-                () -> assertEquals(andyDb, annaDb.getIgnoredBy().get(0)),
-                () -> assertEquals(annaDb, andyDb.getIgnore().get(0)),
+                () -> assertEquals(List.of(andyDb), annaDb.getIgnore()),
+                () -> assertEquals(List.of(andyDb), annaDb.getIgnoredBy()),
+                () -> assertEquals(List.of(annaDb), andyDb.getIgnore()),
                 () -> assertEquals(Set.of(annaDb, matteoDb), Set.copyOf(andyDb.getIgnoredBy())),
-                () -> assertEquals(andyDb, matteoDb.getIgnore().get(0)),
+                () -> assertEquals(List.of(andyDb), matteoDb.getIgnore()),
                 () -> assertTrue(matteoDb.getIgnoredBy().isEmpty())
         );
     }
@@ -193,10 +193,10 @@ public class TestUserDaoImpl extends TestDaoImplBase {
         User matteoDb = userDao.get(matteo.getId());
         
         assertAll(
-                () -> assertEquals(andyDb, annaDb.getFollowing().get(0)),
-                () -> assertEquals(andyDb, annaDb.getFollowers().get(0)),
-                () -> assertEquals(annaDb, andyDb.getFollowing().get(0)),
-                () -> assertEquals(annaDb, andyDb.getFollowers().get(0)),
+                () -> assertEquals(List.of(andyDb), annaDb.getFollowing()),
+                () -> assertEquals(List.of(andyDb), annaDb.getFollowers()),
+                () -> assertEquals(List.of(annaDb), andyDb.getFollowing()),
+                () -> assertEquals(List.of(annaDb), andyDb.getFollowers()),
                 () -> assertTrue(matteoDb.getFollowing().isEmpty()),
                 () -> assertTrue(matteoDb.getFollowers().isEmpty())
         );
@@ -219,11 +219,11 @@ public class TestUserDaoImpl extends TestDaoImplBase {
         User matteoDb = userDao.get(matteo.getId());
         
         assertAll(
-                () -> assertEquals(andyDb, annaDb.getIgnore().get(0)),
+                () -> assertEquals(List.of(andyDb), annaDb.getIgnore()),
                 () -> assertTrue(annaDb.getIgnoredBy().isEmpty()),
                 () -> assertTrue(andyDb.getIgnore().isEmpty()),
                 () -> assertEquals(Set.of(annaDb, matteoDb), Set.copyOf(andyDb.getIgnoredBy())),
-                () -> assertEquals(andyDb, matteoDb.getIgnore().get(0)),
+                () -> assertEquals(List.of(andyDb), matteoDb.getIgnore()),
                 () -> assertTrue(matteoDb.getIgnoredBy().isEmpty())
         );
     }
