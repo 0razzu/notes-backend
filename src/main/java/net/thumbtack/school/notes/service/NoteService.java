@@ -210,8 +210,9 @@ public class NoteService extends ServiceBase {
                 tags.add(i, "+" + tags.remove(i));
         
         List<NoteView> notes = noteDao.getAllByParams(
-                sectionId,
+                sectionId, sortByRating,
                 tags == null? null : String.join(" ", tags),
+                timeFrom, timeTo,
                 author, user.getId(), include,
                 comments, allVersions, commentVersion,
                 from, count

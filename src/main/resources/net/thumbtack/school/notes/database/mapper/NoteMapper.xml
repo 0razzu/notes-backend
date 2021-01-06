@@ -36,14 +36,26 @@
     <select id="getAllByParams" resultMap="resultNoteViews" parameterType="java.util.Map">
         WITH t AS (
             SELECT note.id, max(note_revision.id) AS revision_id
+            <if test="sortByRating != null">
+                , avg(rating.value) AS rating
+            </if>
             FROM note
             JOIN note_revision ON note.id = note_revision.note_id
+            <if test="sortByRating != null">
+                LEFT JOIN rating ON note.id = rating.note_id
+            </if>
             <where>
                 <if test="sectionId != null">
                     note.section_id = #{sectionId}
                 </if>
                 <if test="tags != null">
                     AND match(note_revision.body) against(#{tags} in boolean mode)
+                </if>
+                <if test="timeFrom != null">
+                    AND note.created &gt;= #{timeFrom}
+                </if>
+                <if test="timeTo != null">
+                    AND note.created &lt;= #{timeTo}
                 </if>
                 <if test="author != null">
                     AND author_id = #{author}
@@ -65,6 +77,17 @@
                 </if>
             </where>
             GROUP BY note.id
+            <if test="sortByRating != null">
+                ORDER BY rating
+                <choose>
+                    <when test="sortByRating == 'asc'">
+                        ASC
+                    </when>
+                    <when test="include == 'desc'">
+                        DESC
+                    </when>
+                </choose>
+            </if>
             <if test='count == null and from != null'>
                 LIMIT 2147483647
                 OFFSET #{from}

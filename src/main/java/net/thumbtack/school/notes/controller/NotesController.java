@@ -10,6 +10,7 @@ import net.thumbtack.school.notes.service.NoteService;
 import net.thumbtack.school.notes.validation.constraint.Include;
 import net.thumbtack.school.notes.validation.constraint.Min;
 import net.thumbtack.school.notes.validation.constraint.Sorting;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -102,8 +103,10 @@ public class NotesController {
                                                @RequestParam(required = false) @Sorting String sortByRating,
                                                @RequestParam(required = false) List<String> tags,
                                                @RequestParam(defaultValue = "false") boolean allTags,
-                                               @RequestParam(required = false) LocalDateTime timeFrom,
-                                               @RequestParam(required = false) LocalDateTime timeTo,
+                                               @RequestParam(required = false)
+                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime timeFrom,
+                                               @RequestParam(required = false)
+                                               @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime timeTo,
                                                @RequestParam(required = false) Integer user,
                                                @RequestParam(required = false) @Include String include,
                                                @RequestParam(defaultValue = "false") boolean comments,

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,8 +90,8 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
     
     
     @Override
-    public List<NoteView> getAllByParams(Integer sectionId,
-                                         String tags,
+    public List<NoteView> getAllByParams(Integer sectionId, String sortByRating, String tags,
+                                         LocalDateTime timeFrom, LocalDateTime timeTo,
                                          Integer author, int user, String include,
                                          boolean comments, boolean allVersions, boolean commentVersion,
                                          Integer from, Integer count) throws ServerException {
@@ -99,7 +100,10 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
         try (SqlSession session = getSession()) {
             Map<String, Object> params = new HashMap<>();
             params.put("sectionId", sectionId);
+            params.put("sortByRating", sortByRating);
             params.put("tags", tags);
+            params.put("timeFrom", timeFrom);
+            params.put("timeTo", timeTo);
             params.put("author", author);
             params.put("user", user);
             params.put("include", include);
