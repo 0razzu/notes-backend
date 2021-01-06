@@ -38,14 +38,14 @@ public interface SectionMapper {
     Section get(int id);
     
     
-    @Select("SELECT id, name FROM section WHERE creator_id = #{creator.id}")
-    @ResultMap("sectionFields")
-    List<Section> getByCreator(User creator);
-    
-    
     @Select("SELECT id, name, creator_id FROM section")
     @ResultMap("sectionFields")
     List<Section> getAll();
+    
+    
+    @Select("SELECT id, name FROM section WHERE creator_id = #{id}")
+    @ResultMap("sectionFields")
+    List<Section> getByCreator(User creator);
     
     
     @Delete("DELETE FROM section WHERE id = #{id}")

@@ -13,8 +13,8 @@ public interface SectionDao {
     void update(Section section) throws ServerException;
     
     Section get(int id) throws ServerException;
-    List<Section> getByCreator(User creator) throws ServerException;
     List<Section> getAll() throws ServerException;
+    List<Section> getByCreator(User creator) throws ServerException;
     
     void delete(Section section) throws ServerException;
 }

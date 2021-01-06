@@ -5,15 +5,10 @@ import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class TestSessionDaoImpl extends TestDaoImplBase {
     private static final User james = new User("blackDragon", "1234-Asepgk", "James", null, "Black", UserType.USER);
     private static final User mia = new User("mia", "M1AmiaMIA", "Mia", null, "Evans", UserType.SUPER);

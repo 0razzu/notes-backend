@@ -1,6 +1,7 @@
 package net.thumbtack.school.notes.database.daoimpl;
 
 
+import net.thumbtack.school.notes.database.dao.SectionDao;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.database.util.MyBatisUtil;
@@ -11,22 +12,21 @@ import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest
 public class TestDaoImplBase {
     private static boolean setUp = false;
     @Autowired
+    private Properties properties;
+    @Autowired
     private DebugDao debugDao;
     @Autowired
-    private Properties properties;
+    protected SectionDao sectionDao;
     @Autowired
     protected SessionDao sessionDao;
     @Autowired

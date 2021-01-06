@@ -74,6 +74,19 @@ public class SectionDaoImpl extends DaoImplBase implements SectionDao {
     
     
     @Override
+    public List<Section> getAll() throws ServerException {
+        LOGGER.debug("Getting all sections");
+        
+        try (SqlSession session = getSession()) {
+            return getSectionMapper(session).getAll();
+        } catch (RuntimeException e) {
+            LOGGER.info("Cannot get all sections", e);
+            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
+        }
+    }
+    
+    
+    @Override
     public List<Section> getByCreator(User creator) throws ServerException {
         LOGGER.debug("Getting sections by creator {}", creator);
         
@@ -86,19 +99,6 @@ public class SectionDaoImpl extends DaoImplBase implements SectionDao {
             return sections;
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get sections by creator {}", creator, e);
-            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
-        }
-    }
-    
-    
-    @Override
-    public List<Section> getAll() throws ServerException {
-        LOGGER.debug("Getting all sections");
-        
-        try (SqlSession session = getSession()) {
-            return getSectionMapper(session).getAll();
-        } catch (RuntimeException e) {
-            LOGGER.info("Cannot get all sections", e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }
