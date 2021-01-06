@@ -95,7 +95,11 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
                                          Integer author, int user, String include,
                                          boolean comments, boolean allVersions, boolean commentVersion,
                                          Integer from, Integer count) throws ServerException {
-        LOGGER.debug("Getting note views by params");
+        LOGGER.debug("Getting note views by params sectionId={}, sortByRating={}, tags={}, " +
+                        "timeFrom={}, timeTo={}, author={}, user={}, include={}, " +
+                        "comments={}, allVersions={}, commentVersion={}, from={}, count={}",
+                sectionId, sortByRating, tags, timeFrom, timeTo, author, user, include,
+                comments, allVersions, commentVersion, from, count);
         
         try (SqlSession session = getSession()) {
             Map<String, Object> params = new HashMap<>();
@@ -116,7 +120,11 @@ public class NoteDaoImpl extends DaoImplBase implements NoteDao {
             return session.selectList("net.thumbtack.school.notes.database.mapper.NoteMapper.getAllByParams",
                     params);
         } catch (RuntimeException e) {
-            LOGGER.info("Cannot get note views by params", e);
+            LOGGER.info("Cannot get note views by params sectionId={}, sortByRating={}, tags={}, " +
+                            "timeFrom={}, timeTo={}, author={}, user={}, include={}, " +
+                            "comments={}, allVersions={}, commentVersion={}, from={}, count={}",
+                    sectionId, sortByRating, tags, timeFrom, timeTo, author, user, include,
+                    comments, allVersions, commentVersion, from, count, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }

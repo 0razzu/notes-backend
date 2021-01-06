@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -114,6 +115,56 @@ public class TestUserDaoImpl extends TestDaoImplBase {
                 () -> assertNull(updatedUser.getPatronymic()),
                 () -> assertEquals("Johnsson", updatedUser.getLastName()),
                 () -> assertSame(UserType.SUPER, updatedUser.getType())
+        );
+    }
+    
+    
+    @Test
+    void testFollow() throws ServerException {
+        User anna = insertUser("aNИa", ";lsafd3-Usd2", "Анна", "Петровна", "Птицына", UserType.USER);
+        User andy = insertUser("andy123", "K3rdv-223k", "Andy", null, "Johnson", UserType.USER);
+        User matteo = insertUser("matt30", "432ouN0F(", "Matteo", null, "Russo", UserType.USER);
+        
+        userDao.follow(anna, andy);
+        userDao.follow(andy, anna);
+        userDao.follow(matteo, andy);
+        
+        User annaDb = userDao.get(anna.getId());
+        User andyDb = userDao.get(andy.getId());
+        User matteoDb = userDao.get(matteo.getId());
+        
+        assertAll(
+                () -> assertEquals(andyDb, annaDb.getFollowing().get(0)),
+                () -> assertEquals(andyDb, annaDb.getFollowers().get(0)),
+                () -> assertEquals(annaDb, andyDb.getFollowing().get(0)),
+                () -> assertEquals(Set.of(annaDb, matteoDb), Set.copyOf(andyDb.getFollowers())),
+                () -> assertEquals(andyDb, matteoDb.getFollowing().get(0)),
+                () -> assertTrue(matteoDb.getFollowers().isEmpty())
+        );
+    }
+    
+    
+    @Test
+    void testIgnore() throws ServerException {
+        User anna = insertUser("aNИa", ";lsafd3-Usd2", "Анна", "Петровна", "Птицына", UserType.USER);
+        User andy = insertUser("andy123", "K3rdv-223k", "Andy", null, "Johnson", UserType.USER);
+        User matteo = insertUser("matt30", "432ouN0F(", "Matteo", null, "Russo", UserType.USER);
+        
+        userDao.ignore(anna, andy);
+        userDao.ignore(andy, anna);
+        userDao.ignore(matteo, andy);
+        
+        User annaDb = userDao.get(anna.getId());
+        User andyDb = userDao.get(andy.getId());
+        User matteoDb = userDao.get(matteo.getId());
+        
+        assertAll(
+                () -> assertEquals(andyDb, annaDb.getIgnore().get(0)),
+                () -> assertEquals(andyDb, annaDb.getIgnoredBy().get(0)),
+                () -> assertEquals(annaDb, andyDb.getIgnore().get(0)),
+                () -> assertEquals(Set.of(annaDb, matteoDb), Set.copyOf(andyDb.getIgnoredBy())),
+                () -> assertEquals(andyDb, matteoDb.getIgnore().get(0)),
+                () -> assertTrue(matteoDb.getIgnoredBy().isEmpty())
         );
     }
     
