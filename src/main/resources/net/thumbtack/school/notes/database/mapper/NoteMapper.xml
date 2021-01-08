@@ -49,7 +49,8 @@
                     note.section_id = #{sectionId}
                 </if>
                 <if test="tags != null">
-                    AND match(note_revision.body) against(#{tags} in boolean mode)
+                    AND (match(note.subject) against(#{tags} in boolean mode)
+                        OR match(note_revision.body) against(#{tags} in boolean mode))
                 </if>
                 <if test="timeFrom != null">
                     AND note.created &gt;= #{timeFrom}

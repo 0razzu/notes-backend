@@ -63,6 +63,7 @@ CREATE TABLE note (
     author_id INT,
     section_id INT NOT NULL,
     PRIMARY KEY (id),
+    FULLTEXT KEY (subject),
     KEY (created),
     FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL,
     FOREIGN KEY (section_id) REFERENCES section (id) ON DELETE CASCADE

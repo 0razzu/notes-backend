@@ -69,19 +69,6 @@ public class CommentDaoImpl extends DaoImplBase implements CommentDao {
     
     
     @Override
-    public List<Comment> getByCreated(LocalDateTime created) throws ServerException {
-        LOGGER.debug("Getting comments by created {}", created);
-        
-        try (SqlSession session = getSession()) {
-            return getCommentMapper(session).getByCreated(created);
-        } catch (RuntimeException e) {
-            LOGGER.info("Cannot get comments by created {}", created, e);
-            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
-        }
-    }
-    
-    
-    @Override
     public List<Comment> getByAuthor(User author) throws ServerException {
         LOGGER.debug("Getting comments by {}", author);
         

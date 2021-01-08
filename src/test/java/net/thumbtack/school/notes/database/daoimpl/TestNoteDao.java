@@ -22,16 +22,16 @@ public class TestNoteDao extends TestDaoBase {
     private static final User irene = new User("1rene", "Pa55word", "Irene", null, "Lehtinen", UserType.USER);
     private static final Section important = new Section("Important", admin);
     private static final Section useless = new Section("Useless", alex);
-    private static final Note note1 = new Note("subj1", alex, LocalDateTime.of(2020, 12, 1, 0, 2, 3), important);
-    private static final Note note2 = new Note("subj2", alex, LocalDateTime.of(2021, 1, 1, 1, 3, 8), useless);
-    private static final Note note3 = new Note("subj3", irene, LocalDateTime.of(2021, 1, 2, 1, 0, 9), important);
-    private static final NoteRevision revision11 = new NoteRevision("note1 revision1",
+    private static final Note note1 = new Note("note1", alex, LocalDateTime.of(2020, 12, 1, 0, 2, 3), important);
+    private static final Note note2 = new Note("note2", alex, LocalDateTime.of(2021, 1, 1, 1, 3, 8), useless);
+    private static final Note note3 = new Note("note3", irene, LocalDateTime.of(2021, 1, 2, 1, 0, 9), important);
+    private static final NoteRevision revision11 = new NoteRevision("revision1",
             LocalDateTime.of(2020, 12, 1, 0, 2, 3), note1);
-    private static final NoteRevision revision12 = new NoteRevision("note1 revision2",
+    private static final NoteRevision revision12 = new NoteRevision("revision2",
             LocalDateTime.of(2020, 12, 1, 0, 3, 0), note1);
-    private static final NoteRevision revision21 = new NoteRevision("note2 revision1",
+    private static final NoteRevision revision21 = new NoteRevision("revision1",
             LocalDateTime.of(2021, 1, 1, 1, 3, 8), note2);
-    private static final NoteRevision revision31 = new NoteRevision("note3 revision1",
+    private static final NoteRevision revision31 = new NoteRevision("revision1 by Irene",
             LocalDateTime.of(2021, 1, 2, 1, 0, 9), note3);
     
     
@@ -299,13 +299,19 @@ public class TestNoteDao extends TestDaoBase {
                                 null, alex.getId(), null,
                                 false, false, false, null, null), true),
                         "By tags"),
+                () -> assertTrue(noteDao.getAllByParams(
+                        null, null, "+note3 +revision1",
+                        null, null,
+                        null, alex.getId(), null,
+                        false, false, false, null, null).isEmpty(),
+                        "By all tags 1"),
                 () -> assertTrue(compareViewLists(Collections.singletonList(view3),
                         noteDao.getAllByParams(
-                                null, null, "+note3 +revision1",
+                                null, null, "+irene +revision1",
                                 null, null,
                                 null, alex.getId(), null,
                                 false, false, false, null, null), false),
-                        "By all tags"),
+                        "By all tags 2"),
                 () -> assertTrue(compareViewLists(Arrays.asList(view2, view3),
                         noteDao.getAllByParams(
                                 null, null, null,
