@@ -9,9 +9,9 @@ import net.thumbtack.school.notes.view.NoteView;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -201,7 +201,7 @@ public class TestNoteDao extends TestDaoBase {
     
     
     @Test
-    void testGetAllByParams1() throws ServerException {
+    void testGetAllByParams() throws ServerException {
         userDao.insert(alex);
         userDao.insert(irene);
         userDao.follow(alex, irene);
@@ -224,7 +224,6 @@ public class TestNoteDao extends TestDaoBase {
                 note1.getCreated(),
                 0, Collections.emptyList(), Collections.emptyList()
         );
-        
         NoteView view2 = new NoteView(
                 note2.getId(),
                 note2.getSubject(),
@@ -234,7 +233,6 @@ public class TestNoteDao extends TestDaoBase {
                 note2.getCreated(),
                 0, Collections.emptyList(), Collections.emptyList()
         );
-        
         NoteView view3 = new NoteView(
                 note3.getId(),
                 note3.getSubject(),
@@ -246,28 +244,28 @@ public class TestNoteDao extends TestDaoBase {
         );
         
         assertAll(
-                () -> assertTrue(compareViewLists(Arrays.asList(view1, view2, view3),
+                () -> assertTrue(compareViewLists(List.of(view1, view2, view3),
                         noteDao.getAllByParams(
                                 null, null, null,
                                 null, null,
                                 null, alex.getId(), null,
                                 false, false, false, null, null)),
                         "No params"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view1, view3),
+                () -> assertTrue(compareViewLists(List.of(view1, view3),
                         noteDao.getAllByParams(
                                 important.getId(), null, null,
                                 null, null,
                                 null, alex.getId(), null,
                                 false, false, false, null, null)),
                         "By section"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view1, view3, view2),
+                () -> assertTrue(compareViewLists(List.of(view1, view3, view2),
                         noteDao.getAllByParams(
                                 null, "asc", null,
                                 null, null,
                                 null, alex.getId(), null,
                                 false, false, false, null, null)),
                         "Sorted by rating"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view1, view2),
+                () -> assertTrue(compareViewLists(List.of(view1, view2),
                         noteDao.getAllByParams(
                                 null, null, "note2 revision2",
                                 null, null,
@@ -281,14 +279,14 @@ public class TestNoteDao extends TestDaoBase {
                                 null, alex.getId(), null,
                                 false, false, false, null, null)),
                         "By all tags"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view2, view3),
+                () -> assertTrue(compareViewLists(List.of(view2, view3),
                         noteDao.getAllByParams(
                                 null, null, null,
                                 note2.getCreated(), null,
                                 null, alex.getId(), null,
                                 false, false, false, null, null)),
                         "By time from"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view1, view2),
+                () -> assertTrue(compareViewLists(List.of(view1, view2),
                         noteDao.getAllByParams(
                                 null, null, null,
                                 null, note2.getCreated(),
@@ -338,8 +336,7 @@ public class TestNoteDao extends TestDaoBase {
     }
     
     
-    @Test
-    void testGetAllByParams2() throws ServerException {
+    private Map<Integer, CommentView> insertAll() throws ServerException {
         Comment comment11 = new Comment(LocalDateTime.of(2020, 12, 1, 0, 2, 10),
                 "comm11", admin, revision11);
         Comment comment12 = new Comment(LocalDateTime.of(2021, 1, 5, 0, 0, 0),
@@ -379,95 +376,150 @@ public class TestNoteDao extends TestDaoBase {
                 comment31.getCreated()
         );
         
+        return Map.of(
+                11, commentView11,
+                12, commentView12,
+                31, commentView31
+        );
+    }
+    
+    
+    @Test
+    void testGetAllByParamsWithComments() throws ServerException {
+        Map<Integer, CommentView> commentViews = insertAll();
         NoteView view1 = new NoteView(
-                note1.getId(),
-                note1.getSubject(),
-                revision12.getBody(),
-                important.getId(),
-                alex.getId(),
-                note1.getCreated(),
-                0, Collections.emptyList(), Arrays.asList(commentView11, commentView12)
-        );
+                note1.getId(), note1.getSubject(), revision12.getBody(), important.getId(), alex.getId(),
+                note1.getCreated(), 0, Collections.emptyList(), List.of(commentViews.get(11), commentViews.get(12)));
         NoteView view3 = new NoteView(
-                note3.getId(),
-                note3.getSubject(),
-                revision31.getBody(),
-                important.getId(),
-                irene.getId(),
-                note3.getCreated(),
-                0, Collections.emptyList(), List.of(commentView31)
-        );
+                note3.getId(), note3.getSubject(), revision31.getBody(), important.getId(), irene.getId(),
+                note3.getCreated(), 0, Collections.emptyList(), List.of(commentViews.get(31)));
         
         List<NoteView> views = noteDao.getAllByParams(
                 null, null, null, null, null, null, alex.getId(), null,
                 true, false, false, null, null);
         views.forEach(v -> v.getRevisions().clear());
         
-        assertTrue(compareViewLists(Arrays.asList(view1, view3), views), "With comments");
+        assertTrue(compareViewLists(List.of(view1, view3), views));
+    }
+    
+    
+    @Test
+    void testGetAllByParamsAllVersions() throws ServerException {
+        insertAll();
+        NoteView view1 = new NoteView(
+                note1.getId(), note1.getSubject(), revision12.getBody(), important.getId(), alex.getId(),
+                note1.getCreated(), 0,
+                List.of(
+                        new NoteRevisionView(
+                                revision11.getId(),
+                                revision11.getBody(),
+                                revision11.getCreated(),
+                                Collections.emptyList()),
+                        new NoteRevisionView(
+                                revision12.getId(),
+                                revision12.getBody(),
+                                revision12.getCreated(),
+                                Collections.emptyList())
+                ),
+                Collections.emptyList()
+        );
+        NoteView view3 = new NoteView(
+                note3.getId(), note3.getSubject(), revision31.getBody(), important.getId(), irene.getId(),
+                note3.getCreated(), 0,
+                List.of(
+                        new NoteRevisionView(
+                                revision31.getId(),
+                                revision31.getBody(),
+                                revision31.getCreated(),
+                                Collections.emptyList())
+                ),
+                Collections.emptyList()
+        );
         
-        views = noteDao.getAllByParams(
-                null, null, null, null, null, null, alex.getId(), null,
-                false, true, false, null, null);
-        view1.setRevisions(List.of(
-                new NoteRevisionView(
-                        revision11.getId(),
-                        revision11.getBody(),
-                        revision11.getCreated(),
-                        Collections.emptyList()),
-                new NoteRevisionView(
-                        revision12.getId(),
-                        revision12.getBody(),
-                        revision12.getCreated(),
-                        Collections.emptyList())
-        ));
-        view1.setComments(Collections.emptyList());
-        view3.setRevisions(List.of(
-                new NoteRevisionView(
-                        revision31.getId(),
-                        revision31.getBody(),
-                        revision31.getCreated(),
-                        Collections.emptyList())
-        ));
-        view3.setComments(Collections.emptyList());
+        assertTrue(compareViewLists(List.of(view1, view3),
+                noteDao.getAllByParams(null, null, null, null, null, null, alex.getId(), null,
+                        false, true, false, null, null)));
+    }
+    
+    
+    @Test
+    void testGetAllByParamsAllVersionsWithComments() throws ServerException {
+        Map<Integer, CommentView> commentViews = insertAll();
+        NoteView view1 = new NoteView(
+                note1.getId(), note1.getSubject(), revision12.getBody(), important.getId(), alex.getId(),
+                note1.getCreated(), 0,
+                List.of(
+                        new NoteRevisionView(
+                                revision11.getId(),
+                                revision11.getBody(),
+                                revision11.getCreated(),
+                                List.of(commentViews.get(11))),
+                        new NoteRevisionView(
+                                revision12.getId(),
+                                revision12.getBody(),
+                                revision12.getCreated(),
+                                List.of(commentViews.get(12)))
+                ),
+                List.of(commentViews.get(11), commentViews.get(12))
+        );
+        NoteView view3 = new NoteView(
+                note3.getId(), note3.getSubject(), revision31.getBody(), important.getId(), irene.getId(),
+                note3.getCreated(), 0,
+                List.of(
+                        new NoteRevisionView(
+                                revision31.getId(),
+                                revision31.getBody(),
+                                revision31.getCreated(),
+                                List.of(commentViews.get(31)))
+                ),
+                List.of(commentViews.get(31))
+        );
         
-        assertTrue(compareViewLists(Arrays.asList(view1, view3), views), "All versions");
+        assertTrue(compareViewLists(List.of(view1, view3),
+                noteDao.getAllByParams(null, null, null, null, null, null, alex.getId(), null,
+                        true, true, false, null, null)));
+    }
+    
+    
+    @Test
+    void testGetAllByParamsAllVersionsWithCommentsAndRevIdsInComments() throws ServerException {
+        Map<Integer, CommentView> commentViews = insertAll();
+        commentViews.get(11).setNoteRevisionId(revision11.getId());
+        commentViews.get(12).setNoteRevisionId(revision12.getId());
+        commentViews.get(31).setNoteRevisionId(revision31.getId());
+        NoteView view1 = new NoteView(
+                note1.getId(), note1.getSubject(), revision12.getBody(), important.getId(), alex.getId(),
+                note1.getCreated(), 0,
+                List.of(
+                        new NoteRevisionView(
+                                revision11.getId(),
+                                revision11.getBody(),
+                                revision11.getCreated(),
+                                List.of(commentViews.get(11))),
+                        new NoteRevisionView(
+                                revision12.getId(),
+                                revision12.getBody(),
+                                revision12.getCreated(),
+                                List.of(commentViews.get(12)))
+                ),
+                List.of(commentViews.get(11), commentViews.get(12))
+        );
+        NoteView view3 = new NoteView(
+                note3.getId(), note3.getSubject(), revision31.getBody(), important.getId(), irene.getId(),
+                note3.getCreated(), 0,
+                List.of(
+                        new NoteRevisionView(
+                                revision31.getId(),
+                                revision31.getBody(),
+                                revision31.getCreated(),
+                                List.of(commentViews.get(31)))
+                ),
+                List.of(commentViews.get(31))
+        );
         
-        views = noteDao.getAllByParams(
-                null, null, null, null, null, null, alex.getId(), null,
-                true, true, false, null, null);
-        view1.setRevisions(List.of(
-                new NoteRevisionView(
-                        revision11.getId(),
-                        revision11.getBody(),
-                        revision11.getCreated(),
-                        List.of(commentView11)),
-                new NoteRevisionView(
-                        revision12.getId(),
-                        revision12.getBody(),
-                        revision12.getCreated(),
-                        List.of(commentView12))
-        ));
-        view1.setComments(List.of(commentView11, commentView12));
-        view3.setRevisions(List.of(
-                new NoteRevisionView(
-                        revision31.getId(),
-                        revision31.getBody(),
-                        revision31.getCreated(),
-                        List.of(commentView31))
-        ));
-        view3.setComments(List.of(commentView31));
-        
-        assertTrue(compareViewLists(Arrays.asList(view1, view3), views), "All versions with comments");
-        
-        views = noteDao.getAllByParams(
-                null, null, null, null, null, null, alex.getId(), null,
-                true, true, true, null, null);
-        commentView11.setNoteRevisionId(revision11.getId());
-        commentView12.setNoteRevisionId(revision12.getId());
-        commentView31.setNoteRevisionId(revision31.getId());
-        
-        assertTrue(compareViewLists(Arrays.asList(view1, view3), views),
-                "All versions with comments & revision ids in comments");
+        assertTrue(compareViewLists(List.of(view1, view3),
+                noteDao.getAllByParams(null, null, null, null, null, null, alex.getId(), null,
+                        true, true, true, null, null)));
     }
     
     
