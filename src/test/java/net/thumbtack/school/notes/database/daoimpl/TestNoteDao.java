@@ -7,6 +7,8 @@ import net.thumbtack.school.notes.view.CommentView;
 import net.thumbtack.school.notes.view.NoteRevisionView;
 import net.thumbtack.school.notes.view.NoteView;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TestNoteDao extends TestDaoBase {
+    private final Logger LOGGER = LoggerFactory.getLogger(TestNoteDao.class);
     private static final User alex = new User("alex", "Pa55word", "Alex", null, "Astle", UserType.USER);
     private static final User irene = new User("1rene", "Pa55word", "Irene", null, "Lehtinen", UserType.USER);
     private static final Section important = new Section("Important", admin);
@@ -36,6 +39,12 @@ public class TestNoteDao extends TestDaoBase {
     
     
     private boolean compareNotes(Note note1, Note note2) {
+        LOGGER.debug("\n{}\n{}", note1, note2);
+        LOGGER.debug("\n{}\n{}", note1.getAuthor(), note2.getAuthor());
+        LOGGER.debug("\n{}\n{}", note1.getSection(), note2.getSection());
+        LOGGER.debug("\n{}\n{}", note1.getNoteRevisions(), note2.getNoteRevisions());
+        LOGGER.debug("\n{}\n{}", note1.getRatings(), note2.getRatings());
+        
         return note1.getId() == note2.getId() &&
                 note1.getSubject().equals(note2.getSubject()) &&
                 note1.getAuthor().equals(note2.getAuthor()) &&
@@ -47,6 +56,8 @@ public class TestNoteDao extends TestDaoBase {
     
     
     private boolean compareViews(NoteView view1, NoteView view2) {
+        LOGGER.debug("\n{}\n{}", view1, view2);
+        
         if (view1.getId() != view2.getId() ||
                 !view1.getSubject().equals(view2.getSubject()) ||
                 !view1.getBody().equals(view2.getBody()) ||
@@ -86,6 +97,8 @@ public class TestNoteDao extends TestDaoBase {
     
     
     private boolean compareRevisionViews(NoteRevisionView view1, NoteRevisionView view2) {
+        LOGGER.debug("\n{}\n{}", view1, view2);
+        
         if (view1.getId() != view2.getId() ||
                 !view1.getBody().equals(view2.getBody()) ||
                 !view1.getCreated().equals(view2.getCreated()))
@@ -109,6 +122,8 @@ public class TestNoteDao extends TestDaoBase {
     
     
     private boolean compareCommentViews(CommentView view1, CommentView view2) {
+        LOGGER.debug("\n{}\n{}", view1, view2);
+        
         return view1.getId() == view2.getId() &&
                 view1.getBody().equals(view2.getBody()) &&
                 view1.getAuthorId() == view2.getAuthorId() &&
@@ -118,6 +133,8 @@ public class TestNoteDao extends TestDaoBase {
     
     
     private boolean compareViewLists(List<NoteView> list1, List<NoteView> list2) {
+        LOGGER.debug("\n{}\n{}", list1, list2);
+        
         if (list1.size() != list2.size())
             return false;
         
