@@ -112,20 +112,11 @@
                 </if>
             </if>
         FROM t
-        JOIN note ON t.id = note.id
-        JOIN note_revision ON revision_id = note_revision.id
-        <if test="allVersions">
-            LEFT JOIN note_revision AS note_revision1 ON t.id = note_revision1.note_id
-        </if>
+        LEFT JOIN note ON t.id = note.id
+        LEFT JOIN note_revision ON revision_id = note_revision.id
+        LEFT JOIN note_revision AS note_revision1 ON t.id = note_revision1.note_id
         <if test="comments">
-            LEFT JOIN note_comment ON
-            <if test="allVersions">
-                note_revision1.id
-            </if>
-            <if test="!allVersions">
-                note_revision.id
-            </if>
-                = note_comment.note_revision_id
+            LEFT JOIN note_comment ON note_revision1.id = note_comment.note_revision_id
         </if>
     </select>
 </mapper>

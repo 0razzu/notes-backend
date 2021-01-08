@@ -22,11 +22,15 @@ public class TestDaoBase {
     @Autowired
     private Properties properties;
     @Autowired
+    protected CommentDao commentDao;
+    @Autowired
     private DebugDao debugDao;
     @Autowired
     protected NoteDao noteDao;
     @Autowired
     protected NoteRevisionDao noteRevisionDao;
+    @Autowired
+    protected RatingDao ratingDao;
     @Autowired
     protected SectionDao sectionDao;
     @Autowired

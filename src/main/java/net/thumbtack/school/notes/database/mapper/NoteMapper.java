@@ -54,7 +54,7 @@ public interface NoteMapper {
     
     
     @Select("WITH t AS (" +
-            "   SELECT note.id AS id, subject, body, section_id, author_id, note.created AS created," +
+            "   SELECT note.id, subject, body, section_id, author_id, note.created AS created," +
             "       note_revision.id AS revision_id" +
             "   FROM note" +
             "   LEFT JOIN note_revision ON note.id = note_revision.note_id" +

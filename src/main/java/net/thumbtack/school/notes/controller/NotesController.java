@@ -98,7 +98,7 @@ public class NotesController {
     }
     
     
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<GetNotesResponseItem> getNotes(@RequestParam(required = false) Integer sectionId,
                                                @RequestParam(required = false) @Sorting String sortByRating,
                                                @RequestParam(required = false) List<String> tags,
