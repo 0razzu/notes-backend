@@ -185,19 +185,6 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
-    public List<User> getAll() throws ServerException {
-        LOGGER.debug("Getting all users");
-        
-        try (SqlSession session = getSession()) {
-            return getUserMapper(session).getAll();
-        } catch (RuntimeException e) {
-            LOGGER.info("Cannot get all users", e);
-            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
-        }
-    }
-    
-    
-    @Override
     public List<UserView> getAllWithRating(String sortByRating,
                                            boolean selectSuper, Integer from, Integer count) throws ServerException {
         LOGGER.debug("Getting all users with rating (sortByRating={}, selectSuper={}, from={}, count={})",
