@@ -165,9 +165,9 @@ public class TestNoteDao extends TestDaoBase {
         noteDao.insert(note1, revision11);
         noteDao.insert(note3, revision31);
         
-        note1.setNoteRevisions(Arrays.asList(revision11));
+        note1.setNoteRevisions(Collections.singletonList(revision11));
         note1.setRatings(Collections.emptyList());
-        note3.setNoteRevisions(Arrays.asList(revision31));
+        note3.setNoteRevisions(Collections.singletonList(revision31));
         note3.setRatings(Collections.emptyList());
         
         assertAll(
@@ -299,7 +299,7 @@ public class TestNoteDao extends TestDaoBase {
                                 null, alex.getId(), null,
                                 false, false, false, null, null), true),
                         "By tags"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view3),
+                () -> assertTrue(compareViewLists(Collections.singletonList(view3),
                         noteDao.getAllByParams(
                                 null, null, "+note3 +revision1",
                                 null, null,
@@ -320,21 +320,21 @@ public class TestNoteDao extends TestDaoBase {
                                 null, alex.getId(), null,
                                 false, false, false, null, null), true),
                         "By time to"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view2),
+                () -> assertTrue(compareViewLists(Collections.singletonList(view2),
                         noteDao.getAllByParams(
                                 null, null, null,
                                 note2.getCreated().minusSeconds(1), note3.getCreated().minusSeconds(1),
                                 null, alex.getId(), null,
                                 false, false, false, null, null), false),
                         "By time from & time to"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view3),
+                () -> assertTrue(compareViewLists(Collections.singletonList(view3),
                         noteDao.getAllByParams(
                                 null, null, null,
                                 null, null,
                                 null, irene.getId(), "notIgnore",
                                 false, false, false, null, null), false),
                         "By include: notIgnore"),
-                () -> assertTrue(compareViewLists(Arrays.asList(view3),
+                () -> assertTrue(compareViewLists(Collections.singletonList(view3),
                         noteDao.getAllByParams(
                                 null, null, null,
                                 null, null,
@@ -419,7 +419,7 @@ public class TestNoteDao extends TestDaoBase {
                 note1.getCreated(), 0, Collections.emptyList(), Arrays.asList(commentViews.get(11), commentViews.get(12)));
         NoteView view3 = new NoteView(
                 note3.getId(), note3.getSubject(), revision31.getBody(), important.getId(), irene.getId(),
-                note3.getCreated(), 0, Collections.emptyList(), Arrays.asList(commentViews.get(31)));
+                note3.getCreated(), 0, Collections.emptyList(), Collections.singletonList(commentViews.get(31)));
         
         List<NoteView> views = noteDao.getAllByParams(
                 null, null, null, null, null, null, alex.getId(), null,
@@ -453,7 +453,7 @@ public class TestNoteDao extends TestDaoBase {
         NoteView view3 = new NoteView(
                 note3.getId(), note3.getSubject(), revision31.getBody(), important.getId(), irene.getId(),
                 note3.getCreated(), 0,
-                Arrays.asList(
+                Collections.singletonList(
                         new NoteRevisionView(
                                 revision31.getId(),
                                 revision31.getBody(),
@@ -480,26 +480,26 @@ public class TestNoteDao extends TestDaoBase {
                                 revision11.getId(),
                                 revision11.getBody(),
                                 revision11.getCreated(),
-                                Arrays.asList(commentViews.get(11))),
+                                Collections.singletonList(commentViews.get(11))),
                         new NoteRevisionView(
                                 revision12.getId(),
                                 revision12.getBody(),
                                 revision12.getCreated(),
-                                Arrays.asList(commentViews.get(12)))
+                                Collections.singletonList(commentViews.get(12)))
                 ),
                 Arrays.asList(commentViews.get(11), commentViews.get(12))
         );
         NoteView view3 = new NoteView(
                 note3.getId(), note3.getSubject(), revision31.getBody(), important.getId(), irene.getId(),
                 note3.getCreated(), 0,
-                Arrays.asList(
+                Collections.singletonList(
                         new NoteRevisionView(
                                 revision31.getId(),
                                 revision31.getBody(),
                                 revision31.getCreated(),
-                                Arrays.asList(commentViews.get(31)))
+                                Collections.singletonList(commentViews.get(31)))
                 ),
-                Arrays.asList(commentViews.get(31))
+                Collections.singletonList(commentViews.get(31))
         );
         
         assertTrue(compareViewLists(Arrays.asList(view1, view3),
@@ -522,26 +522,26 @@ public class TestNoteDao extends TestDaoBase {
                                 revision11.getId(),
                                 revision11.getBody(),
                                 revision11.getCreated(),
-                                Arrays.asList(commentViews.get(11))),
+                                Collections.singletonList(commentViews.get(11))),
                         new NoteRevisionView(
                                 revision12.getId(),
                                 revision12.getBody(),
                                 revision12.getCreated(),
-                                Arrays.asList(commentViews.get(12)))
+                                Collections.singletonList(commentViews.get(12)))
                 ),
                 Arrays.asList(commentViews.get(11), commentViews.get(12))
         );
         NoteView view3 = new NoteView(
                 note3.getId(), note3.getSubject(), revision31.getBody(), important.getId(), irene.getId(),
                 note3.getCreated(), 0,
-                Arrays.asList(
+                Collections.singletonList(
                         new NoteRevisionView(
                                 revision31.getId(),
                                 revision31.getBody(),
                                 revision31.getCreated(),
-                                Arrays.asList(commentViews.get(31)))
+                                Collections.singletonList(commentViews.get(31)))
                 ),
-                Arrays.asList(commentViews.get(31))
+                Collections.singletonList(commentViews.get(31))
         );
         
         assertTrue(compareViewLists(Arrays.asList(view1, view3),
@@ -560,7 +560,7 @@ public class TestNoteDao extends TestDaoBase {
         noteDao.insert(note3, revision31);
         noteDao.delete(note3);
         
-        note1.setNoteRevisions(Arrays.asList(revision11));
+        note1.setNoteRevisions(Collections.singletonList(revision11));
         note1.setRatings(Collections.emptyList());
         
         assertAll(
