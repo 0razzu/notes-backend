@@ -1,7 +1,6 @@
-package net.thumbtack.school.notes.database.daoimpl;
+package net.thumbtack.school.notes.database.dao;
 
 
-import net.thumbtack.school.notes.database.dao.*;
 import net.thumbtack.school.notes.database.util.MyBatisUtil;
 import net.thumbtack.school.notes.database.util.Properties;
 import net.thumbtack.school.notes.debug.DebugDao;

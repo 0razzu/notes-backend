@@ -1,4 +1,4 @@
-package net.thumbtack.school.notes.database.daoimpl;
+package net.thumbtack.school.notes.database.dao;
 
 
 import net.thumbtack.school.notes.error.ServerException;
@@ -23,7 +23,6 @@ public class TestNoteRevisionDao extends TestDaoBase {
             LocalDateTime.of(2020, 12, 1, 0, 3, 0), note1);
     private static final NoteRevision revision21 = new NoteRevision("subj2", "text2",
             LocalDateTime.of(2020, 12, 1, 0, 2, 3), note2);
-    
     
     
     @Test
