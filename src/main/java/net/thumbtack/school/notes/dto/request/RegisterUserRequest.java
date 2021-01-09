@@ -14,13 +14,13 @@ import net.thumbtack.school.notes.validation.constraint.Name;
 @Data
 public class RegisterUserRequest {
     @MaxNameLength
-    @Name
+    @Name(nullable = true)
     private String firstName;
     @MaxNameLength(nullable = true)
     @Name(nullable = true)
     private String patronymic;
     @MaxNameLength
-    @Name
+    @Name(nullable = true)
     private String lastName;
     @MaxNameLength
     private String login;
