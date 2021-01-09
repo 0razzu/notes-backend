@@ -4,13 +4,15 @@ package net.thumbtack.school.notes.database.daoimpl;
 import net.thumbtack.school.notes.database.dao.CommentDao;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
-import net.thumbtack.school.notes.model.*;
+import net.thumbtack.school.notes.model.Comment;
+import net.thumbtack.school.notes.model.Note;
+import net.thumbtack.school.notes.model.NoteRevision;
+import net.thumbtack.school.notes.model.User;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -76,19 +78,6 @@ public class CommentDaoImpl extends DaoImplBase implements CommentDao {
             return getCommentMapper(session).getByAuthor(author);
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get comments by {}", author, e);
-            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
-        }
-    }
-    
-    
-    @Override
-    public List<Comment> getBySection(Section section) throws ServerException {
-        LOGGER.debug("Getting comments by {}", section);
-        
-        try (SqlSession session = getSession()) {
-            return getCommentMapper(session).getBySection(section);
-        } catch (RuntimeException e) {
-            LOGGER.info("Cannot get comments by {}", section, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }

@@ -48,19 +48,13 @@ public interface CommentMapper {
     
     
     @Select("SELECT id, created, body, author_id, note_revision_id " +
-            "FROM note_comment WHERE author_id = #{author.id}")
+            "FROM note_comment WHERE author_id = #{id}")
     @ResultMap("commentFields")
     List<Comment> getByAuthor(User author);
     
     
     @Select("SELECT id, created, body, author_id, note_revision_id " +
-            "FROM note_comment WHERE section_id = #{section.id}")
-    @ResultMap("commentFields")
-    List<Comment> getBySection(Section section);
-    
-    
-    @Select("SELECT id, created, body, author_id, note_revision_id " +
-            "FROM note_comment WHERE note_revision_id = #{revision.id}")
+            "FROM note_comment WHERE note_revision_id = #{id}")
     @ResultMap("commentFields")
     List<Comment> getByNoteRevision(NoteRevision revision);
     
@@ -79,9 +73,10 @@ public interface CommentMapper {
     
     @Delete("DELETE FROM note_comment WHERE id IN (" +
             "   SELECT * FROM (" +
-            "       SELECT note_comment.id FROM note_comment" +
-            "       JOIN note_revision ON note_revision_id = note_revision.id" +
-            "       WHERE note_id = #{id}" +
+            "       SELECT id" +
+            "       FROM note_comment" +
+            "       JOIN (SELECT max(id) AS rev_id FROM note_revision WHERE note_id = #{id}) AS u" +
+            "       ON note_revision_id = rev_id" +
             "   ) AS t" +
             ")")
     void deleteByMostRecentNoteRevision(Note note);
