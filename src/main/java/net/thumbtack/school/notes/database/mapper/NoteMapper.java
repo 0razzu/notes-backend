@@ -12,8 +12,8 @@ import java.util.List;
 
 
 public interface NoteMapper {
-    @Insert("INSERT INTO note (subject, author_id, created, section_id) " +
-            "VALUES (#{subject}, #{author.id}, #{created}, #{section.id})")
+    @Insert("INSERT INTO note (author_id, created, section_id) " +
+            "VALUES (#{author.id}, #{created}, #{section.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Integer insert(Note note);
     
@@ -22,7 +22,7 @@ public interface NoteMapper {
     void update(Note note);
     
     
-    @Select("SELECT id, subject, created, author_id, section_id FROM note WHERE id = #{id}")
+    @Select("SELECT id, created, author_id, section_id FROM note WHERE id = #{id}")
     @Results(id = "noteFields", value = {
             @Result(property = "id", column = "id"),
             @Result(property = "author", column = "author_id", javaType = User.class,
@@ -63,12 +63,12 @@ public interface NoteMapper {
     NoteView getView(int id);
     
     
-    @Select("SELECT id, subject, created, author_id, section_id FROM note WHERE author_id = #{id}")
+    @Select("SELECT id, created, author_id, section_id FROM note WHERE author_id = #{id}")
     @ResultMap("noteFields")
     List<Note> getByAuthor(User author);
     
     
-    @Select("SELECT id, subject, created, author_id, section_id FROM note WHERE section_id = #{id}")
+    @Select("SELECT id, created, author_id, section_id FROM note WHERE section_id = #{id}")
     @ResultMap("noteFields")
     List<Note> getBySection(Section section);
     

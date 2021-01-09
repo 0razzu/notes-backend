@@ -10,12 +10,13 @@ import java.util.List;
 
 
 public interface NoteRevisionMapper {
-    @Insert("INSERT INTO note_revision (body, created, note_id) VALUES (#{body}, #{created}, #{note.id})")
+    @Insert("INSERT INTO note_revision (subject, body, created, note_id) " +
+            "VALUES (#{subject}, #{body}, #{created}, #{note.id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Integer insert(NoteRevision revision);
     
     
-    @Select("SELECT id, body, created, note_id FROM note_revision WHERE id = #{id}")
+    @Select("SELECT id, subject, body, created, note_id FROM note_revision WHERE id = #{id}")
     @Results(id = "noteRevisionFields", value = {
             @Result(property = "id", column = "id"),
             @Result(property = "note", column = "note_id", javaType = Note.class,
@@ -34,13 +35,13 @@ public interface NoteRevisionMapper {
     NoteRevision get(int id);
     
     
-    @Select("SELECT id, body, created, note_id FROM note_revision WHERE note_id = #{id}")
+    @Select("SELECT id, subject, body, created, note_id FROM note_revision WHERE note_id = #{id}")
     @ResultMap("noteRevisionFields")
     List<NoteRevision> getByNote(Note note);
     
     
     @Select("WITH t AS (" +
-            "   SELECT note_revision.id, body, note_revision.created, note_id" +
+            "   SELECT note_revision.id, subject, body, note_revision.created, note_id" +
             "   FROM note" +
             "   LEFT JOIN note_revision ON note.id = note_revision.note_id" +
             "   WHERE note.id = #{id}" +

@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestNoteRevisionDao extends TestDaoBase {
     private static final User author = new User("author", "Pa55word", "Author", null, "Author", UserType.USER);
     private static final Section section = new Section("section1", author);
-    private static final Note note1 = new Note("subj1", author, LocalDateTime.of(2020, 12, 1, 0, 2, 3), section);
-    private static final Note note2 = new Note("subj2", author, LocalDateTime.of(2020, 12, 1, 1, 3, 8), section);
-    private static final NoteRevision revision11 = new NoteRevision("text1", LocalDateTime.of(2020, 12, 1, 0, 2, 3),
-            note1);
-    private static final NoteRevision revision12 = new NoteRevision("text1.2", LocalDateTime.of(2020, 12, 1, 0, 3, 0),
-            note1);
-    private static final NoteRevision revision21 = new NoteRevision("text2", LocalDateTime.of(2020, 12, 1, 0, 2, 3),
-            note2);
+    private static final Note note1 = new Note(author, LocalDateTime.of(2020, 12, 1, 0, 2, 3), section);
+    private static final Note note2 = new Note(author, LocalDateTime.of(2020, 12, 1, 1, 3, 8), section);
+    private static final NoteRevision revision11 = new NoteRevision("subj1", "text1",
+            LocalDateTime.of(2020, 12, 1, 0, 2, 3), note1);
+    private static final NoteRevision revision12 = new NoteRevision("subj1", "text1.2",
+            LocalDateTime.of(2020, 12, 1, 0, 3, 0), note1);
+    private static final NoteRevision revision21 = new NoteRevision("subj2", "text2",
+            LocalDateTime.of(2020, 12, 1, 0, 2, 3), note2);
     
     
     

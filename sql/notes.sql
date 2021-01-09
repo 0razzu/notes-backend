@@ -58,12 +58,10 @@ CREATE TABLE section (
 
 CREATE TABLE note (
 	id INT NOT NULL AUTO_INCREMENT,
-    subject VARCHAR(255) NOT NULL,
     created DATETIME NOT NULL DEFAULT now(),
     author_id INT,
     section_id INT NOT NULL,
     PRIMARY KEY (id),
-    FULLTEXT KEY (subject),
     KEY (created),
     FOREIGN KEY (author_id) REFERENCES user (id) ON DELETE SET NULL,
     FOREIGN KEY (section_id) REFERENCES section (id) ON DELETE CASCADE
@@ -71,12 +69,13 @@ CREATE TABLE note (
 
 CREATE TABLE note_revision (
 	id INT NOT NULL AUTO_INCREMENT,
-    created DATETIME NOT NULL DEFAULT now(),
+    subject VARCHAR(255) NOT NULL,
     body LONGTEXT NOT NULL,
+    created DATETIME NOT NULL DEFAULT now(),
     note_id INT NOT NULL,
     PRIMARY KEY (id),
+    FULLTEXT KEY (subject, body),
     KEY (created),
-    FULLTEXT KEY (body),
     FOREIGN KEY (note_id) REFERENCES note (id) ON DELETE CASCADE
 ) ENGINE=INNODB, DEFAULT CHARSET=UTF8MB4;
 

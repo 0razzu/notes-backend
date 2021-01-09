@@ -275,10 +275,10 @@ public class TestUserDao extends TestDaoBase {
         Section section = new Section("s", admin);
         sectionDao.insert(section);
         
-        Note note1 = new Note("subj1", matteo, LocalDateTime.of(2021, 1, 1, 0, 0), section);
-        Note note2 = new Note("subj2", selenia, LocalDateTime.of(2021, 1, 1, 1, 0), section);
-        NoteRevision revision1 = new NoteRevision("body1", note1.getCreated(), note1);
-        NoteRevision revision2 = new NoteRevision("body2", note2.getCreated(), note2);
+        Note note1 = new Note(matteo, LocalDateTime.of(2021, 1, 1, 0, 0), section);
+        Note note2 = new Note(selenia, LocalDateTime.of(2021, 1, 1, 1, 0), section);
+        NoteRevision revision1 = new NoteRevision("subj1", "body1", note1.getCreated(), note1);
+        NoteRevision revision2 = new NoteRevision("subj2", "body2", note2.getCreated(), note2);
         noteDao.insert(note1, revision1);
         noteDao.insert(note2, revision2);
         
@@ -332,12 +332,12 @@ public class TestUserDao extends TestDaoBase {
         Section section = new Section("s", admin);
         sectionDao.insert(section);
         
-        Note note1 = new Note("subj1", matteo, LocalDateTime.of(2021, 1, 1, 0, 0), section);
-        Note note2 = new Note("subj2", selenia, LocalDateTime.of(2021, 1, 1, 1, 0), section);
-        Note note3 = new Note("subj3", admin, LocalDateTime.of(2021, 1, 1, 1, 1), section);
-        NoteRevision revision1 = new NoteRevision("body1", note1.getCreated(), note1);
-        NoteRevision revision2 = new NoteRevision("body2", note2.getCreated(), note2);
-        NoteRevision revision3 = new NoteRevision("body3", note3.getCreated(), note3);
+        Note note1 = new Note(matteo, LocalDateTime.of(2021, 1, 1, 0, 0), section);
+        Note note2 = new Note(selenia, LocalDateTime.of(2021, 1, 1, 1, 0), section);
+        Note note3 = new Note(admin, LocalDateTime.of(2021, 1, 1, 1, 1), section);
+        NoteRevision revision1 = new NoteRevision("subj1", "body1", note1.getCreated(), note1);
+        NoteRevision revision2 = new NoteRevision("subj2", "body2", note2.getCreated(), note2);
+        NoteRevision revision3 = new NoteRevision("subj3", "body3", note3.getCreated(), note3);
         noteDao.insert(note1, revision1);
         noteDao.insert(note2, revision2);
         noteDao.insert(note3, revision3);
@@ -390,10 +390,10 @@ public class TestUserDao extends TestDaoBase {
         Section section = new Section("s", admin);
         sectionDao.insert(section);
         
-        Note note1 = new Note("subj1", matteo, LocalDateTime.of(2021, 1, 1, 0, 0), section);
-        Note note2 = new Note("subj2", selenia, LocalDateTime.of(2021, 1, 1, 1, 0), section);
-        NoteRevision revision1 = new NoteRevision("body1", note1.getCreated(), note1);
-        NoteRevision revision2 = new NoteRevision("body2", note2.getCreated(), note2);
+        Note note1 = new Note(matteo, LocalDateTime.of(2021, 1, 1, 0, 0), section);
+        Note note2 = new Note(selenia, LocalDateTime.of(2021, 1, 1, 1, 0), section);
+        NoteRevision revision1 = new NoteRevision("subj1", "body1", note1.getCreated(), note1);
+        NoteRevision revision2 = new NoteRevision("subj2", "body2", note2.getCreated(), note2);
         noteDao.insert(note1, revision1);
         noteDao.insert(note2, revision2);
         
@@ -455,10 +455,10 @@ public class TestUserDao extends TestDaoBase {
         Section section = new Section("s", admin);
         sectionDao.insert(section);
         
-        Note note1 = new Note("subj1", matteo, LocalDateTime.of(2021, 1, 1, 0, 0), section);
-        Note note2 = new Note("subj2", selenia, LocalDateTime.of(2021, 1, 1, 1, 0), section);
-        NoteRevision revision1 = new NoteRevision("body1", note1.getCreated(), note1);
-        NoteRevision revision2 = new NoteRevision("body2", note2.getCreated(), note2);
+        Note note1 = new Note(matteo, LocalDateTime.of(2021, 1, 1, 0, 0), section);
+        Note note2 = new Note(selenia, LocalDateTime.of(2021, 1, 1, 1, 0), section);
+        NoteRevision revision1 = new NoteRevision("subj1", "body1", note1.getCreated(), note1);
+        NoteRevision revision2 = new NoteRevision("subj2", "body2", note2.getCreated(), note2);
         noteDao.insert(note1, revision1);
         noteDao.insert(note2, revision2);
         

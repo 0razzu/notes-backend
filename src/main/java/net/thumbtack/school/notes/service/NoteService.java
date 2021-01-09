@@ -41,15 +41,15 @@ public class NoteService extends ServiceBase {
             throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
         
         LocalDateTime created = getCurrentTime();
-        Note note = new Note(request.getSubject(), author, created, section);
-        NoteRevision revision = new NoteRevision(request.getBody(), created, note);
+        Note note = new Note(author, created, section);
+        NoteRevision revision = new NoteRevision(request.getSubject(), request.getBody(), created, note);
         
         noteDao.insert(note, revision);
         
         updateSession(response, token, properties.getUserIdleTimeout());
         return new CreateNoteResponse(
                 note.getId(),
-                note.getSubject(),
+                revision.getSubject(),
                 revision.getBody(),
                 section.getId(),
                 author.getId(),
@@ -90,11 +90,13 @@ public class NoteService extends ServiceBase {
         
         if (!note.getAuthor().equals(user))
             throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
+    
+        NoteView view = noteDao.getView(id);
         
         String body = request.getBody();
         NoteRevision revision = null;
         if (body != null)
-            revision = new NoteRevision(body, LocalDateTime.now(ZoneId.of("UTC")), note);
+            revision = new NoteRevision(view.getSubject(), body, LocalDateTime.now(ZoneId.of("UTC")), note);
         
         Integer sectionId = request.getSectionId();
         if (sectionId != null) {
@@ -110,13 +112,12 @@ public class NoteService extends ServiceBase {
         
         noteDao.update(note, revision);
         
-        NoteView view = noteDao.getView(id);
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EditNoteResponse(
                 id,
                 view.getSubject(),
-                view.getBody(),
-                view.getSectionId(),
+                body == null? view.getBody() : body,
+                sectionId == null? view.getSectionId() : sectionId,
                 view.getAuthorId(),
                 view.getCreated(),
                 view.getRevisionId()

@@ -18,7 +18,6 @@ import java.util.Objects;
 @Getter
 public class Note {
     private int id;
-    private String subject;
     private User author;
     private LocalDateTime created;
     private Section section;
@@ -26,14 +25,14 @@ public class Note {
     private List<Rating> ratings;
     
     
-    public Note(String subject, User author, LocalDateTime created, Section section) {
-        this(0, subject, author, created, section, null, null);
+    public Note(User author, LocalDateTime created, Section section) {
+        this(0, author, created, section, null, null);
     }
     
     
     @Override
     public String toString() {
-        return String.format("Note{id=%d, subject='%s', created=%s}", id, subject,
+        return String.format("Note{id=%d, created=%s}", id,
                 created == null? "null" : LocalDateTimeFormatter.format(created));
     }
     
@@ -44,13 +43,12 @@ public class Note {
         if (!(o instanceof Note)) return false;
         Note note = (Note) o;
         return getId() == note.getId() &&
-                Objects.equals(getSubject(), note.getSubject()) &&
                 Objects.equals(getCreated(), note.getCreated());
     }
     
     
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getSubject(), getCreated());
+        return Objects.hash(getId(), getCreated());
     }
 }
