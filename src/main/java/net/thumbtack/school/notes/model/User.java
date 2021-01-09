@@ -31,7 +31,8 @@ public class User {
     private List<User> ignoredBy;
     
     
-    public User(int id, String login, String password, String firstName, String patronymic, String lastName, UserType type) {
+    public User(int id, String login, String password, String firstName, String patronymic, String lastName,
+                UserType type) {
         setId(id);
         setLogin(login);
         setPassword(password);
@@ -44,6 +45,13 @@ public class User {
     
     public User(String login, String password, String firstName, String patronymic, String lastName, UserType type) {
         this(0, login, password, firstName, patronymic, lastName, type);
+    }
+    
+    
+    public User(String login, String password, String firstName, String patronymic, String lastName,
+                UserType type, boolean deleted) {
+        this(login, password, firstName, patronymic, lastName, type);
+        setDeleted(deleted);
     }
     
     
