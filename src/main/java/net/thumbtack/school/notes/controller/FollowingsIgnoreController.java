@@ -45,7 +45,7 @@ public class FollowingsIgnoreController {
     
     
     @DeleteMapping(path = "/followings/{login}",
-            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public EmptyResponse unfollow(@PathVariable("login") String login,
                                   @CookieValue(value = JAVA_SESSION_ID) String token,
                                   HttpServletResponse response) throws ServerException {
@@ -54,7 +54,7 @@ public class FollowingsIgnoreController {
     
     
     @DeleteMapping(path = "/ignore/{login}",
-            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public EmptyResponse unignore(@PathVariable("login") String login,
                                   @CookieValue(value = JAVA_SESSION_ID) String token,
                                   HttpServletResponse response) throws ServerException {

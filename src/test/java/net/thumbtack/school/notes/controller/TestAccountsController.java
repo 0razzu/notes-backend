@@ -1,8 +1,6 @@
 package net.thumbtack.school.notes.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
@@ -12,7 +10,6 @@ import net.thumbtack.school.notes.dto.response.EmptyResponse;
 import net.thumbtack.school.notes.dto.response.GetCurrentUserResponse;
 import net.thumbtack.school.notes.dto.response.RegisterUserResponse;
 import net.thumbtack.school.notes.dto.response.UpdateUserResponse;
-import net.thumbtack.school.notes.dto.response.error.ErrorListResponse;
 import net.thumbtack.school.notes.dto.response.error.ErrorResponse;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
@@ -29,7 +26,8 @@ import java.util.Set;
 
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCode.*;
-import static net.thumbtack.school.notes.error.ErrorCodeWithField.*;
+import static net.thumbtack.school.notes.error.ErrorCodeWithField.NOT_PERMITTED;
+import static net.thumbtack.school.notes.error.ErrorCodeWithField.WRONG_OLD_PASSWORD;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -39,30 +37,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TestAccountsController {
-    private static final User USER = new User(0, "eddie", "12345678", "Eddie", null, "Black", UserType.USER);
-    private static final User ADMIN = new User(0, "admin", "87654321", "Admin", null, "Admin", UserType.SUPER);
-    private static final Cookie COOKIE = new Cookie(JAVA_SESSION_ID, "23ewr23");
-    private static final Set<ErrorResponse> NO_COOKIE_SET =
-            Set.of(new ErrorResponse("NO_COOKIE", JAVA_SESSION_ID, NO_COOKIE.getMessage()));
+public class TestAccountsController extends TestControllerBase {
     @Autowired
     private MockMvc mvc;
-    @Autowired
-    private ObjectMapper mapper;
     @MockBean
     private SessionDao sessionDao;
     @MockBean
     private UserDao userDao;
     
-    
-    private <T> String toJson(T object) throws JsonProcessingException {
-        return mapper.writeValueAsString(object);
-    }
-    
-    
-    private Set<ErrorResponse> getErrorSet(MockHttpServletResponse response) throws Exception {
-        return Set.copyOf(mapper.readValue(response.getContentAsString(), ErrorListResponse.class).getErrors());
-    }
+    private static final User user = new User("eddie", "12345678", "Eddie", null, "Black", UserType.USER);
     
     
     @Test
@@ -83,7 +66,7 @@ public class TestAccountsController {
                         mapper.readValue(response.getContentAsString(), RegisterUserResponse.class))
         );
         
-        verify(userDao).insertAndLogin(USER, cookie.getValue());
+        verify(userDao).insertAndLogin(user, cookie.getValue());
     }
     
     
@@ -110,9 +93,9 @@ public class TestAccountsController {
     @Test
     void testGetCurrentUser() throws Exception {
         clearInvocations(sessionDao);
-        when(sessionDao.getUser(anyString())).thenReturn(USER);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
         
-        MockHttpServletResponse response = mvc.perform(get("/api/account").cookie(COOKIE))
+        MockHttpServletResponse response = mvc.perform(get("/api/account").cookie(cookie))
                 .andExpect(status().isOk()).andReturn().getResponse();
         
         assertAll(
@@ -121,7 +104,7 @@ public class TestAccountsController {
                         mapper.readValue(response.getContentAsString(), GetCurrentUserResponse.class))
         );
         
-        verify(sessionDao).getUser(COOKIE.getValue());
+        verify(sessionDao).getUser(cookie.getValue());
     }
     
     
@@ -130,7 +113,7 @@ public class TestAccountsController {
         MockHttpServletResponse response = mvc.perform(get("/api/account")
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
-        assertEquals(NO_COOKIE_SET, getErrorSet(response));
+        assertEquals(noCookieSet, getErrorSet(response));
     }
     
     
@@ -138,12 +121,12 @@ public class TestAccountsController {
     void testDeregister() throws Exception {
         clearInvocations(sessionDao);
         clearInvocations(userDao);
-        when(sessionDao.getUser(anyString())).thenReturn(USER);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
         
         MockHttpServletResponse response = mvc.perform(delete("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .contentType(APPLICATION_JSON_VALUE)
-                .content(toJson(new DeregisterUserRequest(USER.getPassword())))
+                .content(toJson(new DeregisterUserRequest(user.getPassword())))
         ).andExpect(status().isOk()).andReturn().getResponse();
         
         assertAll(
@@ -152,8 +135,8 @@ public class TestAccountsController {
                         mapper.readValue(response.getContentAsString(), EmptyResponse.class))
         );
         
-        verify(sessionDao).getUser(COOKIE.getValue());
-        verify(userDao).delete(USER);
+        verify(sessionDao).getUser(cookie.getValue());
+        verify(userDao).delete(user);
     }
     
     
@@ -161,10 +144,10 @@ public class TestAccountsController {
     void testDeregisterUserNoCookie() throws Exception {
         MockHttpServletResponse response = mvc.perform(delete("/api/accounts")
                 .contentType(APPLICATION_JSON_VALUE)
-                .content(toJson(new DeregisterUserRequest(USER.getPassword())))
+                .content(toJson(new DeregisterUserRequest(user.getPassword())))
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
-        assertEquals(NO_COOKIE_SET, getErrorSet(response));
+        assertEquals(noCookieSet, getErrorSet(response));
     }
     
     
@@ -172,22 +155,22 @@ public class TestAccountsController {
     void testUpdate() throws Exception {
         clearInvocations(sessionDao);
         clearInvocations(userDao);
-        when(sessionDao.getUser(anyString())).thenReturn(USER);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
         
         MockHttpServletResponse response = mvc.perform(put("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .contentType(APPLICATION_JSON_VALUE)
-                .content(toJson(new UpdateUserRequest("Ann", null, "White", USER.getPassword(), "zaqwsxcd")))
+                .content(toJson(new UpdateUserRequest("Ann", null, "White", user.getPassword(), "zaqwsxcd")))
         ).andExpect(status().isOk()).andReturn().getResponse();
         
         assertAll(
                 () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),
-                () -> assertEquals(new UpdateUserResponse(0, "Ann", null, "White", USER.getLogin()),
+                () -> assertEquals(new UpdateUserResponse(0, "Ann", null, "White", user.getLogin()),
                         mapper.readValue(response.getContentAsString(), UpdateUserResponse.class))
         );
         
-        verify(sessionDao).getUser(COOKIE.getValue());
-        verify(userDao).update(USER);
+        verify(sessionDao).getUser(cookie.getValue());
+        verify(userDao).update(user);
     }
     
     
@@ -195,19 +178,19 @@ public class TestAccountsController {
     void testUpdateNoCookie() throws Exception {
         MockHttpServletResponse response = mvc.perform(put("/api/accounts")
                 .contentType(APPLICATION_JSON_VALUE)
-                .content(toJson(new UpdateUserRequest("Ann", null, "White", USER.getPassword(), "zaqwsxcd")))
+                .content(toJson(new UpdateUserRequest("Ann", null, "White", user.getPassword(), "zaqwsxcd")))
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
-        assertEquals(NO_COOKIE_SET, getErrorSet(response));
+        assertEquals(noCookieSet, getErrorSet(response));
     }
     
     
     @Test
     void testUpdateWrongPassword() throws Exception {
-        when(sessionDao.getUser(anyString())).thenReturn(USER);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
         
         MockHttpServletResponse response = mvc.perform(put("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(toJson(new UpdateUserRequest("Ann", null, "White", "98765432", "zaqwsxcd")))
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
@@ -220,9 +203,9 @@ public class TestAccountsController {
     @Test
     void testUpdateConstraints() throws Exception {
         MockHttpServletResponse response = mvc.perform(put("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .contentType(APPLICATION_JSON_VALUE)
-                .content(toJson(new UpdateUserRequest(null, null, "", USER.getPassword(), "qqq")))
+                .content(toJson(new UpdateUserRequest(null, null, "", user.getPassword(), "qqq")))
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
         assertEquals(Set.of(
@@ -230,7 +213,8 @@ public class TestAccountsController {
                         NAME_LENGTH_CONSTRAINT_VIOLATION.getMessage()),
                 new ErrorResponse("NAME_LENGTH_CONSTRAINT_VIOLATION", "lastName",
                         NAME_LENGTH_CONSTRAINT_VIOLATION.getMessage()),
-                new ErrorResponse("PASSWORD_CONSTRAINT_VIOLATION", "newPassword", PASSWORD_CONSTRAINT_VIOLATION.getMessage())
+                new ErrorResponse("PASSWORD_CONSTRAINT_VIOLATION", "newPassword",
+                        PASSWORD_CONSTRAINT_VIOLATION.getMessage())
         ), getErrorSet(response));
     }
     
@@ -239,10 +223,10 @@ public class TestAccountsController {
     void testMakeSuper() throws Exception {
         clearInvocations(sessionDao);
         clearInvocations(userDao);
-        when(sessionDao.getUser(anyString())).thenReturn(ADMIN);
-        when(userDao.get(anyInt())).thenReturn(USER);
+        when(sessionDao.getUser(anyString())).thenReturn(admin);
+        when(userDao.get(anyInt())).thenReturn(user);
         
-        MockHttpServletResponse response = mvc.perform(put("/api/accounts/0/super").cookie(COOKIE)
+        MockHttpServletResponse response = mvc.perform(put("/api/accounts/0/super").cookie(cookie)
         ).andExpect(status().isOk()).andReturn().getResponse();
         
         assertAll(
@@ -251,14 +235,14 @@ public class TestAccountsController {
                         mapper.readValue(response.getContentAsString(), EmptyResponse.class))
         );
         
-        verify(sessionDao).getUser(COOKIE.getValue());
+        verify(sessionDao).getUser(cookie.getValue());
         verify(userDao).update(new User(
-                USER.getId(),
-                USER.getLogin(),
-                USER.getPassword(),
-                USER.getFirstName(),
-                USER.getPatronymic(),
-                USER.getLastName(),
+                user.getId(),
+                user.getLogin(),
+                user.getPassword(),
+                user.getFirstName(),
+                user.getPatronymic(),
+                user.getLastName(),
                 UserType.SUPER
         ));
     }
@@ -266,9 +250,9 @@ public class TestAccountsController {
     
     @Test
     void testMakeSuperByNonSuper() throws Exception {
-        when(sessionDao.getUser(anyString())).thenReturn(USER);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
         
-        MockHttpServletResponse response = mvc.perform(put("/api/accounts/0/super").cookie(COOKIE)
+        MockHttpServletResponse response = mvc.perform(put("/api/accounts/0/super").cookie(cookie)
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
         assertEquals(Set.of(
@@ -279,7 +263,7 @@ public class TestAccountsController {
     
     @Test
     void testMakeSuperWrongParamType() throws Exception {
-        MockHttpServletResponse response = mvc.perform(put("/api/accounts/j/super").cookie(COOKIE)
+        MockHttpServletResponse response = mvc.perform(put("/api/accounts/j/super").cookie(cookie)
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
         assertEquals(Set.of(
@@ -293,7 +277,7 @@ public class TestAccountsController {
         MockHttpServletResponse response = mvc.perform(put("/api/accounts/0/super")
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
-        assertEquals(NO_COOKIE_SET, getErrorSet(response));
+        assertEquals(noCookieSet, getErrorSet(response));
     }
     
     
@@ -301,15 +285,15 @@ public class TestAccountsController {
     void testGetUsersSortByRating() throws Exception {
         clearInvocations(sessionDao);
         clearInvocations(userDao);
-        when(sessionDao.getUser(anyString())).thenReturn(USER);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
         
         MockHttpServletResponse response = mvc.perform(get("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
         ).andExpect(status().isOk()).andReturn().getResponse();
         
         assertNotNull(response.getCookie(JAVA_SESSION_ID));
         
-        verify(sessionDao).getUser(COOKIE.getValue());
+        verify(sessionDao).getUser(cookie.getValue());
         verify(userDao).getAllWithRating(null, false, null, null);
     }
     
@@ -318,16 +302,16 @@ public class TestAccountsController {
     void testGetUsersSortByRatingSorted() throws Exception {
         clearInvocations(sessionDao);
         clearInvocations(userDao);
-        when(sessionDao.getUser(anyString())).thenReturn(ADMIN);
+        when(sessionDao.getUser(anyString())).thenReturn(admin);
         
         MockHttpServletResponse response = mvc.perform(get("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .param("sortByRating", "asc")
         ).andExpect(status().isOk()).andReturn().getResponse();
         
         assertNotNull(response.getCookie(JAVA_SESSION_ID));
         
-        verify(sessionDao).getUser(COOKIE.getValue());
+        verify(sessionDao).getUser(cookie.getValue());
         verify(userDao).getAllWithRating("asc", true, null, null);
     }
     
@@ -336,17 +320,17 @@ public class TestAccountsController {
     void testGetUsersByRatingType() throws Exception {
         clearInvocations(sessionDao);
         clearInvocations(userDao);
-        when(sessionDao.getUser(anyString())).thenReturn(ADMIN);
+        when(sessionDao.getUser(anyString())).thenReturn(admin);
         
         MockHttpServletResponse response = mvc.perform(get("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .param("type", "lowRating")
                 .param("count", "3")
         ).andExpect(status().isOk()).andReturn().getResponse();
         
         assertNotNull(response.getCookie(JAVA_SESSION_ID));
         
-        verify(sessionDao).getUser(COOKIE.getValue());
+        verify(sessionDao).getUser(cookie.getValue());
         verify(userDao).getAllByRatingType("lowRating", true, null, 3);
     }
     
@@ -355,17 +339,17 @@ public class TestAccountsController {
     void testGetUsersByType() throws Exception {
         clearInvocations(sessionDao);
         clearInvocations(userDao);
-        when(sessionDao.getUser(anyString())).thenReturn(ADMIN);
+        when(sessionDao.getUser(anyString())).thenReturn(admin);
         
         MockHttpServletResponse response = mvc.perform(get("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .param("type", "deleted")
                 .param("from", "1")
         ).andExpect(status().isOk()).andReturn().getResponse();
         
         assertNotNull(response.getCookie(JAVA_SESSION_ID));
         
-        verify(sessionDao).getUser(COOKIE.getValue());
+        verify(sessionDao).getUser(cookie.getValue());
         verify(userDao).getAllByType("deleted", null, true, 1, null);
     }
     
@@ -374,10 +358,10 @@ public class TestAccountsController {
     void testGetUsersByRelationToUser() throws Exception {
         clearInvocations(sessionDao);
         clearInvocations(userDao);
-        when(sessionDao.getUser(anyString())).thenReturn(USER);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
         
         MockHttpServletResponse response = mvc.perform(get("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .param("type", "followers")
                 .param("from", "2")
                 .param("count", "5")
@@ -385,15 +369,15 @@ public class TestAccountsController {
         
         assertNotNull(response.getCookie(JAVA_SESSION_ID));
         
-        verify(sessionDao).getUser(COOKIE.getValue());
-        verify(userDao).getAllByRelationToUser(USER, "followers", null, false, 2, 5);
+        verify(sessionDao).getUser(cookie.getValue());
+        verify(userDao).getAllByRelationToUser(user, "followers", null, false, 2, 5);
     }
     
     
     @Test
     void testGetUsersTypeMismatch() throws Exception {
         MockHttpServletResponse response = mvc.perform(get("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .param("count", "a")
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
@@ -406,7 +390,7 @@ public class TestAccountsController {
     @Test
     void testGetUsersConstraints() throws Exception {
         MockHttpServletResponse response = mvc.perform(get("/api/accounts")
-                .cookie(COOKIE)
+                .cookie(cookie)
                 .param("sortByRating", "w")
                 .param("type", "aaa")
                 .param("from", "-1")
@@ -430,6 +414,6 @@ public class TestAccountsController {
                 .param("type", "followers")
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
-        assertEquals(NO_COOKIE_SET, getErrorSet(response));
+        assertEquals(noCookieSet, getErrorSet(response));
     }
 }
