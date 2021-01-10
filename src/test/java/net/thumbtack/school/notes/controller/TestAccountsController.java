@@ -26,7 +26,6 @@ import java.util.Set;
 
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCode.*;
-import static net.thumbtack.school.notes.error.ErrorCodeWithField.NOT_PERMITTED;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.WRONG_OLD_PASSWORD;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -255,9 +254,7 @@ public class TestAccountsController extends TestControllerBase {
         MockHttpServletResponse response = mvc.perform(put("/api/accounts/0/super").cookie(cookie)
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
-        assertEquals(Set.of(
-                new ErrorResponse("NOT_PERMITTED", JAVA_SESSION_ID, NOT_PERMITTED.getMessage())
-        ), getErrorSet(response));
+        assertEquals(notPermittedSet, getErrorSet(response));
     }
     
     

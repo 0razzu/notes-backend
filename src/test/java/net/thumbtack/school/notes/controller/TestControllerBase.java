@@ -14,6 +14,7 @@ import javax.servlet.http.Cookie;
 import java.util.Set;
 
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.error.ErrorCodeWithField.NOT_PERMITTED;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.NO_COOKIE;
 
 
@@ -24,6 +25,8 @@ public class TestControllerBase {
     protected static final Cookie cookie = new Cookie(JAVA_SESSION_ID, "23ewr23");
     protected static final Set<ErrorResponse> noCookieSet =
             Set.of(new ErrorResponse("NO_COOKIE", JAVA_SESSION_ID, NO_COOKIE.getMessage()));
+    protected static final Set<ErrorResponse> notPermittedSet =
+            Set.of(new ErrorResponse("NOT_PERMITTED", JAVA_SESSION_ID, NOT_PERMITTED.getMessage()));
     protected static final User admin = new User("admin", "87654321", "Admin", null, "Admin", UserType.SUPER);
     
     
