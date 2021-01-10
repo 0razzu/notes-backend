@@ -20,9 +20,9 @@ import java.time.LocalDateTime;
 @Service
 public class CommentService extends ServiceBase {
     protected CommentService(Properties properties, CommentDao commentDao,
-                             NoteDao noteDao, NoteRevisionDao noteRevisionDao, SectionDao sectionDao,
+                             NoteDao noteDao, NoteRevisionDao noteRevisionDao,
                              SessionDao sessionDao, UserDao userDao) {
-        super(properties, commentDao, noteDao, noteRevisionDao, null, sectionDao, sessionDao, userDao);
+        super(properties, commentDao, noteDao, noteRevisionDao, null, null, sessionDao, userDao);
     }
     
     
@@ -92,7 +92,8 @@ public class CommentService extends ServiceBase {
         Comment comment = commentDao.get(id);
         
         if (comment != null) {
-            if (user.getType() != UserType.SUPER && !comment.getAuthor().equals(user))
+            if (user.getType() != UserType.SUPER && !comment.getAuthor().equals(user) &&
+                    !comment.getNoteRevision().getNote().getAuthor().equals(user))
                 throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
             
             commentDao.delete(comment);

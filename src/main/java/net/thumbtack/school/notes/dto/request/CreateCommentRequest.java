@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Data
 public class CreateCommentRequest {
-    @NotBlank
+    @NotBlank(message = "NOT_BLANK")
     private String body;
     private int noteId;
 }
