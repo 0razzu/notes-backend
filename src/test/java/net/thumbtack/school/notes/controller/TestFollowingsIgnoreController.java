@@ -22,7 +22,6 @@ import java.util.Set;
 import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.USER_NOT_FOUND_BY_LOGIN;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;

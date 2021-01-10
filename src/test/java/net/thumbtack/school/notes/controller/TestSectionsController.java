@@ -29,7 +29,6 @@ import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_I
 import static net.thumbtack.school.notes.error.ErrorCode.SECTION_NAME_CONSTRAINT_VIOLATION;
 import static net.thumbtack.school.notes.error.ErrorCode.TYPE_MISMATCH;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -245,7 +244,7 @@ public class TestSectionsController extends TestControllerBase {
         ).andExpect(status().isOk()).andReturn().getResponse();
         
         List<GetSectionsResponseItem> sectionsResponse = mapper.readValue(response.getContentAsString(),
-                new TypeReference<List<GetSectionsResponseItem>>() {});
+                new TypeReference<>() {});
         
         assertAll(
                 () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),

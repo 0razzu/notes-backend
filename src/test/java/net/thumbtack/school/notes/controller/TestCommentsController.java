@@ -25,8 +25,6 @@ import static net.thumbtack.school.notes.error.ErrorCode.NOT_BLANK;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.COMMENT_NOT_FOUND;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.NOTE_NOT_FOUND_NOTE_ID;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
