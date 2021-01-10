@@ -26,9 +26,8 @@ import java.util.stream.Collectors;
 @Service
 public class NoteService extends ServiceBase {
     protected NoteService(Properties properties, CommentDao commentDao,
-                          NoteDao noteDao, RatingDao ratingDao, SectionDao sectionDao,
-                          SessionDao sessionDao, UserDao userDao) {
-        super(properties, commentDao, noteDao, null, ratingDao, sectionDao, sessionDao, userDao);
+                          NoteDao noteDao, RatingDao ratingDao, SectionDao sectionDao, SessionDao sessionDao) {
+        super(properties, commentDao, noteDao, null, ratingDao, sectionDao, sessionDao, null);
     }
     
     
@@ -90,7 +89,7 @@ public class NoteService extends ServiceBase {
         
         if (!note.getAuthor().equals(user))
             throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
-    
+        
         NoteView view = noteDao.getView(id);
         
         String body = request.getBody();
@@ -130,7 +129,7 @@ public class NoteService extends ServiceBase {
         Note note = noteDao.get(id);
         
         if (note != null) {
-            if (!note.getAuthor().equals(user))
+            if (user.getType() != UserType.SUPER && !note.getAuthor().equals(user))
                 throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
             
             noteDao.delete(note);

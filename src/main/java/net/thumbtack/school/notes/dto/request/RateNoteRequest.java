@@ -13,7 +13,7 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor
 @Data
 public class RateNoteRequest {
-    @Min(value = 1, message = "MAX_CONSTRAINT_VIOLATION")
-    @Max(value = 5, message = "MIN_CONSTRAINT_VIOLATION")
+    @Min(value = 1, message = "MIN_CONSTRAINT_VIOLATION")
+    @Max(value = 5, message = "MAX_CONSTRAINT_VIOLATION")
     private int rating;
 }

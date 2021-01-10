@@ -90,10 +90,10 @@ public class NotesController {
     
     @PostMapping(path = "/{id}/rating",
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public EmptyResponse create(@PathVariable("id") int id,
-                                @Validated @RequestBody RateNoteRequest request,
-                                @CookieValue(value = JAVA_SESSION_ID) String token,
-                                HttpServletResponse response) throws ServerException {
+    public EmptyResponse rate(@PathVariable("id") int id,
+                              @Validated @RequestBody RateNoteRequest request,
+                              @CookieValue(value = JAVA_SESSION_ID) String token,
+                              HttpServletResponse response) throws ServerException {
         return noteService.rate(id, request, token, response);
     }
     

@@ -41,8 +41,7 @@ public class TestFollowingsIgnoreController extends TestControllerBase {
     private UserDao userDao;
     
     private static final Set<ErrorResponse> noUserSet = Set.of(
-            new ErrorResponse("USER_NOT_FOUND_BY_LOGIN", "login", USER_NOT_FOUND_BY_LOGIN.getMessage())
-    );
+            new ErrorResponse("USER_NOT_FOUND_BY_LOGIN", "login", USER_NOT_FOUND_BY_LOGIN.getMessage()));
     private static final User alice = new User("alice", "Ju3410K8f", "Alice", null, "Brown", UserType.USER);
     private static final User bob = new User("bob", "3refd219", "Bob", null, "Nitt", UserType.USER);
     
