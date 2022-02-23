@@ -3,7 +3,7 @@ package net.thumbtack.school.notes.service;
 
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
-import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.request.UpdateUserRequest;

@@ -2,7 +2,7 @@ package net.thumbtack.school.notes.database.daoimpl;
 
 
 import net.thumbtack.school.notes.database.dao.UserDao;
-import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;

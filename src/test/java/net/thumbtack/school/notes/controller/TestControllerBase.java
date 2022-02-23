@@ -13,7 +13,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import javax.servlet.http.Cookie;
 import java.util.Set;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.NOT_PERMITTED;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.NO_COOKIE;
 

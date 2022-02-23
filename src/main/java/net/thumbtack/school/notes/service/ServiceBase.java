@@ -2,7 +2,7 @@ package net.thumbtack.school.notes.service;
 
 
 import net.thumbtack.school.notes.database.dao.*;
-import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.util.Properties.JAVA_SESSION_ID;
 
 
 @Service

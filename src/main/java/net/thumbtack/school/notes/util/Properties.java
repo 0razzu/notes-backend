@@ -1,4 +1,4 @@
-package net.thumbtack.school.notes.database.util;
+package net.thumbtack.school.notes.util;
 
 
 import org.springframework.beans.factory.annotation.Value;

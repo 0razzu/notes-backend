@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.servlet.http.Cookie;
 import java.util.Set;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCode.*;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.WRONG_OLD_PASSWORD;
 import static org.junit.jupiter.api.Assertions.*;

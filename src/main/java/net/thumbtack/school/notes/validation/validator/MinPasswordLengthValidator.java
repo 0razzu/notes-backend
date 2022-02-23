@@ -1,7 +1,7 @@
 package net.thumbtack.school.notes.validation.validator;
 
 
-import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.validation.constraint.MinPasswordLength;
 import org.springframework.stereotype.Component;
 

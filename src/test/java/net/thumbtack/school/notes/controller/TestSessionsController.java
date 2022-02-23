@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Set;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCode.NOT_BLANK;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.*;
 import static org.junit.jupiter.api.Assertions.*;

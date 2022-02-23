@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Set;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCode.SECTION_NAME_CONSTRAINT_VIOLATION;
 import static net.thumbtack.school.notes.error.ErrorCode.TYPE_MISMATCH;
 import static org.junit.jupiter.api.Assertions.*;

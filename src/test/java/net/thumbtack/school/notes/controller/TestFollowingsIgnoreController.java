@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Set;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.USER_NOT_FOUND_BY_LOGIN;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

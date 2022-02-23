@@ -2,7 +2,7 @@ package net.thumbtack.school.notes.database.dao;
 
 
 import net.thumbtack.school.notes.database.util.MyBatisUtil;
-import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.debug.DebugDao;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;

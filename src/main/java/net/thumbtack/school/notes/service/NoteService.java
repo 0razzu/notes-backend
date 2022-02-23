@@ -2,7 +2,7 @@ package net.thumbtack.school.notes.service;
 
 
 import net.thumbtack.school.notes.database.dao.*;
-import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.dto.request.CreateNoteRequest;
 import net.thumbtack.school.notes.dto.request.EditNoteRequest;
 import net.thumbtack.school.notes.dto.request.RateNoteRequest;

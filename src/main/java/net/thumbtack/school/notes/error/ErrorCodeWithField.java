@@ -4,7 +4,7 @@ package net.thumbtack.school.notes.error;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.util.Properties.JAVA_SESSION_ID;
 
 
 @AllArgsConstructor

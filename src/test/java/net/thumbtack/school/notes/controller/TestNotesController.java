@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static net.thumbtack.school.notes.database.util.Properties.JAVA_SESSION_ID;
+import static net.thumbtack.school.notes.util.Properties.JAVA_SESSION_ID;
 import static net.thumbtack.school.notes.error.ErrorCode.*;
 import static net.thumbtack.school.notes.error.ErrorCodeWithField.*;
 import static org.junit.jupiter.api.Assertions.*;

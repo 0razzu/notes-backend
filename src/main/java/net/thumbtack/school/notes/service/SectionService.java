@@ -4,7 +4,7 @@ package net.thumbtack.school.notes.service;
 import net.thumbtack.school.notes.database.dao.SectionDao;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
-import net.thumbtack.school.notes.database.util.Properties;
+import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.dto.request.CreateSectionRequest;
 import net.thumbtack.school.notes.dto.request.RenameSectionRequest;
 import net.thumbtack.school.notes.dto.response.CreateSectionResponse;
