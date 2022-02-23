@@ -119,7 +119,7 @@ public class NoteService extends ServiceBase {
                 sectionId == null? view.getSectionId() : sectionId,
                 view.getAuthorId(),
                 view.getCreated(),
-                view.getRevisionId()
+                revision == null? view.getRevisionId() : revision.getId()
         );
     }
     

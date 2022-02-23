@@ -195,6 +195,13 @@ public class TestNotesController extends TestControllerBase {
         clearInvocations(sessionDao);
         when(noteDao.get(1)).thenReturn(admNote1);
         when(noteDao.getView(1)).thenReturn(admView1);
+        doAnswer(invocation -> {
+            NoteRevision revision = invocation.getArgument(1, NoteRevision.class);
+            
+            revision.setId(admView1.getRevisionId() + 1);
+            
+            return null;
+        }).when(noteDao).update(any(), any(NoteRevision.class));
         when(sessionDao.getUser(anyString())).thenReturn(admin);
         
         MockHttpServletResponse response = mvc.perform(put("/api/notes/1")
@@ -212,7 +219,7 @@ public class TestNotesController extends TestControllerBase {
                         admView1.getSectionId(),
                         admView1.getAuthorId(),
                         admView1.getCreated(),
-                        admView1.getRevisionId()
+                        admView1.getRevisionId() + 1
                 ), mapper.readValue(response.getContentAsString(), EditNoteResponse.class))
         );
         
@@ -263,6 +270,13 @@ public class TestNotesController extends TestControllerBase {
         clearInvocations(sessionDao);
         when(noteDao.get(1)).thenReturn(admNote1);
         when(noteDao.getView(1)).thenReturn(admView1);
+        doAnswer(invocation -> {
+            NoteRevision revision = invocation.getArgument(1, NoteRevision.class);
+            
+            revision.setId(admView1.getRevisionId() + 1);
+            
+            return null;
+        }).when(noteDao).update(any(), any(NoteRevision.class));
         when(sectionDao.get(2)).thenReturn(billSection);
         when(sessionDao.getUser(anyString())).thenReturn(admin);
         
@@ -281,7 +295,7 @@ public class TestNotesController extends TestControllerBase {
                         2,
                         admView1.getAuthorId(),
                         admView1.getCreated(),
-                        admView1.getRevisionId()
+                        admView1.getRevisionId() + 1
                 ), mapper.readValue(response.getContentAsString(), EditNoteResponse.class))
         );
         
