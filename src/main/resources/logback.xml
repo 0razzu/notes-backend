@@ -3,8 +3,11 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level [%thread] %logger{36}: %msg%n</pattern>
+            <pattern>%d{yyyy.MM.dd HH:mm:ss.SSS} %highlight(%-5level) %green([%thread]) %gray(%logger{36}:) %msg%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
     </appender>
 
     <appender name="notesLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -25,8 +28,6 @@
 
     <root level="DEBUG">
         <appender-ref ref="notesLog"/>
-    </root>
-    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
