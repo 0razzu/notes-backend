@@ -1,0 +1,27 @@
+spring:
+  main:
+    banner-mode: off
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+    default-property-inclusion: non_null
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  web:
+    resources:
+      add-mappings: false
+
+server:
+  port: 8080
+
+user_idle_timeout: 600
+clear_outdated_sessions_rate: 300000
+max_name_length: 255
+min_password_length: 8
+allowed_origins: >
+  http://localhost:3000,
+  http://localhost:3001
+
