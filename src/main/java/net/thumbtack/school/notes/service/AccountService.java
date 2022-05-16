@@ -81,7 +81,7 @@ public class AccountService extends ServiceBase {
                 requestedUser.getFirstName(),
                 requestedUser.getPatronymic(),
                 requestedUser.getLastName(),
-                user.getType() == UserType.SUPER && requestedUser.getType() == UserType.SUPER
+                user.getType() == UserType.SUPER? requestedUser.getType() == UserType.SUPER : null
         );
     }
     
