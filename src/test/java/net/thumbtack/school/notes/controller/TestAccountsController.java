@@ -124,7 +124,7 @@ public class TestAccountsController extends TestControllerBase {
         
         assertAll(
                 () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),
-                () -> assertEquals(new GetUserResponse(0, "Admin", null, "Admin"),
+                () -> assertEquals(new GetUserResponse(0, "Admin", null, "Admin", false),
                         mapper.readValue(response.getContentAsString(), GetUserResponse.class))
         );
         

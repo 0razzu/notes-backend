@@ -80,7 +80,8 @@ public class AccountService extends ServiceBase {
                 requestedUser.getId(),
                 requestedUser.getFirstName(),
                 requestedUser.getPatronymic(),
-                requestedUser.getLastName()
+                requestedUser.getLastName(),
+                user.getType() == UserType.SUPER && requestedUser.getType() == UserType.SUPER
         );
     }
     
