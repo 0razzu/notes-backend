@@ -49,6 +49,16 @@ public class AccountsController {
     }
     
     
+    @GetMapping(path = "/accounts/{login}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public GetUserResponse getUser(@PathVariable("login") String login,
+                                   @CookieValue(value = JAVA_SESSION_ID) String token,
+                                   HttpServletResponse response)
+            throws ServerException {
+        return accountService.getUser(login, token, response);
+    }
+    
+    
     @DeleteMapping(path = "/accounts",
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public EmptyResponse deregister(@Validated @RequestBody DeregisterUserRequest request,

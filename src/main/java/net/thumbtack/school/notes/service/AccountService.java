@@ -67,6 +67,24 @@ public class AccountService extends ServiceBase {
     }
     
     
+    public GetUserResponse getUser(String login, String token, HttpServletResponse response)
+            throws ServerException {
+        User user = getUserByToken(token);
+        User requestedUser = userDao.getByLogin(login);
+        
+        if (requestedUser == null)
+            throw new ServerException(ErrorCodeWithField.USER_NOT_FOUND_BY_LOGIN);
+        
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return new GetUserResponse(
+                requestedUser.getId(),
+                requestedUser.getFirstName(),
+                requestedUser.getPatronymic(),
+                requestedUser.getLastName()
+        );
+    }
+    
+    
     public EmptyResponse deregister(DeregisterUserRequest request, String token, HttpServletResponse response)
             throws ServerException {
         User user = getUserByToken(token);

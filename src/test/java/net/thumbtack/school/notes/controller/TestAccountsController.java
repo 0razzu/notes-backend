@@ -6,10 +6,7 @@ import net.thumbtack.school.notes.database.dao.UserDao;
 import net.thumbtack.school.notes.dto.request.DeregisterUserRequest;
 import net.thumbtack.school.notes.dto.request.RegisterUserRequest;
 import net.thumbtack.school.notes.dto.request.UpdateUserRequest;
-import net.thumbtack.school.notes.dto.response.EmptyResponse;
-import net.thumbtack.school.notes.dto.response.GetCurrentUserResponse;
-import net.thumbtack.school.notes.dto.response.RegisterUserResponse;
-import net.thumbtack.school.notes.dto.response.UpdateUserResponse;
+import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.dto.response.error.ErrorResponse;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
@@ -110,6 +107,34 @@ public class TestAccountsController extends TestControllerBase {
     @Test
     void testGetCurrentUserNoCookie() throws Exception {
         MockHttpServletResponse response = mvc.perform(get("/api/account")
+        ).andExpect(status().isBadRequest()).andReturn().getResponse();
+        
+        assertEquals(noCookieSet, getErrorSet(response));
+    }
+    
+    
+    @Test
+    void testGetUser() throws Exception {
+        clearInvocations(sessionDao);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
+        when(userDao.getByLogin("admin")).thenReturn(admin);
+        
+        MockHttpServletResponse response = mvc.perform(get("/api/accounts/admin").cookie(cookie))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        
+        assertAll(
+                () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),
+                () -> assertEquals(new GetUserResponse(0, "Admin", null, "Admin"),
+                        mapper.readValue(response.getContentAsString(), GetUserResponse.class))
+        );
+        
+        verify(sessionDao).getUser(cookie.getValue());
+    }
+    
+    
+    @Test
+    void testGetUserNoCookie() throws Exception {
+        MockHttpServletResponse response = mvc.perform(get("/api/accounts/admin")
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
         assertEquals(noCookieSet, getErrorSet(response));
