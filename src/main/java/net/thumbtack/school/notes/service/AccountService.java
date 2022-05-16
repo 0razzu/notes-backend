@@ -58,6 +58,7 @@ public class AccountService extends ServiceBase {
         
         updateSession(response, token, properties.getUserIdleTimeout());
         return new GetCurrentUserResponse(
+                user.getId(),
                 user.getFirstName(),
                 user.getPatronymic(),
                 user.getLastName(),

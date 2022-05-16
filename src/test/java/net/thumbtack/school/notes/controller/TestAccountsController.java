@@ -99,7 +99,7 @@ public class TestAccountsController extends TestControllerBase {
         
         assertAll(
                 () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),
-                () -> assertEquals(new GetCurrentUserResponse("Eddie", null, "Black", "eddie"),
+                () -> assertEquals(new GetCurrentUserResponse(0, "Eddie", null, "Black", "eddie"),
                         mapper.readValue(response.getContentAsString(), GetCurrentUserResponse.class))
         );
         
