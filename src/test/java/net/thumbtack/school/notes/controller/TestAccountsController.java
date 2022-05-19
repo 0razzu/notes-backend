@@ -10,6 +10,7 @@ import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.dto.response.error.ErrorResponse;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
+import net.thumbtack.school.notes.view.ShortUserView;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -117,14 +118,14 @@ public class TestAccountsController extends TestControllerBase {
     void testGetUser() throws Exception {
         clearInvocations(sessionDao);
         when(sessionDao.getUser(anyString())).thenReturn(user);
-        when(userDao.getByLogin("admin")).thenReturn(admin);
+        when(userDao.getShort(any(), any())).thenReturn(new ShortUserView(0, "Admin", null, "Admin", null, false, false));
         
         MockHttpServletResponse response = mvc.perform(get("/api/accounts/admin").cookie(cookie))
                 .andExpect(status().isOk()).andReturn().getResponse();
         
         assertAll(
                 () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),
-                () -> assertEquals(new GetUserResponse(0, "Admin", null, "Admin", null),
+                () -> assertEquals(new GetUserResponse(0, "Admin", null, "Admin", null, false, false),
                         mapper.readValue(response.getContentAsString(), GetUserResponse.class))
         );
         

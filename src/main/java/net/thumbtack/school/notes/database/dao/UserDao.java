@@ -3,6 +3,7 @@ package net.thumbtack.school.notes.database.dao;
 
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
+import net.thumbtack.school.notes.view.ShortUserView;
 import net.thumbtack.school.notes.view.UserView;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public interface UserDao {
     
     User get(int id) throws ServerException;
     User getByLogin(String login) throws ServerException;
+    ShortUserView getShort(User user, String requestedLogin) throws ServerException;
     List<UserView> getAllWithRating(String sortByRating, boolean selectSuper, Integer from, Integer count)
             throws ServerException;
     List<UserView> getAllByRatingType(String ratingType, boolean selectSuper, Integer from, Integer count)

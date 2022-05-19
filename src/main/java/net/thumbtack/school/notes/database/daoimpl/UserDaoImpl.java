@@ -7,6 +7,7 @@ import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
+import net.thumbtack.school.notes.view.ShortUserView;
 import net.thumbtack.school.notes.view.UserView;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -184,6 +185,19 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
             return getUserMapper(session).getByLogin(login);
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get user by login {}", login, e);
+            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
+        }
+    }
+    
+    
+    @Override
+    public ShortUserView getShort(User user, String requestedLogin) throws ServerException {
+        LOGGER.debug("Getting short user view by login {}", requestedLogin);
+        
+        try (SqlSession session = getSession()) {
+            return getUserMapper(session).getShort(user, requestedLogin);
+        } catch (RuntimeException e) {
+            LOGGER.info("Cannot get short user view by login {}", requestedLogin, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }

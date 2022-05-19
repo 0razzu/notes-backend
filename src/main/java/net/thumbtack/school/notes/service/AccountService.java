@@ -12,6 +12,7 @@ import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
+import net.thumbtack.school.notes.view.ShortUserView;
 import net.thumbtack.school.notes.view.UserView;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +72,7 @@ public class AccountService extends ServiceBase {
     public GetUserResponse getUser(String login, String token, HttpServletResponse response)
             throws ServerException {
         User user = getUserByToken(token);
-        User requestedUser = userDao.getByLogin(login);
+        ShortUserView requestedUser = userDao.getShort(user, login);
         
         if (requestedUser == null)
             throw new ServerException(ErrorCodeWithField.USER_NOT_FOUND_BY_LOGIN);
@@ -82,7 +83,9 @@ public class AccountService extends ServiceBase {
                 requestedUser.getFirstName(),
                 requestedUser.getPatronymic(),
                 requestedUser.getLastName(),
-                user.getType() == UserType.SUPER? requestedUser.getType() == UserType.SUPER : null
+                user.getType() == UserType.SUPER? requestedUser.getIsSuper() : null,
+                requestedUser.isFollowed(),
+                requestedUser.isIgnored()
         );
     }
     

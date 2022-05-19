@@ -17,4 +17,6 @@ public class GetUserResponse {
     private String lastName;
     @JsonProperty("super")
     private Boolean isSuper;
+    private boolean isFollowed;
+    private boolean isIgnored;
 }
