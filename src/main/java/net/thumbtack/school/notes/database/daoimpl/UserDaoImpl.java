@@ -2,6 +2,7 @@ package net.thumbtack.school.notes.database.daoimpl;
 
 
 import net.thumbtack.school.notes.database.dao.UserDao;
+import net.thumbtack.school.notes.database.mapper.UserMapper;
 import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
@@ -92,7 +93,9 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
         
         try (SqlSession session = getSession()) {
             try {
-                getUserMapper(session).follow(user, followed);
+                UserMapper userMapper = getUserMapper(session);
+                userMapper.unignore(user, followed);
+                userMapper.follow(user, followed);
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot make {} follow {}", user, followed, e);
                 session.rollback();
@@ -128,7 +131,9 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
         
         try (SqlSession session = getSession()) {
             try {
-                getUserMapper(session).ignore(user, ignored);
+                UserMapper userMapper = getUserMapper(session);
+                userMapper.unfollow(user, ignored);
+                userMapper.ignore(user, ignored);
             } catch (RuntimeException e) {
                 LOGGER.info("Cannot make {} ignore {}", user, ignored, e);
                 session.rollback();
