@@ -102,7 +102,7 @@ public interface UserMapper {
     User getByLogin(String login);
     
     
-    @Select("SELECT id, first_name, patronymic, last_name, type," +
+    @Select("SELECT id, first_name, patronymic, last_name, (type = 'SUPER') AS isSuper," +
             "   (followed_id is not NULL) as is_followed, (ignored_id is not NULL) as is_ignored " +
             "FROM user " +
             "LEFT JOIN (" +
