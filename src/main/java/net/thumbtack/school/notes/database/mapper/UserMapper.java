@@ -111,8 +111,21 @@ public interface UserMapper {
             "LEFT JOIN (" +
             "   SELECT ignored_id from user_ignored where user_ignored.user_id = #{user.id}" +
             ") as s2 ON s2.ignored_id = id " +
+            "WHERE user.id = #{id}")
+    ShortUserView getShort(@Param("user") User user, @Param("id") int id);
+    
+    
+    @Select("SELECT id, first_name, patronymic, last_name, (type = 'SUPER') AS isSuper," +
+            "   (followed_id is not NULL) as is_followed, (ignored_id is not NULL) as is_ignored " +
+            "FROM user " +
+            "LEFT JOIN (" +
+            "   SELECT followed_id from user_followed where user_followed.user_id = #{user.id}" +
+            ") as s1 ON s1.followed_id = id " +
+            "LEFT JOIN (" +
+            "   SELECT ignored_id from user_ignored where user_ignored.user_id = #{user.id}" +
+            ") as s2 ON s2.ignored_id = id " +
             "WHERE login = #{requestedLogin}")
-    ShortUserView getShort(@Param("user") User user, @Param("requestedLogin") String requestedLogin);
+    ShortUserView getShortByLogin(@Param("user") User user, @Param("requestedLogin") String requestedLogin);
     
     
     @Select("SELECT id, login, password, first_name, patronymic, last_name, type " +

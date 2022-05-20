@@ -118,9 +118,10 @@ public class TestAccountsController extends TestControllerBase {
     void testGetUser() throws Exception {
         clearInvocations(sessionDao);
         when(sessionDao.getUser(anyString())).thenReturn(user);
-        when(userDao.getShort(any(), any())).thenReturn(new ShortUserView(0, "Admin", null, "Admin", null, false, false));
+        when(userDao.getShort(any(), anyInt()))
+                .thenReturn(new ShortUserView(0, "Admin", null, "Admin", null, false, false));
         
-        MockHttpServletResponse response = mvc.perform(get("/api/accounts/admin").cookie(cookie))
+        MockHttpServletResponse response = mvc.perform(get("/api/accounts/0").cookie(cookie))
                 .andExpect(status().isOk()).andReturn().getResponse();
         
         assertAll(
@@ -135,7 +136,36 @@ public class TestAccountsController extends TestControllerBase {
     
     @Test
     void testGetUserNoCookie() throws Exception {
-        MockHttpServletResponse response = mvc.perform(get("/api/accounts/admin")
+        MockHttpServletResponse response = mvc.perform(get("/api/accounts/0")
+        ).andExpect(status().isBadRequest()).andReturn().getResponse();
+        
+        assertEquals(noCookieSet, getErrorSet(response));
+    }
+    
+    
+    @Test
+    void testGetUserByLogin() throws Exception {
+        clearInvocations(sessionDao);
+        when(sessionDao.getUser(anyString())).thenReturn(user);
+        when(userDao.getShort(any(), anyString()))
+                .thenReturn(new ShortUserView(0, "Admin", null, "Admin", null, false, false));
+        
+        MockHttpServletResponse response = mvc.perform(get("/api/accounts/?login=admin").cookie(cookie))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        
+        assertAll(
+                () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),
+                () -> assertEquals(new GetUserResponse(0, "Admin", null, "Admin", null, false, false),
+                        mapper.readValue(response.getContentAsString(), GetUserResponse.class))
+        );
+        
+        verify(sessionDao).getUser(cookie.getValue());
+    }
+    
+    
+    @Test
+    void testGetUserByLoginNoCookie() throws Exception {
+        MockHttpServletResponse response = mvc.perform(get("/api/accounts/?login=admin")
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
         assertEquals(noCookieSet, getErrorSet(response));

@@ -69,6 +69,27 @@ public class AccountService extends ServiceBase {
     }
     
     
+    public GetUserResponse getUser(int id, String token, HttpServletResponse response)
+            throws ServerException {
+        User user = getUserByToken(token);
+        ShortUserView requestedUser = userDao.getShort(user, id);
+        
+        if (requestedUser == null)
+            throw new ServerException(ErrorCodeWithField.USER_NOT_FOUND_BY_ID);
+        
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return new GetUserResponse(
+                requestedUser.getId(),
+                requestedUser.getFirstName(),
+                requestedUser.getPatronymic(),
+                requestedUser.getLastName(),
+                user.getType() == UserType.SUPER? requestedUser.getIsSuper() : null,
+                requestedUser.isFollowed(),
+                requestedUser.isIgnored()
+        );
+    }
+    
+    
     public GetUserResponse getUser(String login, String token, HttpServletResponse response)
             throws ServerException {
         User user = getUserByToken(token);

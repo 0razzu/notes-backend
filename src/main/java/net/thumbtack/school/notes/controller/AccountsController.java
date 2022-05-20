@@ -49,9 +49,19 @@ public class AccountsController {
     }
     
     
-    @GetMapping(path = "/accounts/{login}",
+    @GetMapping(path = "/accounts/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public GetUserResponse getUser(@PathVariable("login") String login,
+    public GetUserResponse getUser(@PathVariable("id") int id,
+                                   @CookieValue(value = JAVA_SESSION_ID) String token,
+                                   HttpServletResponse response)
+            throws ServerException {
+        return accountService.getUser(id, token, response);
+    }
+    
+    
+    @GetMapping(path = "/accounts/",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public GetUserResponse getUser(@RequestParam String login,
                                    @CookieValue(value = JAVA_SESSION_ID) String token,
                                    HttpServletResponse response)
             throws ServerException {

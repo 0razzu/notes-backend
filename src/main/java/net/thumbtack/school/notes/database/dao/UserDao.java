@@ -21,6 +21,7 @@ public interface UserDao {
     
     User get(int id) throws ServerException;
     User getByLogin(String login) throws ServerException;
+    ShortUserView getShort(User user, int id) throws ServerException;
     ShortUserView getShort(User user, String requestedLogin) throws ServerException;
     List<UserView> getAllWithRating(String sortByRating, boolean selectSuper, Integer from, Integer count)
             throws ServerException;

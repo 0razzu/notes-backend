@@ -191,11 +191,24 @@ public class UserDaoImpl extends DaoImplBase implements UserDao {
     
     
     @Override
+    public ShortUserView getShort(User user, int id) throws ServerException {
+        LOGGER.debug("Getting short user view by id {}", id);
+        
+        try (SqlSession session = getSession()) {
+            return getUserMapper(session).getShort(user, id);
+        } catch (RuntimeException e) {
+            LOGGER.info("Cannot get short user view by id {}", id, e);
+            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
+        }
+    }
+    
+    
+    @Override
     public ShortUserView getShort(User user, String requestedLogin) throws ServerException {
         LOGGER.debug("Getting short user view by login {}", requestedLogin);
         
         try (SqlSession session = getSession()) {
-            return getUserMapper(session).getShort(user, requestedLogin);
+            return getUserMapper(session).getShortByLogin(user, requestedLogin);
         } catch (RuntimeException e) {
             LOGGER.info("Cannot get short user view by login {}", requestedLogin, e);
             throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
