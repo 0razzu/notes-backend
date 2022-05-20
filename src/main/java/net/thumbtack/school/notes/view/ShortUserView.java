@@ -16,6 +16,7 @@ import java.util.Objects;
 @Getter
 public class ShortUserView {
     private int id;
+    private String login;
     private String firstName;
     private String patronymic;
     private String lastName;
@@ -28,6 +29,7 @@ public class ShortUserView {
     public String toString() {
         return "ShortUserView{" +
                 "id=" + id +
+                ", login='" + login + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", lastName='" + lastName + '\'' +

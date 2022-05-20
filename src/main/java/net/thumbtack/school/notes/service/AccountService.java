@@ -80,6 +80,7 @@ public class AccountService extends ServiceBase {
         updateSession(response, token, properties.getUserIdleTimeout());
         return new GetUserResponse(
                 requestedUser.getId(),
+                requestedUser.getLogin(),
                 requestedUser.getFirstName(),
                 requestedUser.getPatronymic(),
                 requestedUser.getLastName(),
@@ -101,6 +102,7 @@ public class AccountService extends ServiceBase {
         updateSession(response, token, properties.getUserIdleTimeout());
         return new GetUserResponse(
                 requestedUser.getId(),
+                requestedUser.getLogin(),
                 requestedUser.getFirstName(),
                 requestedUser.getPatronymic(),
                 requestedUser.getLastName(),

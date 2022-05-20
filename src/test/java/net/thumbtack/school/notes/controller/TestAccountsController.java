@@ -119,14 +119,14 @@ public class TestAccountsController extends TestControllerBase {
         clearInvocations(sessionDao);
         when(sessionDao.getUser(anyString())).thenReturn(user);
         when(userDao.getShort(any(), anyInt()))
-                .thenReturn(new ShortUserView(0, "Admin", null, "Admin", null, false, false));
+                .thenReturn(new ShortUserView(0, "admin", "Admin", null, "Admin", null, false, false));
         
         MockHttpServletResponse response = mvc.perform(get("/api/accounts/0").cookie(cookie))
                 .andExpect(status().isOk()).andReturn().getResponse();
         
         assertAll(
                 () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),
-                () -> assertEquals(new GetUserResponse(0, "Admin", null, "Admin", null, false, false),
+                () -> assertEquals(new GetUserResponse(0, "admin", "Admin", null, "Admin", null, false, false),
                         mapper.readValue(response.getContentAsString(), GetUserResponse.class))
         );
         
@@ -148,14 +148,14 @@ public class TestAccountsController extends TestControllerBase {
         clearInvocations(sessionDao);
         when(sessionDao.getUser(anyString())).thenReturn(user);
         when(userDao.getShort(any(), anyString()))
-                .thenReturn(new ShortUserView(0, "Admin", null, "Admin", null, false, false));
+                .thenReturn(new ShortUserView(0, "admin", "Admin", null, "Admin", null, false, false));
         
         MockHttpServletResponse response = mvc.perform(get("/api/accounts/?login=admin").cookie(cookie))
                 .andExpect(status().isOk()).andReturn().getResponse();
         
         assertAll(
                 () -> assertNotNull(response.getCookie(JAVA_SESSION_ID)),
-                () -> assertEquals(new GetUserResponse(0, "Admin", null, "Admin", null, false, false),
+                () -> assertEquals(new GetUserResponse(0, "admin", "Admin", null, "Admin", null, false, false),
                         mapper.readValue(response.getContentAsString(), GetUserResponse.class))
         );
         
