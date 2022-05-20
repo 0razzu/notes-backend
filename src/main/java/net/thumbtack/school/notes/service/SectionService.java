@@ -4,13 +4,10 @@ package net.thumbtack.school.notes.service;
 import net.thumbtack.school.notes.database.dao.SectionDao;
 import net.thumbtack.school.notes.database.dao.SessionDao;
 import net.thumbtack.school.notes.database.dao.UserDao;
+import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.dto.request.CreateSectionRequest;
 import net.thumbtack.school.notes.dto.request.RenameSectionRequest;
-import net.thumbtack.school.notes.dto.response.CreateSectionResponse;
-import net.thumbtack.school.notes.dto.response.EmptyResponse;
-import net.thumbtack.school.notes.dto.response.GetSectionsResponseItem;
-import net.thumbtack.school.notes.dto.response.RenameSectionResponse;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.Section;
@@ -77,6 +74,27 @@ public class SectionService extends ServiceBase {
         
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();
+    }
+    
+    
+    public GetSectionResponse get(int id, String token, HttpServletResponse response) throws ServerException {
+        getUserByToken(token);
+        
+        Section section = sectionDao.get(id);
+        
+        if (section == null)
+            throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
+        
+        User creator = section.getCreator();
+        
+        return new GetSectionResponse(
+                section.getId(),
+                section.getName(),
+                new GetSectionResponseCreator(
+                        creator.getId(),
+                        creator.getLogin()
+                )
+        );
     }
     
     

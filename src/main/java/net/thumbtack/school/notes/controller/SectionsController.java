@@ -3,10 +3,7 @@ package net.thumbtack.school.notes.controller;
 
 import net.thumbtack.school.notes.dto.request.CreateSectionRequest;
 import net.thumbtack.school.notes.dto.request.RenameSectionRequest;
-import net.thumbtack.school.notes.dto.response.CreateSectionResponse;
-import net.thumbtack.school.notes.dto.response.EmptyResponse;
-import net.thumbtack.school.notes.dto.response.GetSectionsResponseItem;
-import net.thumbtack.school.notes.dto.response.RenameSectionResponse;
+import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.service.SectionService;
 import org.springframework.http.MediaType;
@@ -54,6 +51,15 @@ public class SectionsController {
                                 @CookieValue(value = JAVA_SESSION_ID) String token,
                                 HttpServletResponse response) throws ServerException {
         return sectionService.delete(id, token, response);
+    }
+    
+    
+    @GetMapping(path = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public GetSectionResponse get(@PathVariable("id") int id,
+                                  @CookieValue(value = JAVA_SESSION_ID) String token,
+                                  HttpServletResponse response) throws ServerException {
+        return sectionService.get(id, token, response);
     }
     
     

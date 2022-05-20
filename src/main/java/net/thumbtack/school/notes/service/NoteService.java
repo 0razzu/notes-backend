@@ -37,7 +37,7 @@ public class NoteService extends ServiceBase {
         Section section = sectionDao.get(request.getSectionId());
         
         if (section == null)
-            throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
+            throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND_SECTION_ID);
         
         LocalDateTime created = getCurrentTime();
         Note note = new Note(author, created, section);
@@ -102,7 +102,7 @@ public class NoteService extends ServiceBase {
             Section section = sectionDao.get(sectionId);
             
             if (section == null)
-                throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
+                throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND_SECTION_ID);
             
             note.setSection(section);
         }

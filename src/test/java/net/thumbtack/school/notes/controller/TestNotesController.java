@@ -124,7 +124,7 @@ public class TestNotesController extends TestControllerBase {
         ).andExpect(status().isBadRequest()).andReturn().getResponse();
         
         assertEquals(Set.of(
-                new ErrorResponse("SECTION_NOT_FOUND", "sectionId", SECTION_NOT_FOUND.getMessage())
+                new ErrorResponse("SECTION_NOT_FOUND_SECTION_ID", "sectionId", SECTION_NOT_FOUND_SECTION_ID.getMessage())
         ), getErrorSet(response));
     }
     
