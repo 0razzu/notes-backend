@@ -2,7 +2,6 @@ package net.thumbtack.school.notes.service;
 
 
 import net.thumbtack.school.notes.database.dao.*;
-import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.dto.request.CreateNoteRequest;
 import net.thumbtack.school.notes.dto.request.EditNoteRequest;
 import net.thumbtack.school.notes.dto.request.RateNoteRequest;
@@ -10,6 +9,7 @@ import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.*;
+import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.view.CommentView;
 import net.thumbtack.school.notes.view.NoteRevisionView;
 import net.thumbtack.school.notes.view.NoteView;
@@ -26,8 +26,9 @@ import java.util.stream.Collectors;
 @Service
 public class NoteService extends ServiceBase {
     protected NoteService(Properties properties, CommentDao commentDao,
-                          NoteDao noteDao, RatingDao ratingDao, SectionDao sectionDao, SessionDao sessionDao) {
-        super(properties, commentDao, noteDao, null, ratingDao, sectionDao, sessionDao, null);
+                          NoteDao noteDao, NoteRevisionDao noteRevisionDao, RatingDao ratingDao, SectionDao sectionDao,
+                          SessionDao sessionDao) {
+        super(properties, commentDao, noteDao, noteRevisionDao, ratingDao, sectionDao, sessionDao, null);
     }
     
     
@@ -137,6 +138,33 @@ public class NoteService extends ServiceBase {
         
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();
+    }
+    
+    
+    public List<GetNoteRevisionsItem> getRevisions(int id, boolean comments, String token, HttpServletResponse response)
+            throws ServerException {
+        getUserByToken(token);
+        Note note = noteDao.get(id);
+        
+        if (note == null)
+            throw new ServerException(ErrorCodeWithField.NOTE_NOT_FOUND);
+        
+        List<NoteRevision> revisions = noteRevisionDao.getByNote(note);
+        
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return revisions.stream().map(r -> new GetNoteRevisionsItem(
+                r.getId(),
+                r.getBody(),
+                r.getCreated(),
+                comments?
+                        r.getComments().stream().map(c -> new GetNoteRevisionsItemComment(
+                                c.getId(),
+                                c.getBody(),
+                                c.getAuthor().getId(),
+                                c.getCreated()
+                        )).collect(Collectors.toList()) :
+                        null
+        )).collect(Collectors.toList());
     }
     
     

@@ -70,6 +70,16 @@ public class NotesController {
     }
     
     
+    @GetMapping(path = "/{id}/revisions",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<GetNoteRevisionsItem> getRevisions(@PathVariable("id") int id,
+                                                   @RequestParam(defaultValue = "false") boolean comments,
+                                                   @CookieValue(value = JAVA_SESSION_ID) String token,
+                                                   HttpServletResponse response) throws ServerException {
+        return noteService.getRevisions(id, comments, token, response);
+    }
+    
+    
     @GetMapping(path = "/{id}/comments",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<GetNoteCommentsResponseItem> getComments(@PathVariable("id") int id,
