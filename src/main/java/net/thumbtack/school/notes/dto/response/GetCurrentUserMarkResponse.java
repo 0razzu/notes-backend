@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class GetCurrentUserMarkResponse {
-    private int rating;
+    private Integer rating;
 }

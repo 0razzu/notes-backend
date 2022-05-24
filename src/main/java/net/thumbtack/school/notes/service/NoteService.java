@@ -235,6 +235,9 @@ public class NoteService extends ServiceBase {
         
         Rating rating = ratingDao.get(note, user);
         
+        if (rating == null)
+            return new GetCurrentUserMarkResponse(null);
+        
         updateSession(response, token, properties.getUserIdleTimeout());
         return new GetCurrentUserMarkResponse(rating.getValue());
     }
