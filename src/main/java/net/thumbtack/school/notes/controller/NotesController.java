@@ -108,6 +108,15 @@ public class NotesController {
     }
     
     
+    @GetMapping(path = "/{id}/rating",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public GetCurrentUserMarkResponse getCurrentUserMark(@PathVariable("id") int id,
+                                                         @CookieValue(value = JAVA_SESSION_ID) String token,
+                                                         HttpServletResponse response) throws ServerException {
+        return noteService.getCurrentUserMark(id, token, response);
+    }
+    
+    
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<GetNotesResponseItem> getNotes(@RequestParam(required = false) Integer sectionId,
                                                @RequestParam(required = false) @Sorting String sortByRating,

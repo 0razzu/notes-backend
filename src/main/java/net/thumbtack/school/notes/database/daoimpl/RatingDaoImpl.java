@@ -6,6 +6,7 @@ import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.Note;
 import net.thumbtack.school.notes.model.Rating;
+import net.thumbtack.school.notes.model.User;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +30,21 @@ public class RatingDaoImpl extends DaoImplBase implements RatingDao {
                 session.rollback();
                 throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
             }
-            
+    
             session.commit();
+        }
+    }
+    
+    
+    @Override
+    public Rating get(Note note, User author) throws ServerException {
+        LOGGER.debug("Getting mark for {} by {}", note, author);
+        
+        try (SqlSession session = getSession()) {
+            return getRatingMapper(session).getByNoteAndAuthor(note, author);
+        } catch (RuntimeException e) {
+            LOGGER.info("Cannot get mark for {} by {}", note, author, e);
+            throw new ServerException(ErrorCodeWithField.DATABASE_ERROR);
         }
     }
 }

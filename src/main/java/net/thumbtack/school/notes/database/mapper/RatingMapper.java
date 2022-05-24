@@ -30,6 +30,11 @@ public interface RatingMapper {
     Rating get(int id);
     
     
+    @Select("SELECT id, value, author_id FROM rating WHERE note_id = #{note.id} AND author_id = #{author.id}")
+    @ResultMap("ratingFields")
+    Rating getByNoteAndAuthor(@Param("note") Note note, @Param("author") User author);
+    
+    
     @Select("SELECT id, value, author_id FROM rating WHERE author_id = #{author.id}")
     @ResultMap("ratingFields")
     List<Rating> getByAuthor(User author);

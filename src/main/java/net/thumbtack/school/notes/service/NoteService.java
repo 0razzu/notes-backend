@@ -214,14 +214,29 @@ public class NoteService extends ServiceBase {
         
         if (note == null)
             throw new ServerException(ErrorCodeWithField.NOTE_NOT_FOUND);
-        
+    
         if (user.equals(note.getAuthor()))
             throw new ServerException(ErrorCodeWithField.NOT_PERMITTED);
-        
+    
         ratingDao.insert(new Rating(request.getRating(), user), note);
-        
+    
         updateSession(response, token, properties.getUserIdleTimeout());
         return new EmptyResponse();
+    }
+    
+    
+    public GetCurrentUserMarkResponse getCurrentUserMark(int id, String token, HttpServletResponse response)
+            throws ServerException {
+        User user = getUserByToken(token);
+        Note note = noteDao.get(id);
+        
+        if (note == null)
+            throw new ServerException(ErrorCodeWithField.NOTE_NOT_FOUND);
+        
+        Rating rating = ratingDao.get(note, user);
+        
+        updateSession(response, token, properties.getUserIdleTimeout());
+        return new GetCurrentUserMarkResponse(rating.getValue());
     }
     
     
