@@ -60,10 +60,10 @@
                     AND note.created &lt;= #{timeTo}
                 </if>
                 <if test="author != null">
-                    AND author_id = #{author}
+                    AND note.author_id = #{author}
                 </if>
                 <if test="include != null">
-                    AND author_id
+                    AND note.author_id
                     <choose>
                         <when test="include == 'notIgnore'">
                             NOT IN (SELECT ignored_id FROM user_ignored

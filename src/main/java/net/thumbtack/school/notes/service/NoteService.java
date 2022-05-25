@@ -10,6 +10,7 @@ import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.*;
 import net.thumbtack.school.notes.util.Properties;
+import net.thumbtack.school.notes.util.TagFilter;
 import net.thumbtack.school.notes.view.CommentView;
 import net.thumbtack.school.notes.view.NoteRevisionView;
 import net.thumbtack.school.notes.view.NoteView;
@@ -250,11 +251,15 @@ public class NoteService extends ServiceBase {
                                                Integer from, Integer count, String token, HttpServletResponse response)
             throws ServerException {
         User user = getUserByToken(token);
+    
+        if (tags != null) {
+            tags = TagFilter.filter(tags);
         
-        if (allTags)
-            for (int i = 0; i < tags.size(); i++)
-                tags.add(i, "+" + tags.remove(i));
-        
+            if (allTags)
+                for (int i = 0; i < tags.size(); i++)
+                    tags.add(i, "+" + tags.remove(i));
+        }
+    
         List<NoteView> notes = noteDao.getAllByParams(
                 sectionId, sortByRating,
                 tags == null? null : String.join(" ", tags),
