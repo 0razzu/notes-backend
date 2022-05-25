@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class GetSectionResponse {
     private int id;
     private String name;
-    private GetSectionResponseCreator creator;
+    private int creatorId;
 }

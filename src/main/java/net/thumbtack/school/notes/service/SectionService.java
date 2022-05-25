@@ -3,16 +3,15 @@ package net.thumbtack.school.notes.service;
 
 import net.thumbtack.school.notes.database.dao.SectionDao;
 import net.thumbtack.school.notes.database.dao.SessionDao;
-import net.thumbtack.school.notes.database.dao.UserDao;
-import net.thumbtack.school.notes.dto.response.*;
-import net.thumbtack.school.notes.util.Properties;
 import net.thumbtack.school.notes.dto.request.CreateSectionRequest;
 import net.thumbtack.school.notes.dto.request.RenameSectionRequest;
+import net.thumbtack.school.notes.dto.response.*;
 import net.thumbtack.school.notes.error.ErrorCodeWithField;
 import net.thumbtack.school.notes.error.ServerException;
 import net.thumbtack.school.notes.model.Section;
 import net.thumbtack.school.notes.model.User;
 import net.thumbtack.school.notes.model.UserType;
+import net.thumbtack.school.notes.util.Properties;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class SectionService extends ServiceBase {
-    protected SectionService(Properties properties, SectionDao sectionDao, SessionDao sessionDao, UserDao userDao) {
+    protected SectionService(Properties properties, SectionDao sectionDao, SessionDao sessionDao) {
         super(properties, null, null, null, null, sectionDao, sessionDao, null);
     }
     
@@ -79,21 +78,19 @@ public class SectionService extends ServiceBase {
     
     public GetSectionResponse get(int id, String token, HttpServletResponse response) throws ServerException {
         getUserByToken(token);
-        
+    
         Section section = sectionDao.get(id);
-        
+    
         if (section == null)
             throw new ServerException(ErrorCodeWithField.SECTION_NOT_FOUND);
-        
+    
         User creator = section.getCreator();
-        
+    
+        updateSession(response, token, properties.getUserIdleTimeout());
         return new GetSectionResponse(
                 section.getId(),
                 section.getName(),
-                new GetSectionResponseCreator(
-                        creator.getId(),
-                        creator.getLogin()
-                )
+                creator.getId()
         );
     }
     
