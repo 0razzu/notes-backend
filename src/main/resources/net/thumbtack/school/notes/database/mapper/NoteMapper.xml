@@ -85,7 +85,7 @@
                     <when test="sortByRating == 'asc'">
                         ASC
                     </when>
-                    <when test="include == 'desc'">
+                    <when test="sortByRating == 'desc'">
                         DESC
                     </when>
                 </choose>
